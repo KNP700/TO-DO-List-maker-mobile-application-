@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">To Do List</string>
+    <string name="get_started">Get started</string>
+    <string name="plan_your_day_manage_your_tasks_and_archeive_goals_efforteslly">Plan your day, Manage your tasks, and archeive goals efforteslly</string>
+    <string name="to_do_list">TO DO LIST</string>
+    <string name="lets_make">Lets make</string>
+    <string name="user_name">User Name...</string>
+    <string name="log_in_now">Log In Now</string>
+</resources>
