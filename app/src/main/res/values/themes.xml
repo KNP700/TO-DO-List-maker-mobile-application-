@@ -6,12 +6,12 @@
         <item name="colorOnPrimary">@color/warm_on_primary</item>
         <item name="colorPrimaryContainer">@color/warm_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/warm_on_primary_container</item>
-        
+
         <item name="colorSecondary">@color/warm_secondary</item>
         <item name="colorOnSecondary">@color/warm_on_secondary</item>
         <item name="colorSecondaryContainer">@color/warm_secondary_container</item>
         <item name="colorOnSecondaryContainer">@color/warm_on_secondary_container</item>
-        
+
         <item name="colorTertiary">@color/warm_tertiary</item>
     </style>
 

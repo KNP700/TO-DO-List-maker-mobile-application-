@@ -12,20 +12,49 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDoList">
         <activity
-            android:name=".MainActivity"
-            android:exported="true" >
+            android:name=".Add_list"
+            android:exported="false" />
+        <activity
+            android:name=".Menu_pg"
+            android:exported="false" />
+        <activity
+            android:name=".Update_detail_pg"
+            android:exported="false" />
+        <activity
+            android:name=".User_detail"
+            android:exported="false" />
+        <activity
+            android:name=".Home_pg"
+            android:exported="false" />
+        <activity
+            android:name=".Otp_pg2"
+            android:exported="false" />
+        <activity
+            android:name=".SignUp_pg"
+            android:exported="false" />
+        <activity
+            android:name=".new_password"
+            android:exported="false" />
+        <activity
+            android:name=".Password_confirm"
+            android:exported="false" />
+        <activity
+            android:name=".otp_pg"
+            android:exported="false" />
+        <activity
+            android:name=".Forgot_Pass"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity2"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-<!--        <activity-->
-<!--            android:name=".MainActivity"-->
-<!--            android:exported="true" />-->
-
         <activity
-            android:name=".ForgotPasswordActivity"
+            android:name=".MainActivity"
             android:exported="true" />
     </application>
 

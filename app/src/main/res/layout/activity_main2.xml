@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8E2E2"
-    >
-
+    tools:context=".MainActivity2">
+-
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="200dp"
@@ -28,22 +28,10 @@
         android:rotation="47"
         android:scaleType="fitEnd"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.075"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
         app:srcCompat="@drawable/_491855" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toTopOf="@+id/Text1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6"
-        app:srcCompat="@drawable/lovepik_com_380598714_to_do_list_vector_cartoon_sticker_to_do" />
 
     <TextView
         android:id="@+id/Text1"
@@ -59,6 +47,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/Text1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.3"
+        app:srcCompat="@drawable/lovepik_com_380598714_to_do_list_vector_cartoon_sticker_to_do" />
 
     <TextView
         android:id="@+id/Text2"
