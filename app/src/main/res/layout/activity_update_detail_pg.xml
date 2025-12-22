@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8E2E2"
-    tools:context=".User_detail">
+    android:fillViewport="true">
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
+        android:background="@drawable/download__4_"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        tools:context=".Update_detail_pg">
 
-    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingBottom="50dp">
 
             <ImageView
                 android:id="@+id/close"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-350dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="25dp"
                 app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-                app:tint="#000000" />
-
-
-
-
+                app:tint="#ffff" />
 
             <TextView
                 android:id="@+id/SignUp"
@@ -46,58 +48,57 @@
                 android:layout_marginTop="25dp"
                 android:text="Update Details"
                 android:textSize="40sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/close" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="User Name"
+                android:text="First Name"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/fName1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="37dp"
                 android:background="@drawable/otp_bg"
                 android:padding="20dp"
-                android:text="Kaveen Perera"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:text="Kaveen"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:text="Email address"
+                android:layout_marginTop="20dp"
+                android:text="Last Name"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/lName1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="37dp"
                 android:background="@drawable/otp_bg"
                 android:padding="20dp"
-                android:text="KaveenPe@brownsgroup.com"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:text="Perera"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-
-                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -106,73 +107,72 @@
                 android:layout_marginTop="15dp"
                 android:text="Phone Number(Optional)"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="37dp"
                 android:background="@drawable/otp_bg"
                 android:padding="20dp"
                 android:text="077 839 8168"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <TextView
+                <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
+                android:textColor="@color/white"
                 android:text="Address(Optional)"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="37dp"
                 android:background="@drawable/otp_bg"
                 android:hint="Optional"
                 android:padding="20dp"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
+
+
+
+
 
             <Button
                 android:id="@+id/Save"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="53dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="40dp"
                 android:padding="12dp"
                 android:text="Save Changes"
                 android:textSize="20sp"
-                app:backgroundTint="#525754"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
+                app:backgroundTint="#525754" />
 
             <Button
                 android:id="@+id/Cancel"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="53dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:padding="12dp"
                 android:text="Cancel"
-                android:textSize="20sp"
                 android:textColor="@color/black"
-                app:backgroundTint="@android:color/transparent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                android:textSize="20sp"
+                app:backgroundTint="@android:color/transparent" />
+
+
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

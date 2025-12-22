@@ -12,6 +12,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDoList">
         <activity
+            android:name=".new_password2"
+            android:exported="false" />
+        <activity
+            android:name=".changePass"
+            android:exported="false" />
+        <activity
+            android:name=".confUsername"
+            android:exported="false" />
+        <activity
+            android:name=".renameUser"
+            android:exported="false" />
+        <activity
+            android:name=".otpUserName"
+            android:exported="false" />
+        <activity
+            android:name=".Setting"
+            android:exported="false" />
+        <activity
+            android:name=".Demo_pg"
+            android:exported="false" />
+        <activity
             android:name=".Add_list"
             android:exported="false" />
         <activity

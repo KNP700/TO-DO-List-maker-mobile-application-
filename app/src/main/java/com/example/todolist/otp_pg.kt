@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 class otp_pg : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         setContentView(R.layout.activity_otp_pg)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -34,7 +34,7 @@ class otp_pg : AppCompatActivity() {
 
         }
 
-        val button3 = findViewById<Button>(R.id.vertify)
+        val button3 = findViewById<Button>(R.id.vertify2)
         button3.setOnClickListener {
             val intent = Intent(this, Password_confirm::class.java)
             startActivity(intent)

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:background="@drawable/download__4_"
+        android:layout_height="match_parent"
+        tools:context=".Demo_pg">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:padding="8dp"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                    app:tint="@color/white" />
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="30dp"
+                android:textColor="@color/white"
+                android:text="Topic"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/topic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="37dp"
+                android:background="@drawable/add_list_bg"
+                android:padding="20dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="30dp"
+                android:textColor="@color/white"
+                android:text="Your To Do List"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+            =
+
+
+            <EditText
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="425dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="37dp"
+                android:gravity="top|start"
+                android:background="@drawable/add_list_bg"
+                android:hint="Type here..."
+                android:padding="20dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+
+                />
+
+            <Button
+                android:id="@+id/Save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="53dp"
+                android:layout_marginTop="50dp"
+                android:padding="12dp"
+                android:text="Save"
+                android:textSize="20sp"
+                app:backgroundTint="#525754"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

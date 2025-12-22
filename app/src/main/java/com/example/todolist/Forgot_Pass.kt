@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 class Forgot_Pass : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         setContentView(R.layout.activity_forgot_pass)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -25,7 +25,7 @@ class Forgot_Pass : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-        //so in r.id we must give that other page id. that means buttons id
+
         val button2 = findViewById<Button>(R.id.reset)
         button2.setOnClickListener {
             val intent = Intent(this, otp_pg::class.java)

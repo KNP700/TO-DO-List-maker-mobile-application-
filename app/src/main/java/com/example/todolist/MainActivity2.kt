@@ -11,15 +11,41 @@ class MainActivity2 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
+
 
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
-        //make navigat getstar button to logging page
         binding.startBtn.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+
+
+            val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+            val isAlreadyLoggedIn = checkPrefs.getBoolean("isLoggedIn", false)
+
+
+            if (isAlreadyLoggedIn) {
+                val intent = Intent(this, Home_pg::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+
+//        setContentView(R.layout.activity_main2)
+
+                binding = ActivityMain2Binding.inflate(layoutInflater)
+                setContentView(binding.root)
+
+
+                binding.startBtn.setOnClickListener {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+            }
         }
     }
 }
+

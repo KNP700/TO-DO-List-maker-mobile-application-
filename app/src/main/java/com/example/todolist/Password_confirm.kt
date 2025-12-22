@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 class Password_confirm : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         setContentView(R.layout.activity_password_confirm)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -27,7 +27,7 @@ class Password_confirm : AppCompatActivity() {
 
         val button2 = findViewById<ImageView>(R.id.close1)
         button2.setOnClickListener {
-            val intent = Intent(this, new_password::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             //check this navigational part
 
