@@ -2,15 +2,20 @@ package com.example.todolist
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 
 class Home_pg : AppCompatActivity() {
 
-//    @SuppressLint("MissingInflatedId")
+    //    @SuppressLint("MissingInflatedId")
+    private var backPressedOnce = false
 
     private lateinit var topicEditText: Button
 
@@ -21,6 +26,27 @@ class Home_pg : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_pg)
 //        enableEdgeToEdge()
+
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (backPressedOnce) {
+                    finishAffinity()
+                    return
+                }
+
+                backPressedOnce = true
+                Toast.makeText(this@Home_pg, "Press back again to exit", Toast.LENGTH_SHORT).show()
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    backPressedOnce = false
+                }, 2000)
+            }
+        })
+
+
+
+
 
         topicEditText = findViewById(R.id.Demo)
         userName = findViewById(R.id.user3)
@@ -38,7 +64,8 @@ class Home_pg : AppCompatActivity() {
         Log.d("Home_pg", "Topic : $saveUserName1")
 
 
-        val button = findViewById<ImageView>(R.id.user)   // there is a issue, check this tomorrow
+        val button =
+            findViewById<ImageView>(R.id.user)   // there is a issue, check this tomorrow
         button.setOnClickListener {
             val intent = Intent(this, User_detail::class.java)
             startActivity(intent)
@@ -48,8 +75,6 @@ class Home_pg : AppCompatActivity() {
             val intent = Intent(this, User_detail::class.java)
             startActivity(intent)
         }
-
-
 
 
         val textView = findViewById<TextView>(R.id.user3)
@@ -78,6 +103,7 @@ class Home_pg : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         Log.d("Home.pg", "Saved User: $saveUserName1")
 
 
@@ -85,5 +111,8 @@ class Home_pg : AppCompatActivity() {
         println("Test >>>>>>>>>>>>>>>>>>>11>>>>>$saveUserName1")
         Log.d("Home_pg", "onCreate() called")
 
+//
     }
+
+
 }

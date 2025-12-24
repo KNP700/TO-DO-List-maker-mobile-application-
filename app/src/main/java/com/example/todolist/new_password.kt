@@ -37,8 +37,7 @@ class new_password : AppCompatActivity() {
 
         val button = findViewById<ImageView>(R.id.close2)
         button.setOnClickListener {
-            val intent = Intent(this, Password_confirm::class.java)
-            startActivity(intent)
+            finish()
         }
 
         updatepassword.setOnClickListener {

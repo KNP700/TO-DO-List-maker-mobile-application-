@@ -1,5 +1,6 @@
 package com.example.todolist
 
+import android.app.ComponentCaller
 import android.content.Intent
 import android.health.connect.datatypes.units.TemperatureDelta
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -59,8 +61,7 @@ class User_detail : AppCompatActivity() {
 
         val button = findViewById<ImageView>(R.id.close)
         button.setOnClickListener {
-            val intent = Intent(this, Home_pg::class.java)
-            startActivity(intent)
+            finish()
         }
         val textView = findViewById<TextView>(R.id.text_uname)
         textView.text = saveUserName1
@@ -89,11 +90,36 @@ class User_detail : AppCompatActivity() {
         val button2 = findViewById<Button>(R.id.Update)
         button2.setOnClickListener {
             val intent = Intent(this, Update_detail_pg::class.java)
-            startActivity(intent)
-
+//            startActivity(intent)
+            startActivityIfNeeded(intent, 101)
 
         }
 
     }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        caller: ComponentCaller
+    ) {
+        super.onActivityResult(requestCode, resultCode, data, caller)
+        Log.d("TAG", "onActivityResult: $requestCode")
+        if(requestCode == 101) {
+            if(resultCode == RESULT_OK) {
+                Log.i("TAG", "onActivityResult: its a hit")
+                Toast.makeText(this,"Sucessfully saved", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, Home_pg::class.java)
+                startActivity(intent)
+                // read updated data from preference
+                // update the ui.
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "User cancelled", Toast.LENGTH_SHORT).show()
+            }
+//           finish()
+        }
+        finish()
+    }
+
 }
 

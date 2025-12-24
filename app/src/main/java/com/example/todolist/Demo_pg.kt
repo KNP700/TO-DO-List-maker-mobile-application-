@@ -37,8 +37,7 @@ class Demo_pg : AppCompatActivity() {
 
         val button = findViewById<ImageView>(R.id.close)
         button.setOnClickListener {
-            val intent = Intent(this, Home_pg::class.java)
-            startActivity(intent)
+           finish()
         }
         val button2 = findViewById<Button>(R.id.Save)
         println("button2:$button2")

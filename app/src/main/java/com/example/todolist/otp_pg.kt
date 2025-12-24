@@ -23,8 +23,7 @@ class otp_pg : AppCompatActivity() {
         }
         val button = findViewById<ImageView>(R.id.close2)
         button.setOnClickListener {
-            val intent = Intent(this, Forgot_Pass::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val button2 = findViewById<TextView>(R.id.Resend)

@@ -22,8 +22,7 @@ class otpUserName : AppCompatActivity() {
 
         val button2 = findViewById<ImageView>(R.id.close2)
         button2.setOnClickListener {
-            val intent = Intent(this, confUsername::class.java)
-            startActivity(intent)
+            finish()
         }
 
 

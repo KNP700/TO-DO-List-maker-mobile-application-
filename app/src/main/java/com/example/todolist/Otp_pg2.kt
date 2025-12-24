@@ -21,8 +21,7 @@ class Otp_pg2 : AppCompatActivity() {
         }
     val button = findViewById<ImageView>(R.id.close2)
         button.setOnClickListener {
-            val intent = Intent(this, SignUp_pg::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val button2 = findViewById<Button>(R.id.vertify2)

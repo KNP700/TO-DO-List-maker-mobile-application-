@@ -21,8 +21,7 @@ class confUsername : AppCompatActivity() {
         }
         val button1 = findViewById<ImageView>(R.id.close1)
         button1.setOnClickListener {
-            val intent = Intent(this, Setting::class.java)
-            startActivity(intent)
+            finish()
         }
 
 

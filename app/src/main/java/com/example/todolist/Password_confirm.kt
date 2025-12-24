@@ -27,8 +27,7 @@ class Password_confirm : AppCompatActivity() {
 
         val button2 = findViewById<ImageView>(R.id.close1)
         button2.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
             //check this navigational part
 
         }

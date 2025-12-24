@@ -69,14 +69,15 @@ class Update_detail_pg : AppCompatActivity() {
 
         val button3 = findViewById<ImageView>(R.id.close)
         button3.setOnClickListener {
-            val intent = Intent(this, User_detail::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val button4 = findViewById<Button>(R.id.Cancel)
         button4.setOnClickListener {
-            val intent = Intent(this, User_detail::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, User_detail::class.java)
+//            startActivity(intent)
+            setResult(RESULT_CANCELED)
+            finish()
         }
 
 
@@ -91,7 +92,7 @@ class Update_detail_pg : AppCompatActivity() {
 //            val oPass1 = oPassword.text.toString()
 //            val nPass1 = nPassword.text.toString()
 //            val cPass1 = cPassword.text.toString()
-                val fName = fName.text.toString()
+            val fName = fName.text.toString()
             val lName = lName.text.toString()
 
             updateUserData(
@@ -102,8 +103,6 @@ class Update_detail_pg : AppCompatActivity() {
                 lName
             )
         }
-//
-
     }
 
     fun updateUserData(
@@ -136,8 +135,13 @@ class Update_detail_pg : AppCompatActivity() {
         editor.apply()
         editor.putString("lname", lName)
         editor.apply()
-        val intent = Intent(this, User_detail::class.java)
-        startActivity(intent)
+//
+
+//        val intent = Intent(this, Home_pg::class.java)
+//        startActivity(intent)
+        setResult(RESULT_OK)
+        finish()
+
     }
 
 

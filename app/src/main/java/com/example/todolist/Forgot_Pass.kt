@@ -22,8 +22,7 @@ class Forgot_Pass : AppCompatActivity() {
         }
         val button = findViewById<ImageView>(R.id.close)
         button.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val button2 = findViewById<Button>(R.id.reset)

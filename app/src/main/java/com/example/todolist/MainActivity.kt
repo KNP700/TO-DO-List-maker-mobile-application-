@@ -2,9 +2,13 @@ package com.example.todolist
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener
 import androidx.core.view.WindowInsetsCompat
@@ -12,6 +16,7 @@ import androidx.core.view.updatePadding
 
 class MainActivity : AppCompatActivity() {
 
+    private  var backPressedOnce = false
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
 
@@ -32,7 +37,26 @@ class MainActivity : AppCompatActivity() {
                 bottom = bars.bottom,
             )
             WindowInsetsCompat.CONSUMED
+
+
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (backPressedOnce) {
+                    finishAffinity()
+                    return
+                }
+
+                backPressedOnce = true
+                Toast.makeText(this@MainActivity, "Press back again to exit", Toast.LENGTH_SHORT).show()
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    backPressedOnce = false
+                }, 2000)
+            }
+        })
+
 
         usernameEditText = findViewById(R.id.Username_box)
         passwordEditText = findViewById(R.id.password_box)
@@ -91,6 +115,7 @@ class MainActivity : AppCompatActivity() {
 
 
             }
+
         }
 
 
@@ -113,5 +138,8 @@ class MainActivity : AppCompatActivity() {
 
 //        println("Test >>>>>>>>>>>>>>>>>>>>>>")
         Log.d("MainActivity", "onCreate() called")
+
+
     }
+
 }

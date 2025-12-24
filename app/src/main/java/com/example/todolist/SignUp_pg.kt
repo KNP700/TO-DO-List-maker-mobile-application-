@@ -49,8 +49,7 @@ class SignUp_pg : AppCompatActivity() {
 
 
         closeBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            
             finish()
         }
 

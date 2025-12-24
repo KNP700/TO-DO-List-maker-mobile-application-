@@ -28,8 +28,7 @@ class Setting : AppCompatActivity() {
 
         val button1 = findViewById<ImageView>(R.id.close)
         button1.setOnClickListener {
-            val intent = Intent(this, Menu_pg::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val button3 = findViewById<TextView>(R.id.changeUser)

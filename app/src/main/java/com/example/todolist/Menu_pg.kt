@@ -24,16 +24,17 @@ class Menu_pg : AppCompatActivity() {
             insets
         }
 
+
         val button = findViewById<ImageView>(R.id.close1)
         button.setOnClickListener {
-            val intent = Intent(this, Home_pg::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val button2 = findViewById<TextView>(R.id.Logout)
         button2.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         val button3 = findViewById<TextView>(R.id.Settings1)
@@ -41,6 +42,7 @@ class Menu_pg : AppCompatActivity() {
             val intent = Intent(this, Setting::class.java)
             startActivity(intent)
         }
+
 
         val categoriesHeader = findViewById<TextView>(R.id.Categories)
         val expandableLayout = findViewById<LinearLayout>(R.id.expandableContentLayout)
@@ -58,11 +60,11 @@ class Menu_pg : AppCompatActivity() {
             } else {
                 expandableLayout.visibility = View.VISIBLE
             }
+
         }
 
 
 
-
-
     }
+
 }

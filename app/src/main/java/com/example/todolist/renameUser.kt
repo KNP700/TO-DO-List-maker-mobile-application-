@@ -2,14 +2,23 @@ package com.example.todolist
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class renameUser : AppCompatActivity() {
+
+
+    private lateinit var username1: EditText
+    private lateinit var confUser: EditText
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -20,16 +29,57 @@ class renameUser : AppCompatActivity() {
             insets
         }
 
+        username1 = findViewById(R.id.new_Username_input)
+        confUser = findViewById(R.id.confirm_Username_input)
+
+
+
+
         val button2 = findViewById<ImageView>(R.id.close2)
         button2.setOnClickListener {
-            val intent = Intent(this, Setting::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val button1 = findViewById<TextView>(R.id.update)
         button1.setOnClickListener {
-            val intent = Intent(this, Setting::class.java)
+            val intent = Intent(this, Home_pg::class.java)
             startActivity(intent)
+
+
+            val username = username1.text.toString()
+            val confUser1 = confUser.text.toString()
+
+
+            var isValid = true
+
+            if (username.isEmpty()) {
+                username1.error = "Current Username is required"
+                isValid = false
+                username1.requestFocus()
+            }
+
+            if (confUser1.isEmpty()) {
+                confUser.error = "Cannot empty this field"
+                isValid = false
+                confUser.requestFocus()
+
+            }
+            if (isValid) {
+                Toast.makeText(this, "Username change success!", Toast.LENGTH_SHORT).show()
+                val sharedPreferences = getSharedPreferences("UserPreferences",MODE_PRIVATE)
+//                val currentUser = sharedPreferences.getString("user_name1","")
+                val editor = sharedPreferences.edit()
+
+                editor.putString("user_name1",confUser1)
+                editor.apply()
+
+
+
+
+
+            }
+
+
         }
     }
 }

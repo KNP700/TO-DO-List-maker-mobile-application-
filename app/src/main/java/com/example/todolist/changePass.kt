@@ -23,8 +23,7 @@ class changePass : AppCompatActivity() {
 
         val button = findViewById<ImageView>(R.id.close1)
         button.setOnClickListener {
-            val intent = Intent(this, Setting::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val button2 = findViewById<TextView>(R.id.Confirm)
