@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,6 +17,8 @@ class Demo_pg : AppCompatActivity() {
 
     private lateinit var topicEditText: EditText
     private lateinit var typeEditText: EditText
+
+    private var currentTopicName: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,48 +33,60 @@ class Demo_pg : AppCompatActivity() {
         topicEditText = findViewById(R.id.topic)
         typeEditText = findViewById(R.id.type)
 
+        currentTopicName = intent.getStringExtra("TOPIC_KEY")
 
+        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
 
+        val savedContent = sharedPreferences.getString("content_$currentTopicName", "")
 
+        topicEditText.setText(currentTopicName)
+        typeEditText.setText(savedContent)
 
 
         val button = findViewById<ImageView>(R.id.close)
         button.setOnClickListener {
-           finish()
+            finish()
         }
         val button2 = findViewById<Button>(R.id.Save)
         println("button2:$button2")
 //        Log.d("onCreate: button2 : $button2")
         button2.setOnClickListener {
 
-            val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE )
+            val updateContent = typeEditText.text.toString()
+
             val editor = sharedPreferences.edit()
 
-
-            editor.putString("topic", topicEditText.text.toString())
-            editor.apply()
-            editor.putString("type", typeEditText.text.toString())
+            if (currentTopicName != null)
+                editor.putString("content_$currentTopicName", updateContent)
             editor.apply()
 
+            Toast.makeText(this, "updated", Toast.LENGTH_SHORT).show()
+            finish()
 
-            val saveTopic = sharedPreferences.getString("topic", "NA")
-
-
-            val saveType = sharedPreferences.getString("type","NA")
-
-
+//            val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE )
+//            val editor = sharedPreferences.edit()
 
 
+//            editor.putString("topic", topicEditText.text.toString())
+//            editor.apply()
+//            editor.putString("type", typeEditText.text.toString())
+//            editor.apply()
+
+//
+//            val saveTopic = sharedPreferences.getString("topic", "NA")
+//
+//
+//            val saveType = sharedPreferences.getString("type","NA")
+//
 
 
-            println("Test >>>>>>>>>>>>>>>>>>>>>> $saveTopic")
-            print("Test >>>>>>>>>>>>>>>>>>>>> $saveType")
+//
+//
+//            println("Test >>>>>>>>>>>>>>>>>>>>>> $saveTopic")
+//            print("Test >>>>>>>>>>>>>>>>>>>>> $saveType")
 
 
             Log.d("Home_pg", "onCreate() called")
-
-
-
 
 
             val intent = Intent(this, Home_pg::class.java)

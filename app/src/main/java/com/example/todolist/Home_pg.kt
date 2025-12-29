@@ -74,7 +74,7 @@ class Home_pg : AppCompatActivity() {
         val taskString = sharedPreferences.getString("task_list", "")
 //        val saveTopic = sharedPreferences.getString("topic", "Test")
 //        val saveType = sharedPreferences.getString("type", "")
-        val saveUserName = sharedPreferences.getString("user", "")
+//        val saveUserName = sharedPreferences.getString("user", "")
         val saveUserName1 = sharedPreferences.getString("user_name1", "")
 //              topicEditText.setText(saveUserName1)
 //      typeTextEdit.setText(saveUserName1)
@@ -141,30 +141,96 @@ class Home_pg : AppCompatActivity() {
 
 
     private fun createButton(topicName: String, container: LinearLayout) {
+        val rowLayout = LinearLayout(this)
+        rowLayout.orientation = LinearLayout.HORIZONTAL
+        val rowParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        rowParams.setMargins(4, 30, 40, 0)
+        rowLayout.layoutParams = rowParams
+
+
         val newBtn = Button(this)
         newBtn.text = topicName
+        newBtn.isAllCaps = false
         newBtn.textSize = 20f
         newBtn.setTextColor(getColor(R.color.black))
 
         newBtn.setBackgroundResource(R.drawable.todo_bg)
 
-        val params = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
+        val topicParams = LinearLayout.LayoutParams(
+            0,
             350
         )
 
-        params.setMargins(40, 30, 40, 0)
-        newBtn.layoutParams = params
+        topicParams.weight = 1f
+        newBtn.layoutParams = topicParams
 
         newBtn.setOnClickListener {
 
-            val prefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-            val content = prefs.getString("content_$topicName", "No content")
-            Toast.makeText(this, content, Toast.LENGTH_LONG).show()
+            val intent = Intent(this, Demo_pg::class.java)
+
+            intent.putExtra("TOPIC_KEY", topicName)
+
+            startActivity(intent)
+
+
+//            val prefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+//            val content = prefs.getString("content_$topicName", "No content")
+//            Toast.makeText(this, content, Toast.LENGTH_LONG).show()
         }
 
-        container.addView(newBtn)
+        val textPart = TextView(this)
+        val deleteBtn = Button(this)
+        deleteBtn.text = "Delete"
+        deleteBtn.textSize = 18f
+
+
+        val deleteParams = LinearLayout.LayoutParams(
+            120,
+            120
+        )
+
+        deleteParams.setMargins(15, 0, 0, 0)
+        deleteParams.gravity = android.view.Gravity.CENTER_VERTICAL
+        deleteBtn.layoutParams = deleteParams
+
+
+
+        textPart.setOnClickListener { }
+        deleteBtn.setOnClickListener {
+            deleteTopic(topicName)
+        }
+
+
+        rowLayout.addView(newBtn)
+        rowLayout.addView(deleteBtn)
+        container.addView(rowLayout)
     }
+
+    private fun deleteTopic (topicToDelete : String){
+        val sharedPreferences = getSharedPreferences("UserPreferences",MODE_PRIVATE)
+        val taskString = sharedPreferences.getString("task_list","")
+
+        if (!taskString.isNullOrEmpty()){
+            val taskList = taskString.split(",").toMutableList()
+
+            taskList.remove(topicToDelete)
+
+            val newListString = taskList.joinToString (",")
+
+            val editor = sharedPreferences.edit()
+            editor.putString("task_List", newListString)
+            editor.remove("content_$topicToDelete")
+            editor.apply()
+
+            Toast.makeText(this,"Deleted $topicToDelete", Toast.LENGTH_SHORT).show()
+            refreshButtons()
+        }
+    }
+
+
 }
 
 
