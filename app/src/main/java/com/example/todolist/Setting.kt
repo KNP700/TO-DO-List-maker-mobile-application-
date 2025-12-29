@@ -31,13 +31,13 @@ class Setting : AppCompatActivity() {
             finish()
         }
 
-        val button3 = findViewById<TextView>(R.id.changeUser)
-        button3.setOnClickListener {
-            val intent = Intent(this, confUsername::class.java)
-            startActivity(intent)
-
-
-        }
+//        val button3 = findViewById<TextView>(R.id.changeUser)
+//        button3.setOnClickListener {
+//            val intent = Intent(this, confUsername::class.java)
+//            startActivity(intent)
+//
+//
+//        }
 
         val button4 = findViewById<TextView>(R.id.chaPass)
         button4.setOnClickListener {

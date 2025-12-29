@@ -19,7 +19,7 @@ class new_password2 : AppCompatActivity() {
     private lateinit var newpassword: EditText
     private lateinit var confpassword: EditText
     private lateinit var updatepassword: Button
-
+    private lateinit var curpassword: EditText
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,23 +33,38 @@ class new_password2 : AppCompatActivity() {
         }
 
 
-        newpassword = findViewById(R.id.new_password_input)
-        confpassword = findViewById(R.id.confirm_password_input)
-        updatepassword = findViewById(R.id.update)
-
         val button = findViewById<ImageView>(R.id.close2)
         button.setOnClickListener {
             finish()
         }
 
 
+        updatepassword = findViewById(R.id.update)
+
         updatepassword.setOnClickListener {
+
+
+            val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+            val saveDPass = sharedPreferences.getString("password", "")
+
+
+            newpassword = findViewById(R.id.new_password_input)
+            confpassword = findViewById(R.id.confirm_password_input)
+
+            curpassword = findViewById(R.id.old_password_input)
+
 
             val newPass = newpassword.text.toString()
             val confpass = confpassword.text.toString()
-
+            val curPass = curpassword.text.toString()
 
             var isValid = true
+
+            if (curPass.isEmpty()) {
+                curpassword.error = "cannot empty this fields"
+                isValid = false
+                curpassword.requestFocus()
+            }
 
 
             if (newPass.isEmpty()) {
@@ -66,9 +81,21 @@ class new_password2 : AppCompatActivity() {
 
 
             }
+
+            if (curPass != saveDPass) {
+                curpassword.error = "current password didnt match, Try again"
+                isValid = false
+                curpassword.requestFocus()
+            }
+
+
+
+
+
+
             if (newPass != confpass) {
                 Toast.makeText(this, "Try again", Toast.LENGTH_SHORT).show()
-                confpassword.error = "Password  macth. Try again"
+                confpassword.error = "Password didnt match. Try again"
                 isValid = false
                 confpassword.requestFocus()
 

@@ -7,6 +7,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -44,6 +45,23 @@ class Home_pg : AppCompatActivity() {
             }
         })
 
+        val addListBtn = findViewById<Button>(R.id.Add_list)
+        addListBtn.setOnClickListener {
+            val intent = Intent(this, Add_list::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshButtons()
+    }
+
+    private fun refreshButtons() {
+
+        val container = findViewById<LinearLayout>(R.id.buttonContainer)
+
+        container.removeAllViews()
 
 
 
@@ -53,15 +71,13 @@ class Home_pg : AppCompatActivity() {
 
 
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-// sharedPreferences.getStringSet()
-        val saveTopic = sharedPreferences.getString("topic", "Test")
-        val saveType = sharedPreferences.getString("type", "")
+        val taskString = sharedPreferences.getString("task_list", "")
+//        val saveTopic = sharedPreferences.getString("topic", "Test")
+//        val saveType = sharedPreferences.getString("type", "")
         val saveUserName = sharedPreferences.getString("user", "")
         val saveUserName1 = sharedPreferences.getString("user_name1", "")
 //              topicEditText.setText(saveUserName1)
 //      typeTextEdit.setText(saveUserName1)
-
-        Log.d("Home_pg", "Topic : $saveUserName1")
 
 
         val button =
@@ -96,12 +112,12 @@ class Home_pg : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val button5 = findViewById<Button>(R.id.Demo)
-        button5.text = saveTopic
-        button5.setOnClickListener {
-            val intent = Intent(this, Demo_pg::class.java)
-            startActivity(intent)
-        }
+//        val button5 = findViewById<Button>(R.id.Demo)
+//        button5.text = saveTopic
+//        button5.setOnClickListener {
+//            val intent = Intent(this, Demo_pg::class.java)
+//            startActivity(intent)
+//        }
 
 
         Log.d("Home.pg", "Saved User: $saveUserName1")
@@ -112,7 +128,50 @@ class Home_pg : AppCompatActivity() {
         Log.d("Home_pg", "onCreate() called")
 
 //
+
+
+        if (!taskString.isNullOrEmpty()) {
+            val taskList = taskString.split(",")
+
+            for (topic in taskList) {
+                createButton(topic, container)
+            }
+        }
     }
 
 
+    private fun createButton(topicName: String, container: LinearLayout) {
+        val newBtn = Button(this)
+        newBtn.text = topicName
+        newBtn.textSize = 20f
+        newBtn.setTextColor(getColor(R.color.black))
+
+        newBtn.setBackgroundResource(R.drawable.todo_bg)
+
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            350
+        )
+
+        params.setMargins(40, 30, 40, 0)
+        newBtn.layoutParams = params
+
+        newBtn.setOnClickListener {
+
+            val prefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+            val content = prefs.getString("content_$topicName", "No content")
+            Toast.makeText(this, content, Toast.LENGTH_LONG).show()
+        }
+
+        container.addView(newBtn)
+    }
 }
+
+
+
+
+
+
+
+
+

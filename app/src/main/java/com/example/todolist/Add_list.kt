@@ -3,7 +3,9 @@ package com.example.todolist
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,15 +24,42 @@ class Add_list : AppCompatActivity() {
                 insets
             }
 
-            val button = findViewById<ImageView>(R.id.close)
-            button.setOnClickListener {
-                finish()
-            }
+            val topicInput = findViewById<EditText>(R.id.topic)
+            val contentInput = findViewById<EditText>(R.id.todo_content)
+            val saveBtn = findViewById<Button>(R.id.Save)
+            val closeBtn = findViewById<ImageView>(R.id.close)
 
-            val button2 = findViewById<Button>(R.id.Save)
-            button2.setOnClickListener {
-                val intent = Intent(this, Home_pg::class.java)
-                startActivity(intent)
+            closeBtn.setOnClickListener { finish() }
+
+
+            saveBtn.setOnClickListener {
+                val topic = topicInput.text.toString()
+                val content = contentInput.text.toString()
+
+                if (topic.isNotEmpty()) {
+                    val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+
+                    val oldList = sharedPreferences.getString("task_list", "")
+
+                    val newList = if (oldList.isNullOrEmpty()) {
+                        topic
+                    } else {
+                        "$oldList,$topic"
+                    }
+
+                    editor.putString("task_list", newList)
+                    editor.putString("content_$topic", content)
+                    editor.apply()
+
+                    Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    topicInput.error = "Topic is required"
+                }
             }
         }
-    }}
+
+    }
+}
+

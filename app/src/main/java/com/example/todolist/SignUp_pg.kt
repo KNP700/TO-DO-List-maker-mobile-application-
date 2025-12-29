@@ -49,7 +49,7 @@ class SignUp_pg : AppCompatActivity() {
 
 
         closeBtn.setOnClickListener {
-            
+
             finish()
         }
 
@@ -135,7 +135,7 @@ class SignUp_pg : AppCompatActivity() {
 
 
 //
-//                Log.d("SignUp_pg", "Saved User: $username")
+              Log.d("SignUp_pg", "Saved User: $username $conPassword")
 
 
                 val intent = Intent(this, Otp_pg2::class.java)
