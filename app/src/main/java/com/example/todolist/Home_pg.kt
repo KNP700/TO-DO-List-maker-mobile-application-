@@ -148,7 +148,7 @@ class Home_pg : AppCompatActivity() {
     private fun createButton(topicName: String, container: LinearLayout) {
         val stack = FrameLayout(this).apply {
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, 350
+                LinearLayout.LayoutParams.MATCH_PARENT, 200
             ).apply {
                 setMargins(40, 30, 40, 0)
             }
@@ -157,7 +157,7 @@ class Home_pg : AppCompatActivity() {
         val newBtn = Button(this).apply {
             text = topicName
             isAllCaps = false
-            textSize = 20f
+            textSize = 30f
             setTextColor(getColor(R.color.black))
             setBackgroundResource(R.drawable.todo_bg)
 
@@ -174,12 +174,13 @@ class Home_pg : AppCompatActivity() {
         }
 
         val deleteBtn = Button(this).apply {
-            text = "Delete"
-            textSize = 18f
+            text = "X"
+            textSize = 23f
+            setBackgroundColor(android.R.color.transparent)
 
-            layoutParams = FrameLayout.LayoutParams(200, 100).apply {
+            layoutParams = FrameLayout.LayoutParams(130, 60).apply {
                 gravity = android.view.Gravity.TOP or android.view.Gravity.END
-                setMargins(0, 20, 20, 0)
+                setMargins(0, 20, 0, 0)
             }
 
             setOnClickListener {
@@ -191,6 +192,27 @@ class Home_pg : AppCompatActivity() {
         stack.addView(deleteBtn)
         container.addView(stack)
     }
+//
+//    val deleteBtn = android.widget.ImageButton(this).apply {
+//        setImageResource(R.drawable.delete_730)
+//        background = null
+//
+//        setBackgroundColor(android.graphics.Color.YELLOW)
+//
+//        setColorFilter(android.graphics.Color.RED)
+//        layoutParams = FrameLayout.LayoutParams(200, 100).apply {
+//            gravity = android.view.Gravity.TOP or android.view.Gravity.END
+//            setMargins(0, 20, 20, 0)
+//        }
+//
+//        setOnClickListener {
+//            deleteTopic(topicName)
+//        }
+//    }
+//
+//    stack.addView(newBtn)
+//    stack.addView(deleteBtn)
+//    container.addView(stack)
 
 
 
@@ -208,7 +230,7 @@ class Home_pg : AppCompatActivity() {
             val newListString = taskList.joinToString(",")
 
             val editor = sharedPreferences.edit()
-            editor.putString("task_List", newListString)
+            editor.putString("task_list", newListString)
             editor.remove("content_$topicToDelete")
             editor.putString("content_", newListString)
             editor.apply()
