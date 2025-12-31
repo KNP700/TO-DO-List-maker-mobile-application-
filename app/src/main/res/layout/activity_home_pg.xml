@@ -83,13 +83,13 @@
                 android:textSize="45sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <GridLayout
                 android:id="@+id/buttonContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            </LinearLayout>
+            </GridLayout>
 
             <Button
                 android:id="@+id/Add_list"

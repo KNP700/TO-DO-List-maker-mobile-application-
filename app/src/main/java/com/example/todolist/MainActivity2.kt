@@ -30,20 +30,16 @@ class MainActivity2 : AppCompatActivity() {
                 val intent = Intent(this, Home_pg::class.java)
                 startActivity(intent)
                 finish()
-            } else {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-
+                return@setOnClickListener
+            }
 //        setContentView(R.layout.activity_main2)
 
-                binding = ActivityMain2Binding.inflate(layoutInflater)
-                setContentView(binding.root)
+            binding = ActivityMain2Binding.inflate(layoutInflater)
+            setContentView(binding.root)
 
 
-                binding.startBtn.setOnClickListener {
-                    startActivity(Intent(this, MainActivity::class.java))
-                }
+            binding.startBtn.setOnClickListener {
+                startActivity(Intent(this, MainActivity::class.java))
             }
         }
     }

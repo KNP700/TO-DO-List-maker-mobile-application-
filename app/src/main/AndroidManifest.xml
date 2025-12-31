@@ -52,7 +52,8 @@
             android:exported="false" />
         <activity
             android:name=".Home_pg"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout"/>
         <activity
             android:name=".Otp_pg2"
             android:exported="false" />
@@ -73,7 +74,8 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity2"
-            android:exported="true" >
+            android:exported="true"
+            android:configChanges="orientation|screenSize|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

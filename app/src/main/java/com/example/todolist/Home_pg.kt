@@ -1,6 +1,8 @@
 package com.example.todolist
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -59,16 +62,35 @@ class Home_pg : AppCompatActivity() {
         super.onResume()
         refreshButtons()
     }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+
+        refreshButtons()
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            container.columnCount = 2
+            println("Landscape Mode")
+        } else {
+//            container.columnCount = 1
+            println("Portrait Mode")
+        }
+//        container.requestLayout()
+//        container.invalidate()
+        super.onConfigurationChanged(newConfig)
+    }
 
     private fun refreshButtons() {
 
-        val container = findViewById<LinearLayout>(R.id.buttonContainer)
+        val container = findViewById<GridLayout>(R.id.buttonContainer)
+
 
         container.removeAllViews()
 
 
-
-
+        val orientation = resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            container.columnCount = 2
+        } else {
+            container.columnCount = 1
+        }
         topicEditText = findViewById(R.id.Demo)
         userName = findViewById(R.id.user3)
 
@@ -137,22 +159,30 @@ class Home_pg : AppCompatActivity() {
             val taskList = taskString.split(",")
 
             for (topic in taskList) {
-                createButton(topic, container)
+                if (topic.isNotEmpty()) {
+                    createButton(topic, container)
+                }
             }
         }
     }
 
 
+    @SuppressLint("ResourceAsColor")
+    private fun createButton(topicName: String, container: GridLayout) {
+        val gridParams = GridLayout.LayoutParams().apply {
+            height = 200
+            width = 0
 
+            columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
 
-    private fun createButton(topicName: String, container: LinearLayout) {
-        val stack = FrameLayout(this).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, 200
-            ).apply {
-                setMargins(40, 30, 40, 0)
-            }
+            setMargins(40, 30, 40, 0)
         }
+
+
+        val stack = FrameLayout(this).apply {
+            layoutParams = gridParams
+        }
+
 
         val newBtn = Button(this).apply {
             text = topicName
@@ -213,8 +243,6 @@ class Home_pg : AppCompatActivity() {
 //    stack.addView(newBtn)
 //    stack.addView(deleteBtn)
 //    container.addView(stack)
-
-
 
 
     private fun deleteTopic(topicToDelete: String) {
