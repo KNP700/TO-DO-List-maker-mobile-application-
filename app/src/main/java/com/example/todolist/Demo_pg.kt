@@ -56,8 +56,8 @@ class Demo_pg : AppCompatActivity() {
 
             val editor = sharedPreferences.edit()
 
-            if (currentTopicName != null)
-                editor.putString("content_$currentTopicName", updateContent)
+//            if (currentTopicName != null)
+            editor.putString("content_$currentTopicName", updateContent)
             editor.apply()
 
             Toast.makeText(this, "updated", Toast.LENGTH_SHORT).show()

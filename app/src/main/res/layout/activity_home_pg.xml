@@ -83,13 +83,19 @@
                 android:textSize="45sp"
                 android:textStyle="bold" />
 
-            <GridLayout
+<!--            <GridLayout-->
+<!--                android:id="@+id/buttonContainer"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:columnCount="2">-->
+
+<!--            </GridLayout>-->
+            <GridView
                 android:id="@+id/buttonContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </GridLayout>
+                tools:listitem="" />
 
             <Button
                 android:id="@+id/Add_list"

@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.edit
 
 class Add_list : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,19 +39,19 @@ class Add_list : AppCompatActivity() {
 
                 if (topic.isNotEmpty()) {
                     val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
+                    sharedPreferences.edit {
 
-                    val oldList = sharedPreferences.getString("task_list", "")
+                        val oldList = sharedPreferences.getString("task_list", "")
 
-                    val newList = if (oldList.isNullOrEmpty()) {
-                        topic
-                    } else {
-                        "$oldList,$topic"
+                        val newList = if (oldList.isNullOrEmpty()) {
+                            topic
+                        } else {
+                            "$oldList,$topic"
+                        }
+
+                        putString("task_list", newList)
+                        putString("content_$topic", content)
                     }
-
-                    editor.putString("task_list", newList)
-                    editor.putString("content_$topic", content)
-                    editor.apply()
 
                     Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show()
                     finish()
