@@ -39,8 +39,13 @@ class Demo_pg : AppCompatActivity() {
 
         val savedContent = sharedPreferences.getString("content_$currentTopicName", "")
 
+        val savedTopic = sharedPreferences.getString("task_topic","")
+
+
         topicEditText.setText(currentTopicName)
         typeEditText.setText(savedContent)
+        topicEditText.setText(savedTopic)
+
 
 
         val button = findViewById<ImageView>(R.id.close)
@@ -53,8 +58,11 @@ class Demo_pg : AppCompatActivity() {
         button2.setOnClickListener {
 
             val updateContent = typeEditText.text.toString()
+            val updatetopic = topicEditText.text.toString()
 
             val editor = sharedPreferences.edit()
+            editor.putString("task_topic",savedTopic)
+
 
             if (currentTopicName != null)
                 editor.putString("content_$currentTopicName", updateContent)

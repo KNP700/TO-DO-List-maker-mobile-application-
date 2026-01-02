@@ -24,21 +24,29 @@ class Add_list : AppCompatActivity() {
                 insets
             }
 
-            val topicInput = findViewById<EditText>(R.id.topic)
-            val contentInput = findViewById<EditText>(R.id.todo_content)
+
             val saveBtn = findViewById<Button>(R.id.Save)
             val closeBtn = findViewById<ImageView>(R.id.close)
+
 
             closeBtn.setOnClickListener { finish() }
 
 
             saveBtn.setOnClickListener {
+
+                val topicInput = findViewById<EditText>(R.id.topic)
+                val contentInput = findViewById<EditText>(R.id.todo_content)
+//
+
                 val topic = topicInput.text.toString()
                 val content = contentInput.text.toString()
 
                 if (topic.isNotEmpty()) {
                     val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+                    val topicInput = sharedPreferences.getString("task_topic","")
                     val editor = sharedPreferences.edit()
+
+
 
                     val oldList = sharedPreferences.getString("task_list", "")
 
@@ -49,7 +57,10 @@ class Add_list : AppCompatActivity() {
                     }
 
                     editor.putString("task_list", newList)
-                    editor.putString("content_$topic", content)
+                    editor.apply()
+                    editor.putString("task_topic",topic)
+                    editor.apply()
+                    editor.putString("content_Input", content)
                     editor.apply()
 
                     Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show()
