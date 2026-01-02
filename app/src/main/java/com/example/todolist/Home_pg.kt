@@ -3,17 +3,14 @@ package com.example.todolist
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -21,19 +18,12 @@ import androidx.appcompat.app.AppCompatActivity
 
 class Home_pg : AppCompatActivity() {
 
-    //    @SuppressLint("MissingInflatedId")
     private var backPressedOnce = false
-
-    private lateinit var topicEditText: Button
-
-    //    private lateinit var typeEditText: EditText
     private lateinit var userName: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_pg)
-//        enableEdgeToEdge()
-
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -41,10 +31,8 @@ class Home_pg : AppCompatActivity() {
                     finishAffinity()
                     return
                 }
-
                 backPressedOnce = true
                 Toast.makeText(this@Home_pg, "Press back again to exit", Toast.LENGTH_SHORT).show()
-
                 Handler(Looper.getMainLooper()).postDelayed({
                     backPressedOnce = false
                 }, 2000)
@@ -62,127 +50,66 @@ class Home_pg : AppCompatActivity() {
         super.onResume()
         refreshButtons()
     }
-    override fun onConfigurationChanged(newConfig: Configuration) {
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
         refreshButtons()
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            container.columnCount = 2
-            println("Landscape Mode")
-        } else {
-//            container.columnCount = 1
-            println("Portrait Mode")
-        }
-//        container.requestLayout()
-//        container.invalidate()
         super.onConfigurationChanged(newConfig)
     }
 
     private fun refreshButtons() {
-
         val container = findViewById<GridLayout>(R.id.buttonContainer)
-
-
         container.removeAllViews()
 
-
         val orientation = resources.configuration.orientation
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            container.columnCount = 2
-        } else {
-            container.columnCount = 1
-        }
-        topicEditText = findViewById(R.id.Demo)
+        container.columnCount = if (orientation == Configuration.ORIENTATION_LANDSCAPE) 2 else 1
+
         userName = findViewById(R.id.user3)
-
-
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-        val taskString = sharedPreferences.getString("task_list", "")
-//        val saveTopic = sharedPreferences.getString("topic", "Test")
-//        val saveType = sharedPreferences.getString("type", "")
-//        val saveUserName = sharedPreferences.getString("user", "")
+
+        // LOAD USER NAME
         val saveUserName1 = sharedPreferences.getString("user_name1", "")
-//              topicEditText.setText(saveUserName1)
-//      typeTextEdit.setText(saveUserName1)
+        userName.text = saveUserName1
 
+        // 1. GET THE LIST OF IDs (e.g. "1,2,3")
+        val idListString = sharedPreferences.getString("task_id_list", "")
 
-        val button =
-            findViewById<ImageView>(R.id.user)   // there is a issue, check this tomorrow
-        button.setOnClickListener {
-            val intent = Intent(this, User_detail::class.java)
-            startActivity(intent)
-        }
-        val button2 = findViewById<TextView>(R.id.user2)
-        button2.setOnClickListener {
-            val intent = Intent(this, User_detail::class.java)
-            startActivity(intent)
-        }
+        val userBtn = findViewById<ImageView>(R.id.user)
+        userBtn.setOnClickListener { startActivity(Intent(this, User_detail::class.java)) }
 
+        val userTxt = findViewById<TextView>(R.id.user2)
+        userTxt.setOnClickListener { startActivity(Intent(this, User_detail::class.java)) }
 
-        val textView = findViewById<TextView>(R.id.user3)
-        textView.text = saveUserName1
-//        textView.setOnClickListener {
-//            val intent = Intent(this, SignUp_pg::class.java)
-//            startActivity(intent)
-//        }
+        val menuBtn = findViewById<ImageView>(R.id.menu)
+        menuBtn.setOnClickListener { startActivity(Intent(this, Menu_pg::class.java)) }
 
-        val button3 = findViewById<ImageView>(R.id.menu)
-        button3.setOnClickListener {
-            val intent = Intent(this, Menu_pg::class.java)
-            startActivity(intent)
-        }
-
-        val button4 = findViewById<Button>(R.id.Add_list)
-        button4.setOnClickListener {
-            val intent = Intent(this, Add_list::class.java)
-            startActivity(intent)
-        }
-
-//        val button5 = findViewById<Button>(R.id.Demo)
-//        button5.text = saveTopic
-//        button5.setOnClickListener {
-//            val intent = Intent(this, Demo_pg::class.java)
-//            startActivity(intent)
-//        }
-
-
-        Log.d("Home.pg", "Saved User: $saveUserName1")
-
-
-//        println("Test >>>>>>>>>>>>>>>>>>>>>>$saveTopic")
-        println("Test >>>>>>>>>>>>>>>>>>>11>>>>>$saveUserName1")
-        Log.d("Home_pg", "onCreate() called")
-
-//
-
-
-        if (!taskString.isNullOrEmpty()) {
-            val taskList = taskString.split(",")
-
-            for (topic in taskList) {
-                if (topic.isNotEmpty()) {
-                    createButton(topic, container)
+        // 2. LOOP THROUGH IDs AND CREATE BUTTONS
+        if (!idListString.isNullOrEmpty()) {
+            val idArray = idListString.split(",")
+            for (idStr in idArray) {
+                if (idStr.isNotEmpty()) {
+                    createButton(idStr, container)
                 }
             }
         }
     }
 
-
     @SuppressLint("ResourceAsColor")
-    private fun createButton(topicName: String, container: GridLayout) {
+    private fun createButton(idStr: String, container: GridLayout) {
+        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+
+        // Get the title associated with this ID
+        val topicName = sharedPreferences.getString("title_$idStr", "No Title") ?: "No Title"
+
         val gridParams = GridLayout.LayoutParams().apply {
             height = 200
             width = 0
-
             columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-
             setMargins(40, 30, 40, 0)
         }
-
 
         val stack = FrameLayout(this).apply {
             layoutParams = gridParams
         }
-
 
         val newBtn = Button(this).apply {
             text = topicName
@@ -190,15 +117,15 @@ class Home_pg : AppCompatActivity() {
             textSize = 30f
             setTextColor(getColor(R.color.black))
             setBackgroundResource(R.drawable.todo_bg)
-
             layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
             )
 
             setOnClickListener {
+                // PASS THE ID, NOT THE NAME
                 val intent = Intent(context, Demo_pg::class.java)
-                intent.putExtra("TOPIC_KEY", topicName)
+                intent.putExtra("NOTE_ID", idStr)
                 startActivity(intent)
             }
         }
@@ -207,14 +134,12 @@ class Home_pg : AppCompatActivity() {
             text = "X"
             textSize = 23f
             setBackgroundColor(android.R.color.transparent)
-
             layoutParams = FrameLayout.LayoutParams(130, 60).apply {
                 gravity = android.view.Gravity.TOP or android.view.Gravity.END
                 setMargins(0, 20, 0, 0)
             }
-
             setOnClickListener {
-                deleteTopic(topicName)
+                deleteTopic(idStr) // Delete by ID
             }
         }
 
@@ -222,62 +147,29 @@ class Home_pg : AppCompatActivity() {
         stack.addView(deleteBtn)
         container.addView(stack)
     }
-//
-//    val deleteBtn = android.widget.ImageButton(this).apply {
-//        setImageResource(R.drawable.delete_730)
-//        background = null
-//
-//        setBackgroundColor(android.graphics.Color.YELLOW)
-//
-//        setColorFilter(android.graphics.Color.RED)
-//        layoutParams = FrameLayout.LayoutParams(200, 100).apply {
-//            gravity = android.view.Gravity.TOP or android.view.Gravity.END
-//            setMargins(0, 20, 20, 0)
-//        }
-//
-//        setOnClickListener {
-//            deleteTopic(topicName)
-//        }
-//    }
-//
-//    stack.addView(newBtn)
-//    stack.addView(deleteBtn)
-//    container.addView(stack)
 
-
-    private fun deleteTopic(topicToDelete: String) {
+    private fun deleteTopic(idToDelete: String) {
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-        val taskString = sharedPreferences.getString("task_list", "")
-        val taskTopic = sharedPreferences.getString("content_$topicToDelete", "")
+        val idListString = sharedPreferences.getString("task_id_list", "")
 
-        if (!taskString.isNullOrEmpty()) {
-            val taskList = taskString.split(",").toMutableList()
+        if (!idListString.isNullOrEmpty()) {
+            val idList = idListString.split(",").toMutableList()
 
-            taskList.remove(topicToDelete)
-
-            val newListString = taskList.joinToString(",")
+            // Remove the ID from the list
+            idList.remove(idToDelete)
+            val newIdListString = idList.joinToString(",")
 
             val editor = sharedPreferences.edit()
-            editor.putString("task_list", newListString)
-            editor.remove("content_$topicToDelete")
-            editor.putString("content_", newListString)
+            editor.putString("task_id_list", newIdListString)
+
+            // Remove the actual data
+            editor.remove("title_$idToDelete")
+            editor.remove("content_$idToDelete")
+
             editor.apply()
 
-            editor.putString("content_", newListString)
-
-            Toast.makeText(this, "Deleted $topicToDelete", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
             refreshButtons()
         }
     }
-
-
 }
-
-
-
-
-
-
-
-
-

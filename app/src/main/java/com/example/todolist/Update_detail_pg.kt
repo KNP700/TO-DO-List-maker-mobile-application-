@@ -46,7 +46,7 @@ class Update_detail_pg : AppCompatActivity() {
 
 
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-        val savePhone = sharedPreferences.getString("phone", "")
+        val savePhone =  sharedPreferences.getString("phone", "")
         val saveAddress = sharedPreferences.getString("address", "")
         val saveFname = sharedPreferences.getString("fname", "")
         val saveLname = sharedPreferences.getString("lname", "")

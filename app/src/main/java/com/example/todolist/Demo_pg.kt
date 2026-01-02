@@ -1,14 +1,11 @@
 package com.example.todolist
 
 import android.content.Intent
-import android.nfc.Tag
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -17,80 +14,62 @@ class Demo_pg : AppCompatActivity() {
 
     private lateinit var topicEditText: EditText
     private lateinit var typeEditText: EditText
-
-    private var currentTopicName: String? = null
-
+    private var currentNoteId: String? = null // Store the ID here
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
         setContentView(R.layout.activity_demo_pg)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         topicEditText = findViewById(R.id.topic)
         typeEditText = findViewById(R.id.type)
 
-        currentTopicName = intent.getStringExtra("TOPIC_KEY")
+        // 1. GET THE ID PASSED FROM HOME
+        currentNoteId = intent.getStringExtra("NOTE_ID")
 
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
 
-        val savedContent = sharedPreferences.getString("content_$currentTopicName", "")
+        if (currentNoteId != null) {
+            // 2. LOAD DATA USING ID
+            val savedTitle = sharedPreferences.getString("title_$currentNoteId", "")
+            val savedContent = sharedPreferences.getString("content_$currentNoteId", "")
 
-        topicEditText.setText(currentTopicName)
-        typeEditText.setText(savedContent)
+            topicEditText.setText(savedTitle)
+            typeEditText.setText(savedContent)
+        }
 
-
-        val button = findViewById<ImageView>(R.id.close)
-        button.setOnClickListener {
+        val buttonClose = findViewById<ImageView>(R.id.close)
+        buttonClose.setOnClickListener {
             finish()
         }
-        val button2 = findViewById<Button>(R.id.Save)
-        println("button2:$button2")
-//        Log.d("onCreate: button2 : $button2")
-        button2.setOnClickListener {
 
-            val updateContent = typeEditText.text.toString()
+        val buttonSave = findViewById<Button>(R.id.Save)
+        buttonSave.setOnClickListener {
 
-            val editor = sharedPreferences.edit()
+            val updatedTitle = topicEditText.text.toString()
+            val updatedContent = typeEditText.text.toString()
 
-            if (currentTopicName != null)
-                editor.putString("content_$currentTopicName", updateContent)
-            editor.apply()
+            if (currentNoteId != null) {
+                val editor = sharedPreferences.edit()
 
-            Toast.makeText(this, "updated", Toast.LENGTH_SHORT).show()
-            finish()
+                // 3. UPDATE DATA FOR THIS ID
+                editor.putString("title_$currentNoteId", updatedTitle)
+                editor.putString("content_$currentNoteId", updatedContent)
+                editor.apply()
 
-//            val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE )
-//            val editor = sharedPreferences.edit()
+                Toast.makeText(this, "Updated!", Toast.LENGTH_SHORT).show()
 
-
-//            editor.putString("topic", topicEditText.text.toString())
-//            editor.apply()
-//            editor.putString("type", typeEditText.text.toString())
-//            editor.apply()
-
-//
-//            val saveTopic = sharedPreferences.getString("topic", "NA")
-//
-//
-//            val saveType = sharedPreferences.getString("type","NA")
-//
-
-
-//
-//
-//            println("Test >>>>>>>>>>>>>>>>>>>>>> $saveTopic")
-//            print("Test >>>>>>>>>>>>>>>>>>>>> $saveType")
-
-
-            Log.d("Home_pg", "onCreate() called")
-
-
-            val intent = Intent(this, Home_pg::class.java)
-            startActivity(intent)
+                // Return to Home
+                val intent = Intent(this, Home_pg::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+                finish()
+            }
         }
     }
 }
