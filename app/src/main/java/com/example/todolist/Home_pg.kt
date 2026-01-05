@@ -66,11 +66,9 @@ class Home_pg : AppCompatActivity() {
         userName = findViewById(R.id.user3)
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
 
-        // LOAD USER NAME
         val saveUserName1 = sharedPreferences.getString("user_name1", "")
         userName.text = saveUserName1
 
-        // 1. GET THE LIST OF IDs (e.g. "1,2,3")
         val idListString = sharedPreferences.getString("task_id_list", "")
 
         val userBtn = findViewById<ImageView>(R.id.user)
@@ -82,7 +80,7 @@ class Home_pg : AppCompatActivity() {
         val menuBtn = findViewById<ImageView>(R.id.menu)
         menuBtn.setOnClickListener { startActivity(Intent(this, Menu_pg::class.java)) }
 
-        // 2. LOOP THROUGH IDs AND CREATE BUTTONS
+
         if (!idListString.isNullOrEmpty()) {
             val idArray = idListString.split(",")
             for (idStr in idArray) {
@@ -97,7 +95,7 @@ class Home_pg : AppCompatActivity() {
     private fun createButton(idStr: String, container: GridLayout) {
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
 
-        // Get the title associated with this ID
+
         val topicName = sharedPreferences.getString("title_$idStr", "No Title") ?: "No Title"
 
         val gridParams = GridLayout.LayoutParams().apply {
@@ -123,7 +121,7 @@ class Home_pg : AppCompatActivity() {
             )
 
             setOnClickListener {
-                // PASS THE ID, NOT THE NAME
+
                 val intent = Intent(context, Demo_pg::class.java)
                 intent.putExtra("NOTE_ID", idStr)
                 startActivity(intent)
@@ -155,14 +153,13 @@ class Home_pg : AppCompatActivity() {
         if (!idListString.isNullOrEmpty()) {
             val idList = idListString.split(",").toMutableList()
 
-            // Remove the ID from the list
             idList.remove(idToDelete)
             val newIdListString = idList.joinToString(",")
 
             val editor = sharedPreferences.edit()
             editor.putString("task_id_list", newIdListString)
 
-            // Remove the actual data
+
             editor.remove("title_$idToDelete")
             editor.remove("content_$idToDelete")
 

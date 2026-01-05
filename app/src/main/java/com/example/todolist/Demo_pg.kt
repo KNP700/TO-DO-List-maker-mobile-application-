@@ -29,13 +29,13 @@ class Demo_pg : AppCompatActivity() {
         topicEditText = findViewById(R.id.topic)
         typeEditText = findViewById(R.id.type)
 
-        // 1. GET THE ID PASSED FROM HOME
+
         currentNoteId = intent.getStringExtra("NOTE_ID")
 
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
 
         if (currentNoteId != null) {
-            // 2. LOAD DATA USING ID
+
             val savedTitle = sharedPreferences.getString("title_$currentNoteId", "")
             val savedContent = sharedPreferences.getString("content_$currentNoteId", "")
 
@@ -57,17 +57,15 @@ class Demo_pg : AppCompatActivity() {
             if (currentNoteId != null) {
                 val editor = sharedPreferences.edit()
 
-                // 3. UPDATE DATA FOR THIS ID
+
                 editor.putString("title_$currentNoteId", updatedTitle)
                 editor.putString("content_$currentNoteId", updatedContent)
                 editor.apply()
 
                 Toast.makeText(this, "Updated!", Toast.LENGTH_SHORT).show()
 
-                // Return to Home
-                val intent = Intent(this, Home_pg::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                startActivity(intent)
+                
+
                 finish()
             }
         }

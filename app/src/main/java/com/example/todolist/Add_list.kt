@@ -35,15 +35,14 @@ class Add_list : AppCompatActivity() {
                 val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
 
-                // 1. GET THE NEXT AVAILABLE ID (Default to 1)
+
                 val newId = sharedPreferences.getInt("next_id", 1)
 
-                // 2. SAVE DATA USING THIS ID
+
                 editor.putString("title_$newId", topic)
                 editor.putString("content_$newId", content)
 
-                // 3. ADD THIS ID TO THE LIST OF IDS
-                // We store ids like "1,2,5" instead of names
+
                 val oldIdList = sharedPreferences.getString("task_id_list", "")
                 val newIdList = if (oldIdList.isNullOrEmpty()) {
                     "$newId"
@@ -52,7 +51,7 @@ class Add_list : AppCompatActivity() {
                 }
                 editor.putString("task_id_list", newIdList)
 
-                // 4. PREPARE THE ID FOR THE NEXT NOTE
+
                 editor.putInt("next_id", newId + 1)
 
                 editor.apply()
