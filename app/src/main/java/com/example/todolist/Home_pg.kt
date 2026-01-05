@@ -20,13 +20,10 @@ class Home_pg : AppCompatActivity() {
 
     private var backPressedOnce = false
     private lateinit var userName: TextView
-    private lateinit var container : GridLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_pg)
-
-        container = findViewById(R.id.buttonContainer)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -60,15 +57,11 @@ class Home_pg : AppCompatActivity() {
     }
 
     private fun refreshButtons() {
-
+        val container = findViewById<GridLayout>(R.id.buttonContainer)
         container.removeAllViews()
 
         val orientation = resources.configuration.orientation
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            container.columnCount = 2
-        }else {
-            container.columnCount=1
-        }
+        container.columnCount = if (orientation == Configuration.ORIENTATION_LANDSCAPE) 2 else 1
 
         userName = findViewById(R.id.user3)
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
@@ -76,6 +69,7 @@ class Home_pg : AppCompatActivity() {
         val saveUserName1 = sharedPreferences.getString("user_name1", "")
         userName.text = saveUserName1
 
+        val idListString = sharedPreferences.getString("task_id_list", "")
 
         val userBtn = findViewById<ImageView>(R.id.user)
         userBtn.setOnClickListener { startActivity(Intent(this, User_detail::class.java)) }
@@ -86,8 +80,6 @@ class Home_pg : AppCompatActivity() {
         val menuBtn = findViewById<ImageView>(R.id.menu)
         menuBtn.setOnClickListener { startActivity(Intent(this, Menu_pg::class.java)) }
 
-
-        val idListString = sharedPreferences.getString("task_id_list", "")
 
         if (!idListString.isNullOrEmpty()) {
             val idArray = idListString.split(",")
