@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.services.FirebaseService
 import com.example.todolist.databinding.ActivityMain2Binding
 
 class MainActivity2 : AppCompatActivity() {
@@ -24,8 +25,8 @@ class MainActivity2 : AppCompatActivity() {
 
             val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
             val isAlreadyLoggedIn = checkPrefs.getBoolean("isLoggedIn", false)
-
-
+            val service = FirebaseService()
+service.createCollection()
             if (isAlreadyLoggedIn) {
                 val intent = Intent(this, Home_pg::class.java)
                 startActivity(intent)

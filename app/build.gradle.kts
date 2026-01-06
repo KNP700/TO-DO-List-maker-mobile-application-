@@ -58,5 +58,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
 // When using the BoM, you don't specify versions in Firebase library dependencies  // Add the dependency for the Firebase SDK for Google Analytics
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.firestore)
 
 }
