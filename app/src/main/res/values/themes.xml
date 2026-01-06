@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ToDoList" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/warm_primary</item>
+        <item name="colorOnPrimary">@color/warm_on_primary</item>
+        <item name="colorPrimaryContainer">@color/warm_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/warm_on_primary_container</item>
+        <item name="android:forceDarkAllowed">true</item>
+
+        <item name="colorSecondary">@color/warm_secondary</item>
+        <item name="colorOnSecondary">@color/warm_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/warm_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/warm_on_secondary_container</item>
+
+        <item name="colorTertiary">@color/warm_tertiary</item>
+        <item name="enableEdgeToEdge">true</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.ToDoList" parent="Base.Theme.ToDoList" />
+</resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "289265177478",
+    "project_id": "to-do-list-emaillog",
+    "storage_bucket": "to-do-list-emaillog.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289265177478:android:da8a4aba67398607949207",
+        "android_client_info": {
+          "package_name": "com.example.todolist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPWop_0a6rfsFif-xcf1sEJ1X3ruZ2U8E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

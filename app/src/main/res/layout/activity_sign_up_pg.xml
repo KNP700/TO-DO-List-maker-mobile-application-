@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:background="@drawable/download__4_"
+        android:layout_height="match_parent"
+        tools:context=".SignUp_pg">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="50dp">
+
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        app:tint="#ffff" />
+
+    <TextView
+        android:id="@+id/SignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Sign Up"
+        android:textSize="35sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/close" />
+
+    <TextView
+        android:id="@+id/F_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="First Name"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignUp" />
+
+    <EditText
+        android:id="@+id/Edit1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="37dp"
+        android:background="@drawable/otp_bg"
+        android:padding="20dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:hint="Enter Your First Name..."
+        app:layout_constraintTop_toBottomOf="@+id/F_name"
+
+        />
+
+    <TextView
+        android:id="@+id/L_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Last Name"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/F_name" />
+
+
+    <EditText
+        android:id="@+id/Edit2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="37dp"
+        android:background="@drawable/otp_bg"
+        android:padding="20dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:hint="Enter Your Last Name..."
+        app:layout_constraintTop_toBottomOf="@+id/L_name"
+        />
+
+
+    <TextView
+        android:id="@+id/U_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Enter New Username"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/L_name" />
+
+    <EditText
+        android:id="@+id/Edit3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="37dp"
+        android:background="@drawable/otp_bg"
+        android:padding="20dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:hint="Enter New Username..."
+        app:layout_constraintTop_toBottomOf="@+id/U_name"
+        />
+
+    <TextView
+        android:id="@+id/E_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Email Address"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/U_name" />
+
+    <EditText
+        android:id="@+id/Edit4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="37dp"
+        android:background="@drawable/otp_bg"
+        android:padding="20dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:hint="Enter your Email Address..."
+        app:layout_constraintTop_toBottomOf="@+id/E_mail"
+        />
+
+    <TextView
+        android:id="@+id/N_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Create Password"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/E_mail" />
+
+    <EditText
+        android:id="@+id/Edit5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="37dp"
+        android:inputType="textPassword"
+        android:background="@drawable/otp_bg"
+        android:padding="20dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:hint="Enter New Password..."
+        app:layout_constraintTop_toBottomOf="@+id/N_pass"
+        />
+
+    <TextView
+        android:id="@+id/Con_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Confirm Password"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/N_pass" />
+
+
+    <EditText
+        android:id="@+id/Edit6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="37dp"
+        android:inputType="textPassword"
+        android:background="@drawable/otp_bg"
+        android:padding="20dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:hint="Enter New Password..."
+        app:layout_constraintTop_toBottomOf="@+id/Con_pass"
+        />
+
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="53dp"
+        android:layout_marginTop="100dp"
+        android:padding="12dp"
+        android:text="Register"
+        android:textSize="20sp"
+        app:backgroundTint="#525754"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Con_pass" />
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

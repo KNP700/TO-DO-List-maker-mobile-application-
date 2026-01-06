@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="orange">#FFA500</color>
+    
+    <!-- Warm Theme Colors -->
+    <color name="warm_primary">#D84315</color> <!-- Deep Orange -->
+    <color name="warm_on_primary">#FFFFFF</color>
+    <color name="warm_primary_container">#FFDBCF</color>
+    <color name="warm_on_primary_container">#380D00</color>
+
+    <color name="warm_secondary">#E64A19</color> <!-- Reddish Orange -->
+    <color name="warm_on_secondary">#FFFFFF</color>
+    <color name="warm_secondary_container">#FFDBCF</color>
+    <color name="warm_on_secondary_container">#380D00</color>
+
+    <color name="warm_tertiary">#F9A825</color> <!-- Warm Yellow -->
+</resources>

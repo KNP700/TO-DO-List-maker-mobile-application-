@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ToDoList">
+        <service
+            android:name="com.example.services.FirebaseService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".test"
+            android:exported="false" />
+        <activity
+            android:name=".navi"
+            android:exported="false" />
+        <activity
+            android:name=".new_password2"
+            android:exported="false" />
+        <activity
+            android:name=".changePass"
+            android:exported="false" />
+        <activity
+            android:name=".confUsername"
+            android:exported="false" />
+        <activity
+            android:name=".renameUser"
+            android:exported="false" />
+        <activity
+            android:name=".otpUserName"
+            android:exported="false" />
+        <activity
+            android:name=".Setting"
+            android:exported="false" />
+        <activity
+            android:name=".Demo_pg"
+            android:exported="false" />
+        <activity
+            android:name=".Add_list"
+            android:exported="false" />
+        <activity
+            android:name=".Menu_pg"
+            android:exported="false" />
+        <activity
+            android:name=".Update_detail_pg"
+            android:exported="false" />
+        <activity
+            android:name=".User_detail"
+            android:exported="false" />
+        <activity
+            android:name=".Home_pg"
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:exported="false" />
+        <activity
+            android:name=".Otp_pg2"
+            android:exported="false" />
+        <activity
+            android:name=".SignUp_pg"
+            android:exported="false" />
+        <activity
+            android:name=".new_password"
+            android:exported="false" />
+        <activity
+            android:name=".Password_confirm"
+            android:exported="false" />
+        <activity
+            android:name=".otp_pg"
+            android:exported="false" />
+        <activity
+            android:name=".Forgot_Pass"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity2"
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+    </application>
+
+</manifest>
