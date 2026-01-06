@@ -5,30 +5,46 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import com.example.todolist.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
-    private  var backPressedOnce = false
-    private lateinit var usernameEditText: EditText
-    private lateinit var passwordEditText: EditText
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var firebaseAuth: FirebaseAuth
+    private var backPressedOnce = false
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is already signed in; if so, skip login and go to Home
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            val intent = Intent(this, Home_pg::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-//       enableEdgeToEdge()
 
-        setOnApplyWindowInsetsListener(findViewById(R.id.view_loging)) { v, insets ->
+        // Initialize ViewBinding
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Initialize Firebase Auth
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        // Handle Window Insets (Edge-to-Edge UI)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.viewLoging) { v, insets ->
             val bars = insets.getInsets(
-                WindowInsetsCompat.Type.systemBars()
-                        or WindowInsetsCompat.Type.displayCutout()
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
             )
             v.updatePadding(
                 left = bars.left,
@@ -37,17 +53,15 @@ class MainActivity : AppCompatActivity() {
                 bottom = bars.bottom,
             )
             WindowInsetsCompat.CONSUMED
-
-
         }
 
+        // Handle Double Back Press to Exit
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (backPressedOnce) {
                     finishAffinity()
                     return
                 }
-
                 backPressedOnce = true
                 Toast.makeText(this@MainActivity, "Press back again to exit", Toast.LENGTH_SHORT).show()
 
@@ -57,89 +71,52 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // --- BUTTON ACTIONS ---
 
-        usernameEditText = findViewById(R.id.Username_box)
-        passwordEditText = findViewById(R.id.password_box)
-
-
-        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-        val savedName = sharedPreferences.getString("user_name1", "")
-        val passwordConfirm = sharedPreferences.getString("password", "")
-
-
-//        println("Test >>>>>>>>>>>>>>>>>>>>>>")
-// usernameEditText.setText(savedName)
-        //passwordEditText.setText(passwordConfirm)
-
-        Log.d("MainActivity", "Username : $savedName, $passwordConfirm")
-
-
-        val forgotPassButton = findViewById<Button>(R.id.button)
-        forgotPassButton.setOnClickListener {
+        // 1. Forgot Password Button
+        binding.button.setOnClickListener {
             val intent = Intent(this, Forgot_Pass::class.java)
             startActivity(intent)
         }
 
-        val signUpButton = findViewById<Button>(R.id.signup)
-        signUpButton.setOnClickListener {
+        // 2. Sign Up Button
+        binding.signup.setOnClickListener {
             val intent = Intent(this, SignUp_pg::class.java)
             startActivity(intent)
         }
 
-        val loginButton = findViewById<Button>(R.id.button2)
-        loginButton.setOnClickListener {
+        // 3. Login Button (Firebase Logic)
+        binding.button2.setOnClickListener {
+            val email = binding.UsernameBox.text.toString().trim()
+            val password = binding.passwordBox.text.toString().trim()
 
-            val username = usernameEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                // Firebase Login Call
+                firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            // Login Success
+                            Log.d("MainActivity", "signInWithEmail:success")
+                            Toast.makeText(baseContext, "Login Successful.", Toast.LENGTH_SHORT).show()
 
-
-            if (username == savedName && password == passwordConfirm) {
-                println("Test >>>>>>>>>>>>>>>>>>>>>> $passwordConfirm")
-
-                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-
-                editor.putBoolean("isLoggedIn", true) //check this
-                editor.apply()
-
-                val intent = Intent(this, Home_pg::class.java)
-                startActivity(intent)
-                finish()
+                            val intent = Intent(this, Home_pg::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            // Login Failed
+                            Log.w("MainActivity", "signInWithEmail:failure", task.exception)
+                            Toast.makeText(
+                                baseContext,
+                                "Authentication failed: ${task.exception?.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
             } else {
-                Log.d("MainActivity", "Login Failed")
-                android.widget.Toast.makeText(
-                    this,
-                    "Incorrect Username or Password. Try again",
-                    android.widget.Toast.LENGTH_SHORT
-                ).show()
-
-
+                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
             }
-
         }
 
-
-//        if (usernameEditText == savedName && passwordEditText == passwordConfirm) {
-//
-//
-//            Log.d("MainActivity", "Login Successful")
-//            val intent = Intent(this, Home_pg::class.java)
-//            startActivity(intent)
-//            finish()
-//
-//        } else {
-//
-//
-//            Log.d("MainActivity", "Login Failed")
-//
-//            android.widget.Toast.makeText(this, "Incorrect Username or Password", android.widget.Toast.LENGTH_SHORT).show()
-//        }
-
-
-//        println("Test >>>>>>>>>>>>>>>>>>>>>>")
         Log.d("MainActivity", "onCreate() called")
-
-
     }
-
 }

@@ -42,7 +42,7 @@
                 android:textSize="45sp"
                 android:textStyle="bold" />
 
-            <EditText
+            <TextView
                 android:id="@+id/Username_box"
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
@@ -57,7 +57,7 @@
                 android:textSize="20sp"
                 android:textStyle="italic" />
 
-            <EditText
+            <TextView
                 android:id="@+id/password_box"
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
