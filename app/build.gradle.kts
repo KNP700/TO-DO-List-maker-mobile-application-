@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -35,8 +36,8 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures{
-        viewBinding=true
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -53,5 +54,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+// Import the Firebase BoM
+    implementation(platform(libs.firebase.bom))
+// When using the BoM, you don't specify versions in Firebase library dependencies  // Add the dependency for the Firebase SDK for Google Analytics
+    implementation(libs.firebase.analytics)
 
 }
