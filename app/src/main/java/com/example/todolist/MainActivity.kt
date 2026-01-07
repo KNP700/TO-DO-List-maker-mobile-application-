@@ -13,8 +13,52 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.tasks.await
+import kotlin.coroutines.suspendCoroutine
 
 class MainActivity : AppCompatActivity() {
+
+    private val tag = "MainActivity"
+    private val firebaseAuth = FirebaseAuth.getInstance()
+
+    fun isLoggedIn(): Boolean{
+        if (firebaseAuth.currentUser != null){
+            print(tag+"already logged In")
+            return true
+        }
+        return false
+
+    }
+
+//    suspend fun register(
+//        username : String , password : String
+//    ): Boolean{
+//        try{
+//
+//            val result = suspendCoroutine { continuation ->
+//                firebaseAuth.createUserWithEmailAndPassword(username,password)
+//                    .addOnSuccessListener {
+//                        println(tag+"register success")
+//                    }
+//                    .addOnFailureListener {
+//                        println(tag+ "register failure")
+//                        continuation
+//                    }
+//
+//            }
+//        } catch (e:Exception){
+//            e.printStackTrace()
+//            if (e is CancellationException) throw e
+//            println(tag+"register exception ${e. message}")
+//            return false
+//        }
+//
+//    }
+
+
 
     private  var backPressedOnce = false
     private lateinit var usernameEditText: EditText
