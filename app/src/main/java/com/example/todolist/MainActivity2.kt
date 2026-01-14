@@ -26,14 +26,25 @@ class MainActivity2 : AppCompatActivity() {
             val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
             val isAlreadyLoggedIn = checkPrefs.getBoolean("isLoggedIn", false)
             val service = FirebaseService()
-service.createCollection()
+            service.createCollection()
             if (isAlreadyLoggedIn) {
                 val intent = Intent(this, Home_pg::class.java)
                 startActivity(intent)
                 finish()
                 return@setOnClickListener
+
+
             }
+
+
+
+
+//            LoginJCAuthTheme{}
+//
+
+
 //        setContentView(R.layout.activity_main2)
+
 
             binding = ActivityMain2Binding.inflate(layoutInflater)
             setContentView(binding.root)
