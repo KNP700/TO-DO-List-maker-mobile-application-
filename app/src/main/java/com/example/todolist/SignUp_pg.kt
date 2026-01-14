@@ -11,6 +11,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
+
+
+private lateinit var auth: FirebaseAuth
+private val db = Firebase.firestore
 
 class SignUp_pg : AppCompatActivity() {
 
@@ -26,6 +34,7 @@ class SignUp_pg : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        auth = Firebase.auth
         super.onCreate(savedInstanceState)
         // enableEdgeToEdge()
         setContentView(R.layout.activity_sign_up_pg)
@@ -57,90 +66,141 @@ class SignUp_pg : AppCompatActivity() {
         registerBtn.setOnClickListener {
 
 
-            val username = usernameEditText.text.toString()
-            val password = createPasswordEditText.text.toString()
-            val conPassword = confirmPasswordEditText.text.toString()
-            val fName = F_name.text.toString()
-            val lName = L_name.text.toString()
-            val email = E_mail.text.toString()
-
+            val username = usernameEditText.text.toString().trim()
+            val password = createPasswordEditText.text.toString().trim()
+            val conPassword = confirmPasswordEditText.text.toString().trim()
+            val fName = F_name.text.toString().trim()
+            val lName = L_name.text.toString().trim()
+            val email = E_mail.text.toString().trim()
 
 
             var isValid = true
 
             if (fName.isEmpty()) {
                 F_name.error = "First name is required"
+                if (isValid) F_name.requestFocus()
                 isValid = false
-                F_name.requestFocus()
+
             }
 
             if (lName.isEmpty()) {
                 L_name.error = "Last name is required"
+                if (isValid) L_name.requestFocus()
                 isValid = false
-                L_name.requestFocus()
             }
 
             if (username.isEmpty()) {
                 usernameEditText.error = "Username is required"
+                if (isValid) usernameEditText.requestFocus()
                 isValid = false
-                usernameEditText.requestFocus()
-//                return@setOnClickListener
             }
 
             if (password.isEmpty()) {
-                createPasswordEditText.error = "Password cannot be empty"
+                createPasswordEditText.error = "Password is required"
+                if (isValid) createPasswordEditText.requestFocus()
                 isValid = false
-                createPasswordEditText.requestFocus()
-//                return@setOnClickListener
+            } else if (password.length < 6) {
+                createPasswordEditText.error = "Password must be at least 6 characters"
+                if (isValid) createPasswordEditText.requestFocus()
+                isValid = false
             }
 
-          if (email.isEmpty()) {
+            if (conPassword.isEmpty()) {
+                confirmPasswordEditText.error = "Please confirm your password"
+                if (isValid) confirmPasswordEditText.requestFocus()
+                isValid = false
+            } else if (password != conPassword) {
+                confirmPasswordEditText.error = "Passwords do not match"
+                if (isValid) confirmPasswordEditText.requestFocus()
+                isValid = false
+            }
+
+            if (email.isEmpty()) {
                 E_mail.error = "Email cannot be empty"
+                if (isValid) E_mail.requestFocus()
                 isValid = false
-                E_mail.requestFocus()
 
             }
 
-            if (password != conPassword) {
-                Toast.makeText(this, "Try again", Toast.LENGTH_SHORT).show()
-                confirmPasswordEditText.error = "password didint match, Try again"
-                isValid = false
-                confirmPasswordEditText.requestFocus()
-    //                return@setOnClickListener
-            }
             if (isValid) {
                 Toast.makeText(this, "Success! Signing up...", Toast.LENGTH_SHORT).show()
-                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-
-                editor.putString("user_name1", username)
-                editor.apply()
-                editor.putString("password", conPassword)
-                editor.apply()
-                editor.putString("fname", fName)
-                editor.apply()
-                editor.putString("lname", lName)
-                editor.apply()
-                editor.putString("email",email)
-                editor.apply()
-                editor.putString("pass", conPassword)
-                editor.apply()
 
 
+                createFirebaseUser(email, password, fName, lName, username)
 
-                val saveUserName2 = sharedPreferences.getString("topic", "NA")
-
-
-
-
-
-//
-              Log.d("SignUp_pg", "Saved User: $username $conPassword")
-
-
-                val intent = Intent(this, Otp_pg2::class.java)
-                startActivity(intent)
+//            if (password != conPassword) {
+//                Toast.makeText(this, "Try again", Toast.LENGTH_SHORT).show()
+//                confirmPasswordEditText.error = "password didint match, Try again"
+//                isValid = false
+//                confirmPasswordEditText.requestFocus()
+//    //                return@setOnClickListener
+//            }
             }
         }
     }
+
+    private fun createFirebaseUser(
+        email: String,
+        pass: String,
+        fname: String,
+        lname: String,
+        username: String
+    ) {
+        auth.createUserWithEmailAndPassword(email, pass)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+
+                    val userId = auth.currentUser?.uid
+                    val userMap = hashMapOf(
+                        "firstName" to fname,
+                        "lastName" to lname,
+                        "username" to username,
+                        "email" to email
+                    )
+
+                    if (userId != null) {
+                        db.collection("users").document(userId).set(userMap)
+                            .addOnSuccessListener {
+                                // Go to Home/OTP page
+                                startActivity(Intent(this, Otp_pg2::class.java))
+                                finish()
+                            }
+                    }
+                } else {
+                    Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
+    }
 }
+
+//            if (isValid) {
+//                Toast.makeText(this, "Success! Signing up...", Toast.LENGTH_SHORT).show()
+//                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+//                val editor = sharedPreferences.edit()
+//
+//                editor.putString("user_name1", username)
+//                editor.apply()
+//                editor.putString("password", conPassword)
+//                editor.apply()
+//                editor.putString("fname", fName)
+//                editor.apply()
+//                editor.putString("lname", lName)
+//                editor.apply()
+//                editor.putString("email",email)
+//                editor.apply()
+//                editor.putString("pass", conPassword)
+//                editor.apply()
+
+
+//                val saveUserName2 = sharedPreferences.getString("topic", "NA")
+
+
+//
+//                        Log.d("SignUp_pg", "Saved User: $username $conPassword")
+
+//
+//                val intent = Intent(this, Otp_pg2::class.java)
+//                startActivity(intent)
+//            }
+

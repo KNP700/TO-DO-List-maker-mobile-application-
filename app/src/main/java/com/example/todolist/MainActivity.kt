@@ -106,6 +106,8 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
+
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (backPressedOnce) {
@@ -181,6 +183,7 @@ class MainActivity : AppCompatActivity() {
 
 
             }
+
 
 
         }
