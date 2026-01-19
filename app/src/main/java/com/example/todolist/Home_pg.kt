@@ -37,7 +37,12 @@ class Home_pg : AppCompatActivity() {
 
         auth = Firebase.auth
 
+        userName = findViewById(R.id.user3)
+
         container = findViewById(R.id.buttonContainer)
+
+
+       GetUserName()
 
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -59,6 +64,36 @@ class Home_pg : AppCompatActivity() {
             val intent = Intent(this, Add_list::class.java)
             startActivity(intent)
         }
+        val userBtn = findViewById<ImageView>(R.id.user)
+        userBtn.setOnClickListener { startActivity(Intent(this, User_detail::class.java)) }
+
+        val userTxt = findViewById<TextView>(R.id.user2)
+        userTxt.setOnClickListener { startActivity(Intent(this, User_detail::class.java)) }
+
+        val menuBtn = findViewById<ImageView>(R.id.menu)
+        menuBtn.setOnClickListener { startActivity(Intent(this, Menu_pg::class.java)) }
+    }
+
+
+    private fun GetUserName() {
+        val user = auth.currentUser
+        if (user != null) {
+            // Read from "users" collection using the UID
+            db.collection("users").document(user.uid).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        // Get "username" or "firstName" - whichever you saved in SignUp_pg
+                        val nameFromDb = document.getString("username")
+
+                        // Update the TextView
+                        userName.text = nameFromDb
+                    }
+                }
+                .addOnFailureListener {
+                    Log.d("Home_pg", "Failed to fetch user data")
+                }
+        }
+
     }
 
     override fun onResume() {
@@ -85,8 +120,8 @@ class Home_pg : AppCompatActivity() {
         userName = findViewById(R.id.user3)
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
 
-        val saveUserName1 = sharedPreferences.getString("user_name1", "")
-        userName.text = saveUserName1
+//        val saveUserName1 = sharedPreferences.getString("user_name1", "")
+//        userName.text = saveUserName1
 
 
         val userBtn = findViewById<ImageView>(R.id.user)
@@ -157,7 +192,7 @@ class Home_pg : AppCompatActivity() {
                 setMargins(0, 20, 0, 0)
             }
             setOnClickListener {
-                deleteTopic(idStr) // Delete by ID
+                deleteTopic(idStr)
             }
         }
 

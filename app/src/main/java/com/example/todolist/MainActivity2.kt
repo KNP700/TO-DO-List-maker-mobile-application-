@@ -9,6 +9,7 @@ import com.example.todolist.databinding.ActivityMain2Binding
 
 class MainActivity2 : AppCompatActivity() {
     private lateinit var binding: ActivityMain2Binding
+    val service = FirebaseService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +26,7 @@ class MainActivity2 : AppCompatActivity() {
 
             val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
             val isAlreadyLoggedIn = checkPrefs.getBoolean("isLoggedIn", false)
-            val service = FirebaseService()
+
             service.createCollection()
             if (isAlreadyLoggedIn) {
                 val intent = Intent(this, Home_pg::class.java)

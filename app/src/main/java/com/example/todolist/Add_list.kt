@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.services.FirebaseService
 
 class Add_list : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +31,8 @@ class Add_list : AppCompatActivity() {
         saveBtn.setOnClickListener {
             val topic = topicInput.text.toString()
             val content = contentInput.text.toString()
+
+            val service = FirebaseService()
 
             if (topic.isNotEmpty()) {
                 val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
