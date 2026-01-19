@@ -15,8 +15,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 
 class Home_pg : AppCompatActivity() {
+
+
+
+    private lateinit var auth: FirebaseAuth
+    private val db = Firebase.firestore
 
     private var backPressedOnce = false
     private lateinit var userName: TextView
@@ -26,7 +35,10 @@ class Home_pg : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_pg)
 
+        auth = Firebase.auth
+
         container = findViewById(R.id.buttonContainer)
+
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

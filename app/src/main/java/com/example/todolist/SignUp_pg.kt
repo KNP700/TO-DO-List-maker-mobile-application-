@@ -161,13 +161,13 @@ class SignUp_pg : AppCompatActivity() {
                     if (userId != null) {
                         db.collection("users").document(userId).set(userMap)
                             .addOnSuccessListener {
-                                // Go to Home/OTP page
+
                                 startActivity(Intent(this, Otp_pg2::class.java))
                                 finish()
                             }
                     }
                 } else {
-                    Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_LONG)
+                    Toast.makeText(this, "Error:", Toast.LENGTH_LONG)
                         .show()
                 }
             }

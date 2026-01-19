@@ -1,6 +1,5 @@
 package com.example.todolist
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -14,13 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
-import androidx.credentials.PasswordCredential
-import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -31,12 +27,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlin.coroutines.suspendCoroutine
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,14 +38,14 @@ class MainActivity : AppCompatActivity() {
     private val firebaseAuth = FirebaseAuth.getInstance()
     private lateinit var auth: FirebaseAuth
 
-    fun isLoggedIn(): Boolean {
-        if (firebaseAuth.currentUser != null) {
-            print(tag + "already logged In")
-            return true
-        }
-        return false
-
-    }
+//    fun isLoggedIn(): Boolean {
+//        if (firebaseAuth.currentUser != null) {
+//            print(tag + "already logged In")
+//            return true
+//        }
+//        return false
+//
+//    }
 
 //    suspend fun register(
 //        username : String , password : String
@@ -90,6 +82,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 //       enableEdgeToEdge()
         auth = Firebase.auth
+
+        // FIX: Removed stray brackets {} that were here
+
+        // Auto-login check
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            startActivity(Intent(this, Home_pg::class.java))
+            finish()
+        }
+
         setOnApplyWindowInsetsListener(findViewById(R.id.view_loging)) { v, insets ->
             val bars = insets.getInsets(
                 WindowInsetsCompat.Type.systemBars()
@@ -102,11 +104,7 @@ class MainActivity : AppCompatActivity() {
                 bottom = bars.bottom,
             )
             WindowInsetsCompat.CONSUMED
-
-
         }
-
-
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -130,16 +128,16 @@ class MainActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.password_box)
 
 
-        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-        val savedName = sharedPreferences.getString("user_name1", "")
-        val passwordConfirm = sharedPreferences.getString("password", "")
-
-
-//        println("Test >>>>>>>>>>>>>>>>>>>>>>")
-// usernameEditText.setText(savedName)
-        //passwordEditText.setText(passwordConfirm)
-
-        Log.d("MainActivity", "Username : $savedName, $passwordConfirm")
+//        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+//        val savedName = sharedPreferences.getString("user_name1", "")
+//        val passwordConfirm = sharedPreferences.getString("password", "")
+//
+//
+////        println("Test >>>>>>>>>>>>>>>>>>>>>>")
+//// usernameEditText.setText(savedName)
+//        //passwordEditText.setText(passwordConfirm)
+//
+//        Log.d("MainActivity", "Username : $savedName, $passwordConfirm")
 
 
         val forgotPassButton = findViewById<Button>(R.id.button)
@@ -157,35 +155,59 @@ class MainActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.button2)
         loginButton.setOnClickListener {
 
-            val username = usernameEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            val emailInput = usernameEditText.text.toString()
+            val passwordInput = passwordEditText.text.toString()
 
-
-            if (username == savedName && password == passwordConfirm) {
-                println("Test >>>>>>>>>>>>>>>>>>>>>> $passwordConfirm")
-
-                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-
-                editor.putBoolean("isLoggedIn", true) //check this
-                editor.apply()
-
-                val intent = Intent(this, Home_pg::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Log.d("MainActivity", "Login Failed")
-                android.widget.Toast.makeText(
-                    this,
-                    "Incorrect Username or Password. Try again",
-                    android.widget.Toast.LENGTH_SHORT
-                ).show()
-
-
+            if (emailInput.isEmpty()) {
+                usernameEditText.error = "Please Enter Your Email"
+                return@setOnClickListener
             }
 
+            if (passwordInput.isEmpty()) {
+                passwordEditText.error = "Please Enter Your Password"
+                return@setOnClickListener
+            }
+3
+            auth.signInWithEmailAndPassword(emailInput, passwordInput)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        Log.d(tag, "signInWithEmail:success")
 
+                        Toast.makeText(baseContext, "Login Successful!", Toast.LENGTH_SHORT).show()
 
+                        val intent = Intent(this, Home_pg::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+
+                        Log.w(tag, "signInWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            baseContext,
+                            "Invalid Email or Password:",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+//            if (username == savedName && password == passwordConfirm) {
+//                println("Test >>>>>>>>>>>>>>>>>>>>>> $passwordConfirm")
+//
+//                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+//                val editor = sharedPreferences.edit()
+//
+//                editor.putBoolean("isLoggedIn", true) //check this
+//                editor.apply()
+//
+//                val intent = Intent(this, Home_pg::class.java)
+//                startActivity(intent)
+//                finish()
+//            } else {
+//                Log.d("MainActivity", "Login Failed")
+//                android.widget.Toast.makeText(
+//                    this,
+//                    "Incorrect Username or Password. Try again",
+//                    android.widget.Toast.LENGTH_SHORT
+//                ).show()
+
+                }
         }
 
         val googleLoginButton = findViewById<Button>(R.id.button3)
@@ -223,7 +245,7 @@ class MainActivity : AppCompatActivity() {
             val googleIdOption = GetGoogleIdOption.Builder()
                 // Your server's client ID, not your Android client ID.
                 .setServerClientId(getString(R.string.default_web_client_id))
-                // Only show accounts previously used to sign in.
+
                 .setFilterByAuthorizedAccounts(false)
                 .build()
 
@@ -240,7 +262,7 @@ class MainActivity : AppCompatActivity() {
                     )
                     handleSignIn(result)
                 } catch (e: GetCredentialException) {
-                    // Handle failure
+
                 }
             }
         } catch (e: Exception) {
@@ -260,7 +282,7 @@ class MainActivity : AppCompatActivity() {
                 firebaseAuthWithGoogle(idToken)
 
             } catch (e: GoogleIdTokenParsingException) {
-                Log.e(TAG, "Received an invalid google id token response", e)
+                Log.e(tag, "Received an invalid google id token response", e)
             }
         }
     }
@@ -270,13 +292,19 @@ class MainActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
+
+                    Log.d(tag, "signIn success")
                     val user = auth.currentUser
-//                    updateUI(user)
+
+
+                    val intent = Intent(this, Home_pg::class.java)
+                    startActivity(intent)
+                    finish()
+
                 } else {
-                    // If sign in fails, display a message to the user
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+
+                    Log.w(tag, "signIn:fail", task.exception)
+                    Toast.makeText(this, "Google Sign In Failed", Toast.LENGTH_SHORT).show()
 //                    updateUI(null)
                 }
             }

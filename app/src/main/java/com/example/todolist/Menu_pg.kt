@@ -13,11 +13,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+
 class Menu_pg : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
         setContentView(R.layout.activity_menu_pg)
+
+        // Initialize Firebase Auth
+        auth = Firebase.auth
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -32,7 +43,14 @@ class Menu_pg : AppCompatActivity() {
 
         val button2 = findViewById<TextView>(R.id.Logout)
         button2.setOnClickListener {
+            // FIX: Sign out from Firebase before going to MainActivity
+            auth.signOut()
+
             val intent = Intent(this, MainActivity::class.java)
+
+            // This clears the back stack so the user can't press "Back" to return here
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
             startActivity(intent)
             finish()
         }
