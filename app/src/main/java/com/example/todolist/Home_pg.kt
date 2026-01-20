@@ -76,22 +76,26 @@ class Home_pg : AppCompatActivity() {
 
 
     private fun GetUserName() {
-        val user = auth.currentUser
-        if (user != null) {
-            // Read from "users" collection using the UID
-            db.collection("users").document(user.uid).get()
-                .addOnSuccessListener { document ->
-                    if (document != null && document.exists()) {
-                        // Get "username" or "firstName" - whichever you saved in SignUp_pg
-                        val nameFromDb = document.getString("username")
+        try{
+            val user = auth.currentUser
+            if (user != null) {
+                // Read from "users" collection using the UID
+                db.collection("users").document(user.uid).get()
+                    .addOnSuccessListener { document ->
+                        if (document != null && document.exists()) {
+                            // Get "username" or "firstName" - whichever you saved in SignUp_pg
+                            val nameFromDb = document.getString("username")
 
-                        // Update the TextView
-                        userName.text = nameFromDb
+                            // Update the TextView
+                            userName.text = nameFromDb
+                        }
                     }
-                }
-                .addOnFailureListener {
-                    Log.d("Home_pg", "Failed to fetch user data")
-                }
+                    .addOnFailureListener {
+                        Log.d("Home_pg", "Failed to fetch user data")
+                    }
+            }
+        }catch (e: Exception){
+            print(e)
         }
 
     }

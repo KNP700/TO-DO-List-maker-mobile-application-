@@ -83,9 +83,7 @@ class MainActivity : AppCompatActivity() {
 //       enableEdgeToEdge()
         auth = Firebase.auth
 
-        // FIX: Removed stray brackets {} that were here
 
-        // Auto-login check
         val currentUser = auth.currentUser
         if (currentUser != null) {
             startActivity(Intent(this, Home_pg::class.java))
@@ -278,7 +276,6 @@ class MainActivity : AppCompatActivity() {
                 val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
                 val idToken = googleIdTokenCredential.idToken
 
-                // AUTHENTICATE WITH FIREBASE
                 firebaseAuthWithGoogle(idToken)
 
             } catch (e: GoogleIdTokenParsingException) {
@@ -339,7 +336,8 @@ class MainActivity : AppCompatActivity() {
 //                            // authenticate on your server.
 //                            val googleIdTokenCredential = GoogleIdTokenCredential
 //                                .createFrom(credential.data)
-//                            // You can use the members of googleIdTokenCredential directly for UX
+//                            // You can use the members of googleIdToke
+//                            // You can use the members of googleIdToke
 //                            // purposes, but don't use them to store or control access to user
 //                            // data. For that you first need to validate the token:
 //                            // pass googleIdTokenCredential.getIdToken() to the backend server.

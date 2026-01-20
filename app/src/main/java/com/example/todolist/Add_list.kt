@@ -1,5 +1,6 @@
 package com.example.todolist
 
+import android.content.Intent
 import android.icu.text.CaseMap
 import android.os.Bundle
 import android.widget.Button
@@ -9,10 +10,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.services.FirebaseService
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.launch
 
 
 class Add_list : AppCompatActivity() {
@@ -46,7 +49,7 @@ class Add_list : AppCompatActivity() {
 //            val service = FirebaseService()
 
             if (topic.isNotEmpty()) {
-                createFirebaseList(topic,content)
+                createFirebaseList(topic, content)
 //                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
 //                val editor = sharedPreferences.edit()
 //
@@ -79,14 +82,20 @@ class Add_list : AppCompatActivity() {
         }
     }
 
-    private fun createFirebaseList(
+    private  fun createFirebaseList(
         title: String,
         description: String,
     ) {
         val firebaseService = FirebaseService()
-        firebaseService.addTodo(
-            title, description
-        )
+        lifecycleScope.launch {
+            val res = firebaseService.addTodo(
+                title, description
+            )
+            if (res) {
+                finish()
+            }
+        }
+
 //        auth.createTitleWithDescription(title, Description)
 //            .addOnCompleteListener(this) { task ->
 //                if (task.isSuccessful)

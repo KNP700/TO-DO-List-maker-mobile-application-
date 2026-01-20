@@ -12,6 +12,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.tasks.await
 
 class FirebaseService : Service() {
     var db = Firebase.firestore
@@ -37,34 +38,35 @@ class FirebaseService : Service() {
 
     }
 
-    fun addTodo(title: String, description: String) {
-         val auth = Firebase.auth
-        val user = auth.currentUser
+    suspend fun addTodo(title: String, description: String): Boolean {
+        try {
+            val auth = Firebase.auth
+            val user = auth.currentUser
 
-        if (user != null) {
+            if (user != null) {
 
-            val todoRef = db.collection("todos")
+                val todoRef = db.collection("todos")
 
-            val data = hashMapOf(
-                "title" to title,
-                "description" to description,
-                "user_uid" to user.uid
-            )
-
-
-            todoRef.add(data)
-                .addOnSuccessListener { documentReference ->
-                    Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
-
-
-                    val intent = Intent(this, Home_pg::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-//                    finish()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show()
-                }
+                val data = hashMapOf(
+                    "title" to title,
+                    "description" to description,
+                    "user_uid" to user.uid
+                )
+                var x: Boolean = false
+                todoRef.add(data)
+                    .addOnSuccessListener { documentReference ->
+//                        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+                        x = true
+                    }
+                    .addOnFailureListener { e ->
+//                        Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show()
+                    }.await()
+                return  x
+            }
+            return false
+        } catch (e: Exception) {
+            print(e)
+            return false
         }
     }
 }
