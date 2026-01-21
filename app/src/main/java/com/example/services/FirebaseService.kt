@@ -50,7 +50,8 @@ class FirebaseService : Service() {
                 val data = hashMapOf(
                     "title" to title,
                     "description" to description,
-                    "user_uid" to user.uid
+                    "user_uid" to user.uid,
+//                    "timestamp" to
                 )
                 var x: Boolean = false
                 todoRef.add(data)

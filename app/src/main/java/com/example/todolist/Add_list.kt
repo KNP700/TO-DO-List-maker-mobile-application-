@@ -35,6 +35,7 @@ class Add_list : AppCompatActivity() {
             insets
         }
 
+
         val topicInput = findViewById<EditText>(R.id.topic)
         val contentInput = findViewById<EditText>(R.id.todo_content)
         val saveBtn = findViewById<Button>(R.id.Save)
@@ -85,6 +86,7 @@ class Add_list : AppCompatActivity() {
     private  fun createFirebaseList(
         title: String,
         description: String,
+
     ) {
         val firebaseService = FirebaseService()
         lifecycleScope.launch {

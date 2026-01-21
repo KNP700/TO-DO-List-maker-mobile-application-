@@ -32,41 +32,42 @@ class Demo_pg : AppCompatActivity() {
 
         currentNoteId = intent.getStringExtra("NOTE_ID")
 
-        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+//        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
 
         if (currentNoteId != null) {
 
-            val savedTitle = sharedPreferences.getString("title_$currentNoteId", "")
-            val savedContent = sharedPreferences.getString("content_$currentNoteId", "")
+//            val savedTitle = sharedPreferences.getString("title_$currentNoteId", "")
+//            val savedContent = sharedPreferences.getString("content_$currentNoteId", "")
+//
+//            topicEditText.setText(savedTitle)
+//            typeEditText.setText(savedContent)
+//        }
 
-            topicEditText.setText(savedTitle)
-            typeEditText.setText(savedContent)
-        }
-
-        val buttonClose = findViewById<ImageView>(R.id.close)
-        buttonClose.setOnClickListener {
-            finish()
-        }
-
-        val buttonSave = findViewById<Button>(R.id.Save)
-        buttonSave.setOnClickListener {
-
-            val updatedTitle = topicEditText.text.toString()
-            val updatedContent = typeEditText.text.toString()
-
-            if (currentNoteId != null) {
-                val editor = sharedPreferences.edit()
-
-
-                editor.putString("title_$currentNoteId", updatedTitle)
-                editor.putString("content_$currentNoteId", updatedContent)
-                editor.apply()
-
-                Toast.makeText(this, "Updated!", Toast.LENGTH_SHORT).show()
-
-
-
+            val buttonClose = findViewById<ImageView>(R.id.close)
+            buttonClose.setOnClickListener {
                 finish()
+            }
+
+            val buttonSave = findViewById<Button>(R.id.Save)
+            buttonSave.setOnClickListener {
+
+                val updatedTitle = topicEditText.text.toString()
+                val updatedContent = typeEditText.text.toString()
+
+                if (currentNoteId != null) {
+//                val editor = sharedPreferences.edit()
+
+
+//                editor.putString("title_$currentNoteId", updatedTitle)
+//                editor.putString("content_$currentNoteId", updatedContent)
+//                editor.apply()
+
+                    Toast.makeText(this, "Updated!", Toast.LENGTH_SHORT).show()
+
+
+
+                    finish()
+                }
             }
         }
     }
