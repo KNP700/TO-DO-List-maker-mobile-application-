@@ -270,8 +270,8 @@ private fun deleteTopic(idToDelete: String) {
             Toast.makeText(this, "Error deleting", Toast.LENGTH_SHORT).show()
         }
 
-    Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
-    refreshButtons()
+//    Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
+//    refreshButtons()
 }
 }
 

@@ -36,6 +36,7 @@ class Add_list : AppCompatActivity() {
         }
 
 
+
         val topicInput = findViewById<EditText>(R.id.topic)
         val contentInput = findViewById<EditText>(R.id.todo_content)
         val saveBtn = findViewById<Button>(R.id.Save)
