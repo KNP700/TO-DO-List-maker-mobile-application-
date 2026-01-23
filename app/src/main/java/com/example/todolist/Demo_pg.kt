@@ -21,7 +21,7 @@ class Demo_pg : AppCompatActivity() {
     private val db = Firebase.firestore
     private lateinit var topicEditText: EditText
     private lateinit var typeEditText: EditText
-    private var currentNoteId: String? = null // Store the ID here
+    private var currentNoteId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
