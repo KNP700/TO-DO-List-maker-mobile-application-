@@ -20,9 +20,9 @@ class User_detail : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
     private lateinit var username: TextView
-//    private lateinit var fName: TextView
-//    private lateinit var lName: TextView
-//    private lateinit var eMail: TextView
+    private lateinit var firstname: TextView
+    private lateinit var lastname: TextView
+    private lateinit var eMail: TextView
 //    private lateinit var phone: TextView
 //    private lateinit var address: TextView
 ////    private lateinit var username2: TextView
@@ -41,10 +41,12 @@ class User_detail : AppCompatActivity() {
 
         auth = Firebase.auth
         username = findViewById(R.id.text_uname)
+        firstname = findViewById(R.id.fname)
+        lastname = findViewById(R.id.lname)
 //            fName = findViewById(R.id.fname)
 //            lName = findViewById(R.id.lname)
-//            eMail = findViewById(R.id.email)
-//            phone = findViewById(R.id.phone)
+        eMail = findViewById(R.id.email)
+//        eMail = findViewById(R.id.phone)
 //            address = findViewById(R.id.address)
 //        username2 = findViewById(R.id.userN)
 //        eMail2 = findViewById(R.id.eMail)
@@ -108,7 +110,14 @@ class User_detail : AppCompatActivity() {
                     .addOnSuccessListener { document ->
                         if (document != null && document.exists()) {
                             val nameFromDb = document.getString("username")
+                            val namefromDb2 = document.getString("firstName")
+                            val namefromDb3 = document.getString("lastName")
+                            val namefromDb4 = document.getString("email")
                             username.text = nameFromDb
+                            firstname.text = namefromDb2
+                            lastname.text = namefromDb3
+                            eMail.text = namefromDb4
+
                         }
                     }
                     .addOnFailureListener {
@@ -120,7 +129,7 @@ class User_detail : AppCompatActivity() {
         }
     }
 
-    @Deprecated("This method has been deprecated in favor of using the Activity Result API")
+    //    @Deprecated("This method has been deprecated in favor of using the Activity Result API")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("TAG", "onActivityResult: $requestCode")
@@ -132,8 +141,8 @@ class User_detail : AppCompatActivity() {
                 startActivity(intent)
                 finish()
 
-            } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "User cancelled", Toast.LENGTH_SHORT).show()
+//            } else if (resultCode == RESULT_CANCELED) {
+//                Toast.makeText(this, "User cancelled", Toast.LENGTH_SHORT).show()
             }
 //
         }

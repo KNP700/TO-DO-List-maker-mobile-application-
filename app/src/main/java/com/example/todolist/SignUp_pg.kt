@@ -156,6 +156,7 @@ class SignUp_pg : AppCompatActivity() {
                         "lastName" to lname,
                         "username" to username,
                         "email" to email
+
                     )
 
                     if (userId != null) {

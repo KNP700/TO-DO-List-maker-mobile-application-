@@ -60,7 +60,7 @@ class FirebaseService : Service() {
                         x = true
                     }
                     .addOnFailureListener { e ->
-//                        Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this,  "Try Again", Toast.LENGTH_SHORT).show()
                     }.await()
                 return  x
             }
