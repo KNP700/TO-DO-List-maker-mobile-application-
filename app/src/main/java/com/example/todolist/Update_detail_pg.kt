@@ -115,8 +115,8 @@ class Update_detail_pg : AppCompatActivity() {
 
                 lifecycleScope.launch {
 
-                    updateData(updateFirstname, "")
-                    updateData(updateLastname, "")
+                    updateData(updateFirstname,updateLastname)
+
                 }
 
                 //finish()
