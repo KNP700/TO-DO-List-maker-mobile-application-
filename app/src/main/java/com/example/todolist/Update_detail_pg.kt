@@ -29,8 +29,8 @@ class Update_detail_pg : AppCompatActivity() {
     private lateinit var lName: TextView
 
     //    private lateinit var e_mail: EditText
-    private lateinit var phone: EditText
-    private lateinit var address: EditText
+    private lateinit var phone: TextView
+    private lateinit var address: TextView
 //    private lateinit var oPassword: EditText
 //    private lateinit var nPassword: EditText
 //    private lateinit var cPassword: EditText
@@ -57,6 +57,7 @@ class Update_detail_pg : AppCompatActivity() {
             // cPassword = findViewById(R.id.cPass)
             fName = findViewById(R.id.fName1)
             lName = findViewById(R.id.lName1)
+//            phone =findViewById(R.id.phone)
 
 
             getUsername()
@@ -102,6 +103,8 @@ class Update_detail_pg : AppCompatActivity() {
             button.setOnClickListener {
                 val updateFirstname = fName.text.toString()
                 val updateLastname = lName.text.toString()
+                val updatePhone = phone.text.toString()
+                val updateAddress= address.text.toString()
 //
                 if (updateFirstname.isEmpty()) {
                     fName.error = "First name cant be empty"
@@ -113,9 +116,10 @@ class Update_detail_pg : AppCompatActivity() {
                 }
 
 
+
                 lifecycleScope.launch {
 
-                    updateData(updateFirstname,updateLastname)
+                    updateData(updateFirstname,updateLastname,updatePhone,updateAddress)
 
                 }
 
@@ -137,11 +141,13 @@ class Update_detail_pg : AppCompatActivity() {
 //                            val nameFromDb = document.getString("username")
                             val namefromDb2 = document.getString("firstName")
                             val namefromDb3 = document.getString("lastName")
-                            val namefromDb4 = document.getString("email")
+                            val namefromDb4 = document.getString("phone")
+                            val namefromD5 = document.getString("address")
 //                            username.text = nameFromDb
                             lName.text = namefromDb3
                             fName.text = namefromDb2
-//                            eMail.text = namefromDb4
+                            phone.text = namefromDb4
+                            address.text = namefromD5
 
                         }
                     }
@@ -163,6 +169,8 @@ class Update_detail_pg : AppCompatActivity() {
                         if (document != null && document.exists()) {
                             val firstName = document.getString("firstName")
                             val lastName = document.getString("lastName")
+                            val phone = document.getString("phone")
+                            val address = document.getString("address")
 
 
                         }
@@ -174,7 +182,7 @@ class Update_detail_pg : AppCompatActivity() {
     }
 
 
-    private fun updateData(firstName: String, lastName: String) {
+    private fun updateData(firstName: String, lastName: String, phone:String, address:String) {
         try {
             val user = auth.currentUser
 
@@ -182,7 +190,9 @@ class Update_detail_pg : AppCompatActivity() {
                 val updates = mapOf(
 
                     "firstName" to firstName,
-                    "lastName" to lastName
+                    "lastName" to lastName,
+                    "phone" to phone,
+                    "address" to address
 
                 )
                 db.collection("users").document(user.uid).update(updates)

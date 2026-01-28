@@ -23,6 +23,8 @@ class User_detail : AppCompatActivity() {
     private lateinit var firstname: TextView
     private lateinit var lastname: TextView
     private lateinit var eMail: TextView
+    private lateinit var phone : TextView
+    private lateinit var address : TextView
 //    private lateinit var phone: TextView
 //    private lateinit var address: TextView
 ////    private lateinit var username2: TextView
@@ -43,9 +45,11 @@ class User_detail : AppCompatActivity() {
         username = findViewById(R.id.text_uname)
         firstname = findViewById(R.id.fname)
         lastname = findViewById(R.id.lname)
+        address = findViewById(R.id.address)
 //            fName = findViewById(R.id.fname)
 //            lName = findViewById(R.id.lname)
         eMail = findViewById(R.id.email)
+        phone = findViewById(R.id.phone)
 //        eMail = findViewById(R.id.phone)
 //            address = findViewById(R.id.address)
 //        username2 = findViewById(R.id.userN)
@@ -113,10 +117,16 @@ class User_detail : AppCompatActivity() {
                             val namefromDb2 = document.getString("firstName")
                             val namefromDb3 = document.getString("lastName")
                             val namefromDb4 = document.getString("email")
+                            val namefromDb5 = document.getString("phone")
+                            val namefromDb6 = document.getString("address")
                             username.text = nameFromDb
                             firstname.text = namefromDb2
                             lastname.text = namefromDb3
                             eMail.text = namefromDb4
+                            phone.text = namefromDb5
+                            address.text = namefromDb6
+
+
 
                         }
                     }
