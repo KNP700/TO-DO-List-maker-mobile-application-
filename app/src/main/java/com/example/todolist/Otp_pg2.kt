@@ -19,13 +19,14 @@ class Otp_pg2 : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-    val button = findViewById<ImageView>(R.id.close2)
+        val button = findViewById<ImageView>(R.id.close2)
         button.setOnClickListener {
             finish()
         }
 
         val button2 = findViewById<Button>(R.id.vertify2)
         button2.setOnClickListener {
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

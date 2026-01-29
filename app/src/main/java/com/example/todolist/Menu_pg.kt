@@ -61,25 +61,25 @@ class Menu_pg : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-        val categoriesHeader = findViewById<TextView>(R.id.Categories)
-        val expandableLayout = findViewById<LinearLayout>(R.id.expandableContentLayout)
-        val cardView = findViewById<CardView>(R.id.myCardView)
-
-        categoriesHeader.setOnClickListener {
-
-            val isVisible = expandableLayout.visibility == View.VISIBLE
-
-            TransitionManager.beginDelayedTransition(cardView, AutoTransition())
-
-
-            if (isVisible) {
-                expandableLayout.visibility = View.GONE
-            } else {
-                expandableLayout.visibility = View.VISIBLE
-            }
-
-        }
+//
+//        val categoriesHeader = findViewById<TextView>(R.id.Categories)
+//        val expandableLayout = findViewById<LinearLayout>(R.id.expandableContentLayout)
+//        val cardView = findViewById<CardView>(R.id.myCaredView)
+//
+//        categoriesHeader.setOnClickListener {
+//
+//            val isVisible = expandableLayout.visibility == View.VISIBLE
+//
+//            TransitionManager.beginDelayedTransition(cardView, AutoTransition())
+//
+//
+//            if (isVisible) {
+//                expandableLayout.visibility = View.GONE
+//            } else {
+//                expandableLayout.visibility = View.VISIBLE
+//            }
+//
+//        }
 
 
 

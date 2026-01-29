@@ -123,10 +123,10 @@ class SignUp_pg : AppCompatActivity() {
             }
 
             if (isValid) {
+                createFirebaseUser(email, password, fName, lName, username)
                 Toast.makeText(this, "Success! Signing up...", Toast.LENGTH_SHORT).show()
 
 
-                createFirebaseUser(email, password, fName, lName, username)
 
 //            if (password != conPassword) {
 //                Toast.makeText(this, "Try again", Toast.LENGTH_SHORT).show()
@@ -158,12 +158,13 @@ class SignUp_pg : AppCompatActivity() {
                         "email" to email
 
                     )
+                    startActivity(Intent(this, Otp_pg2::class.java))
 
                     if (userId != null) {
                         db.collection("users").document(userId).set(userMap)
                             .addOnSuccessListener {
 
-                                startActivity(Intent(this, Otp_pg2::class.java))
+
                                 finish()
                             }
                     }
