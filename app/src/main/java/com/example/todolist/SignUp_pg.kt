@@ -16,12 +16,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
-
-private lateinit var auth: FirebaseAuth
-private val db = Firebase.firestore
+// Added these KTX imports so Firebase.auth and Firebase.firestore work
+//import com.google.firebase.auth.ktx.auth
+//import com.google.firebase.firestore.ktx.firestore
+//import com.google.firebase.ktx.Firebase
 
 class SignUp_pg : AppCompatActivity() {
-
+    private lateinit var auth: FirebaseAuth
+    private val db = Firebase.firestore
 
     private lateinit var usernameEditText: EditText
     private lateinit var createPasswordEditText: EditText
@@ -32,20 +34,18 @@ class SignUp_pg : AppCompatActivity() {
     private lateinit var L_name: EditText
     private lateinit var E_mail: EditText
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        auth = Firebase.auth
+
         super.onCreate(savedInstanceState)
         // enableEdgeToEdge()
         setContentView(R.layout.activity_sign_up_pg)
-
+        auth = Firebase.auth
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
 
         usernameEditText = findViewById(R.id.Edit3)
         createPasswordEditText = findViewById(R.id.Edit5)
@@ -56,15 +56,11 @@ class SignUp_pg : AppCompatActivity() {
         L_name = findViewById(R.id.Edit2)
         E_mail = findViewById(R.id.Edit4)
 
-
         closeBtn.setOnClickListener {
-
             finish()
         }
 
-
         registerBtn.setOnClickListener {
-
 
             val username = usernameEditText.text.toString().trim()
             val password = createPasswordEditText.text.toString().trim()
@@ -73,14 +69,12 @@ class SignUp_pg : AppCompatActivity() {
             val lName = L_name.text.toString().trim()
             val email = E_mail.text.toString().trim()
 
-
             var isValid = true
 
             if (fName.isEmpty()) {
                 F_name.error = "First name is required"
                 if (isValid) F_name.requestFocus()
                 isValid = false
-
             }
 
             if (lName.isEmpty()) {
@@ -119,14 +113,12 @@ class SignUp_pg : AppCompatActivity() {
                 E_mail.error = "Email cannot be empty"
                 if (isValid) E_mail.requestFocus()
                 isValid = false
-
             }
 
             if (isValid) {
-                createFirebaseUser(email, password, fName, lName, username)
+
                 Toast.makeText(this, "Success! Signing up...", Toast.LENGTH_SHORT).show()
-
-
+                createFirebaseUser(email, password, fName, lName, username)
 
 //            if (password != conPassword) {
 //                Toast.makeText(this, "Try again", Toast.LENGTH_SHORT).show()
@@ -150,31 +142,61 @@ class SignUp_pg : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
 
-                    val userId = auth.currentUser?.uid
-                    val userMap = hashMapOf(
-                        "firstName" to fname,
-                        "lastName" to lname,
-                        "username" to username,
-                        "email" to email
 
-                    )
-                    startActivity(Intent(this, Otp_pg2::class.java))
+                    val user = auth.currentUser
 
-                    if (userId != null) {
+
+                    user?.sendEmailVerification()?.addOnSuccessListener {
+                        Toast.makeText(
+                            this@SignUp_pg,
+                            "Check your email $email to verify",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        val userId = user.uid
+                        val userMap = hashMapOf(
+                            "firstName" to fname,
+                            "lastName" to lname,
+                            "username" to username,
+                            "email" to email
+                        )
+
                         db.collection("users").document(userId).set(userMap)
                             .addOnSuccessListener {
-
-
+                                val intent = Intent(this@SignUp_pg, Otp_pg2::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
                                 finish()
                             }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this@SignUp_pg, "Failed to save data, try again", Toast.LENGTH_SHORT).show()
+                            }
+                    }?.addOnFailureListener {
+                        Toast.makeText(this@SignUp_pg, "Failed to send verification email.", Toast.LENGTH_SHORT).show()
                     }
+
                 } else {
-                    Toast.makeText(this, "Error:", Toast.LENGTH_LONG)
-                        .show()
+                    Toast.makeText(this@SignUp_pg, "Registration Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 }
+
+//                startActivity(Intent(this, Otp_pg2::class.java))
+//
+//                if (userId != null) {
+//                    db.collection("users").document(userId).set(userMap)
+//                        .addOnSuccessListener {
+//
+//
+//                            finish()
+//                        }
+//                }
+//            } else {
+//            Toast.makeText(this, "Error:", Toast.LENGTH_LONG)
+//                .show()
+
 
 //            if (isValid) {
 //                Toast.makeText(this, "Success! Signing up...", Toast.LENGTH_SHORT).show()
@@ -202,7 +224,4 @@ class SignUp_pg : AppCompatActivity() {
 //                        Log.d("SignUp_pg", "Saved User: $username $conPassword")
 
 //
-//                val intent = Intent(this, Otp_pg2::class.java)
-//                startActivity(intent)
-//            }
-
+//                val intent = Intent(
