@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="Verify Code"
+            android:text="Reset done"
             android:textSize="20sp"
             app:backgroundTint="#525754"
             app:layout_constraintBottom_toBottomOf="parent"
