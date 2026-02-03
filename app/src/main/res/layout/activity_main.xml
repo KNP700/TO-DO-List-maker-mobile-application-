@@ -51,7 +51,7 @@
                 android:background="@drawable/textbox_colour"
                 android:ems="10"
                 android:fontFamily="sans-serif-medium"
-                android:hint="User name"
+                android:hint="Email Address"
                 android:inputType="text"
                 android:paddingStart="20dp"
                 android:textSize="20sp"

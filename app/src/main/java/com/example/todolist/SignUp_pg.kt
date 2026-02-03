@@ -3,6 +3,7 @@ package com.example.todolist
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -73,31 +74,71 @@ class SignUp_pg : AppCompatActivity() {
 
             if (fName.isEmpty()) {
                 F_name.error = "First name is required"
-                if (isValid) F_name.requestFocus()
+                F_name.requestFocus()
                 isValid = false
+            } else if (!fName.matches("^[a-zA-Z\\s]{2,50}$".toRegex())) {
+                F_name.error = "Use letters only"
+                F_name.requestFocus()
+                isValid = false
+            }else if (fName.length>20){
+                F_name.error ="Type Your first name within 20 letters"
+                F_name.requestFocus()
+                isValid=false
             }
+
+
+
+
 
             if (lName.isEmpty()) {
                 L_name.error = "Last name is required"
                 if (isValid) L_name.requestFocus()
                 isValid = false
+            }else if(!lName.matches("^[a-zA-Z\\s]{2,50}$".toRegex())){
+                L_name.error="Use letters only"
+            }else if(lName.length>25){
+                L_name.error = "Type your last name within 25 letters"
             }
+
+
+
+
+
 
             if (username.isEmpty()) {
                 usernameEditText.error = "Username is required"
                 if (isValid) usernameEditText.requestFocus()
                 isValid = false
+            }else if (username.length<10){
+                usernameEditText.error="Username should below 10 letters"
             }
+
+
+
+
+
 
             if (password.isEmpty()) {
                 createPasswordEditText.error = "Password is required"
                 if (isValid) createPasswordEditText.requestFocus()
                 isValid = false
-            } else if (password.length < 6) {
-                createPasswordEditText.error = "Password must be at least 6 characters"
+            } else if (password.length < 8) {
+                createPasswordEditText.error = "Password must be at least 8 characters"
+                if (isValid) createPasswordEditText.requestFocus()
+                isValid = false
+            } else if (!password.any { it.isDigit() }) {
+                createPasswordEditText.error = "Password must contain at least 1 numeric character"
+                if (isValid) createPasswordEditText.requestFocus()
+                isValid = false
+            } else if (!password.any { it.isUpperCase() }) {
+                createPasswordEditText.error = "Password must contain at least Uppercase letter"
                 if (isValid) createPasswordEditText.requestFocus()
                 isValid = false
             }
+
+
+
+
 
             if (conPassword.isEmpty()) {
                 confirmPasswordEditText.error = "Please confirm your password"
@@ -109,11 +150,21 @@ class SignUp_pg : AppCompatActivity() {
                 isValid = false
             }
 
+
+
+
             if (email.isEmpty()) {
                 E_mail.error = "Email cannot be empty"
                 if (isValid) E_mail.requestFocus()
                 isValid = false
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                E_mail.error = "Invalid Email format"
+                if (isValid) E_mail.requestFocus()
+                isValid = false
             }
+
+
+
 
             if (isValid) {
 
@@ -170,14 +221,26 @@ class SignUp_pg : AppCompatActivity() {
                                 finish()
                             }
                             .addOnFailureListener { e ->
-                                Toast.makeText(this@SignUp_pg, "Failed to save data, try again", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this@SignUp_pg,
+                                    "Failed to save data, try again",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                     }?.addOnFailureListener {
-                        Toast.makeText(this@SignUp_pg, "Failed to send verification email.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@SignUp_pg,
+                            "Failed to send verification email.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                 } else {
-                    Toast.makeText(this@SignUp_pg, "Registration Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@SignUp_pg,
+                        "Registration Failed: ${task.exception?.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }

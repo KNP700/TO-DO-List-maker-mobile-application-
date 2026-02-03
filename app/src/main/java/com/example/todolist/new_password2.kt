@@ -38,6 +38,14 @@ class new_password2 : AppCompatActivity() {
             finish()
         }
 
+        val text = findViewById<TextView>(R.id.Forgot)
+        text.setOnClickListener {
+
+            val intent = Intent(this, Forgot_Pass::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
         updatepassword = findViewById(R.id.update)
 
