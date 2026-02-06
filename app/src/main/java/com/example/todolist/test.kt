@@ -2,115 +2,107 @@
 //
 //import android.content.Intent
 //import android.os.Bundle
-//import android.os.Handler
-//import android.os.Looper
-//import android.util.Log
 //import android.widget.Button
+//import android.widget.EditText
 //import android.widget.ImageView
 //import android.widget.TextView
 //import android.widget.Toast
 //import androidx.appcompat.app.AppCompatActivity
+//import androidx.core.view.ViewCompat
+//import androidx.core.view.WindowInsetsCompat
+//import com.google.firebase.Firebase
+//import com.google.firebase.auth.EmailAuthProvider
+//import com.google.firebase.auth.FirebaseAuth
+//import com.google.firebase.auth.auth
 //
-//class Home_pg : AppCompatActivity() {
+//class new_password2 : AppCompatActivity() {
 //
-//    //    @SuppressLint("MissingInflatedId")
-//    private var backPressedOnce = false
-//
-//    override fun onBackPressed() {
-//        if (backPressedOnce) {
-//            // 2. If already pressed once, close the entire app
-//            finishAffinity()
-//            return
-//        }
-//
-//        this.backPressedOnce = true
-//        Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
-//
-//        // 3. Reset the variable after 2 seconds if user hasn't pressed back again
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            backPressedOnce = false
-//        }, 2000)
-//
-//
-//    }
-//
-//    private lateinit var topicEditText: Button
-//
-//    //    private lateinit var typeEditText: EditText
-//    private lateinit var userName: TextView
+//    private lateinit var newpassword: EditText
+//    private lateinit var confpassword: EditText
+//    private lateinit var curpassword: EditText
+//    private lateinit var updateButton: Button
+//    private lateinit var auth: FirebaseAuth
 //
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_home_pg)
-////        enableEdgeToEdge()
+//        setContentView(R.layout.activity_new_password2)
 //
-//        topicEditText = findViewById(R.id.Demo)
-//        userName = findViewById(R.id.user3)
+//        auth = Firebase.auth
 //
+//        // Initializing Views
+//        newpassword = findViewById(R.id.new_password_input)
+//        confpassword = findViewById(R.id.confirm_password_input)
+//        curpassword = findViewById(R.id.old_password_input)
+//        updateButton = findViewById(R.id.update)
 //
-//        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-//// sharedPreferences.getStringSet()
-//        val saveTopic = sharedPreferences.getString("topic", "Test")
-//        val saveType = sharedPreferences.getString("type", "")
-//        val saveUserName = sharedPreferences.getString("user", "")
-//        val saveUserName1 = sharedPreferences.getString("user_name1", "")
-////              topicEditText.setText(saveUserName1)
-////      typeTextEdit.setText(saveUserName1)
-//
-//        Log.d("Home_pg", "Topic : $saveUserName1")
-//
-//
-//        val button =
-//            findViewById<ImageView>(R.id.user)   // there is a issue, check this tomorrow
-//        button.setOnClickListener {
-//            val intent = Intent(this, User_detail::class.java)
-//            startActivity(intent)
-//        }
-//        val button2 = findViewById<TextView>(R.id.user2)
-//        button2.setOnClickListener {
-//            val intent = Intent(this, User_detail::class.java)
-//            startActivity(intent)
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
 //        }
 //
-//
-//        val textView = findViewById<TextView>(R.id.user3)
-//        textView.text = saveUserName1
-////        textView.setOnClickListener {
-////            val intent = Intent(this, SignUp_pg::class.java)
-////            startActivity(intent)
-////        }
-//
-//        val button3 = findViewById<ImageView>(R.id.menu)
-//        button3.setOnClickListener {
-//            val intent = Intent(this, Menu_pg::class.java)
-//            startActivity(intent)
+//        // Close button
+//        findViewById<ImageView>(R.id.close2).setOnClickListener {
+//            finish()
 //        }
 //
-//        val button4 = findViewById<Button>(R.id.Add_list)
-//        button4.setOnClickListener {
-//            val intent = Intent(this, Add_list::class.java)
-//            startActivity(intent)
+//        // Navigation to Forgot Password
+//        findViewById<TextView>(R.id.Forgot).setOnClickListener {
+//            startActivity(Intent(this, Forgot_Pass::class.java))
+//            finish()
 //        }
 //
-//        val button5 = findViewById<Button>(R.id.Demo)
-//        button5.text = saveTopic
-//        button5.setOnClickListener {
-//            val intent = Intent(this, Demo_pg::class.java)
-//            startActivity(intent)
+//        updateButton.setOnClickListener {
+//            performPasswordUpdate()
 //        }
-//
-//
-//        Log.d("Home.pg", "Saved User: $saveUserName1")
-//
-//
-////        println("Test >>>>>>>>>>>>>>>>>>>>>>$saveTopic")
-//        println("Test >>>>>>>>>>>>>>>>>>>11>>>>>$saveUserName1")
-//        Log.d("Home_pg", "onCreate() called")
-//
-////
 //    }
 //
+//    private fun performPasswordUpdate() {
+//        val curPass = curpassword.text.toString().trim()
+//        val newPass = newpassword.text.toString().trim()
+//        val confPass = confpassword.text.toString().trim()
 //
+//        // 1. Basic Validation
+//        if (curPass.isEmpty() || newPass.isEmpty() || confPass.isEmpty()) {
+//            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        if (newPass != confPass) {
+//            confpassword.error = "Passwords do not match"
+//            return
+//        }
+//
+//        if (newPass.length < 6) {
+//            newpassword.error = "Password must be at least 6 characters"
+//            return
+//        }
+//
+//        val user = auth.currentUser
+//        val email = user?.email
+//
+//        if (user != null && email != null) {
+//            // 2. Re-authenticate the user first (Required for sensitive operations like password change)
+//            val credential = EmailAuthProvider.getCredential(email, curPass)
+//
+//            user.reauthenticate(credential).addOnCompleteListener { reauthTask ->
+//                if (reauthTask.isSuccessful) {
+//                    // 3. If re-auth is successful, update the password
+//                    user.updatePassword(newPass).addOnCompleteListener { updateTask ->
+//                        if (updateTask.isSuccessful) {
+//                            Toast.makeText(this, "Password updated successfully!", Toast.LENGTH_SHORT).show()
+//                            // Go back to Login or Home
+//                            startActivity(Intent(this, MainActivity::class.java))
+//                            finish()
+//                        } else {
+//                            Toast.makeText(this, "Failed to update password: ${updateTask.exception?.message}", Toast.LENGTH_LONG).show()
+//                        }
+//                    }
+//                } else {
+//                    curpassword.error = "Incorrect current password"
+//                    Toast.makeText(this, "Authentication failed. Check your current password.", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+//    }
 //}
-//
-//

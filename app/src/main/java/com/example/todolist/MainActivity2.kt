@@ -23,7 +23,6 @@ class MainActivity2 : AppCompatActivity() {
         binding.startBtn.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
 
-
             val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
             val isAlreadyLoggedIn = checkPrefs.getBoolean("isLoggedIn", false)
 

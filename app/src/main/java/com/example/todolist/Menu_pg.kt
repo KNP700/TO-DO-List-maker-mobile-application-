@@ -43,12 +43,14 @@ class Menu_pg : AppCompatActivity() {
 
         val button2 = findViewById<TextView>(R.id.Logout)
         button2.setOnClickListener {
-            // FIX: Sign out from Firebase before going to MainActivity
+
             auth.signOut()
+            val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+            val editor = checkPrefs.edit()
+            editor.putBoolean("isLoggedIn", false)
 
             val intent = Intent(this, MainActivity::class.java)
 
-            // This clears the back stack so the user can't press "Back" to return here
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
             startActivity(intent)
@@ -80,7 +82,6 @@ class Menu_pg : AppCompatActivity() {
 //            }
 //
 //        }
-
 
 
     }

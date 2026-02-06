@@ -29,7 +29,7 @@
             android:name=".navi"
             android:exported="false" />
         <activity
-            android:name=".new_password2"
+            android:name=".NewPassword2"
             android:exported="false" />
         <activity
             android:name=".changePass"

@@ -174,6 +174,10 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(baseContext, "Login Successful!", Toast.LENGTH_SHORT).show()
 
                         val intent = Intent(this, Home_pg::class.java)
+                        val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+                        val editor = checkPrefs.edit()
+                        editor.putBoolean("isLoggedIn",true)
+
                         startActivity(intent)
                         finish()
                     } else {
