@@ -1,5 +1,6 @@
 package com.example.todolist
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -23,10 +24,12 @@ class MainActivity2 : AppCompatActivity() {
         binding.startBtn.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
 
-            val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+
+
+            val checkPrefs = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
             val isAlreadyLoggedIn = checkPrefs.getBoolean("isLoggedIn", false)
 
-            service.createCollection()
+//            service.createCollection()
             if (isAlreadyLoggedIn) {
                 val intent = Intent(this, Home_pg::class.java)
                 startActivity(intent)

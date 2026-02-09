@@ -192,12 +192,10 @@ class SignUp_pg : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, pass)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
-
                     val user = auth.currentUser
 
-
                     user?.sendEmailVerification()?.addOnSuccessListener {
+
                         Toast.makeText(
                             this@SignUp_pg,
                             "Check your email $email to verify",

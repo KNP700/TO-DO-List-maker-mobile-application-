@@ -21,7 +21,7 @@ class AuthenticationService : Service() {
     }
 
     fun login() {
-        currentUser = auth.currentUser;
+        currentUser = auth.currentUser
     }
 
     fun logout() {}

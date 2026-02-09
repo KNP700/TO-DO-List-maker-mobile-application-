@@ -22,6 +22,7 @@ class Add_list : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
+    val firebaseService = FirebaseService()
 //    private
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,7 +90,7 @@ class Add_list : AppCompatActivity() {
         description: String,
 
     ) {
-        val firebaseService = FirebaseService()
+
         lifecycleScope.launch {
             val res = firebaseService.addTodo(
                 title, description

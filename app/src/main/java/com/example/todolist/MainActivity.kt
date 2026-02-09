@@ -19,6 +19,7 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
+import com.example.services.SharedprefService
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     //    lateinit var mGoogleSignInClient : GoogleSignInCl
     private val firebaseAuth = FirebaseAuth.getInstance()
     private lateinit var auth: FirebaseAuth
+    private lateinit var prefService: SharedprefService
 
 //    fun isLoggedIn(): Boolean {
 //        if (firebaseAuth.currentUser != null) {
@@ -81,11 +83,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //       enableEdgeToEdge()
+        prefService = SharedprefService(this)
         auth = Firebase.auth
 
 
         val currentUser = auth.currentUser
-        if (currentUser != null) {
+        if (currentUser != null || prefService.isLoggedIn()) {
             startActivity(Intent(this, Home_pg::class.java))
             finish()
         }
@@ -153,6 +156,7 @@ class MainActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.button2)
         loginButton.setOnClickListener {
 
+
             val emailInput = usernameEditText.text.toString()
             val passwordInput = passwordEditText.text.toString()
 
@@ -165,7 +169,7 @@ class MainActivity : AppCompatActivity() {
                 passwordEditText.error = "Please Enter Your Password"
                 return@setOnClickListener
             }
-3
+            3
             auth.signInWithEmailAndPassword(emailInput, passwordInput)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -173,11 +177,13 @@ class MainActivity : AppCompatActivity() {
 
                         Toast.makeText(baseContext, "Login Successful!", Toast.LENGTH_SHORT).show()
 
-                        val intent = Intent(this, Home_pg::class.java)
-                        val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-                        val editor = checkPrefs.edit()
-                        editor.putBoolean("isLoggedIn",true)
+                        prefService.setLoggedIn(true)
 
+                        val intent = Intent(this, Home_pg::class.java)
+////                        val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+////                        val editor = checkPrefs.edit()
+////                        editor.putBoolean("isLoggedIn", true)
+//                        editor.apply()
                         startActivity(intent)
                         finish()
                     } else {
@@ -189,11 +195,17 @@ class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+
 //            if (username == savedName && password == passwordConfirm) {
 //                println("Test >>>>>>>>>>>>>>>>>>>>>> $passwordConfirm")
+
+//                    val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+//                    val editor = sharedPref.edit()
 //
-//                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-//                val editor = sharedPreferences.edit()
+//                    FirebaseAuth.getInstance().signOut()
+//                    editor.putBoolean("isLoggedIn", true)
+//                    editor.apply()
+
 //
 //                editor.putBoolean("isLoggedIn", true) //check this
 //                editor.apply()
@@ -245,7 +257,7 @@ class MainActivity : AppCompatActivity() {
             val credentialManager = CredentialManager.create(this)
 
             val googleIdOption = GetGoogleIdOption.Builder()
-                // Your server's client ID, not your Android client ID.
+
                 .setServerClientId(getString(R.string.default_web_client_id))
 
                 .setFilterByAuthorizedAccounts(false)
@@ -310,80 +322,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
-
-//    fun handleSignIn(result: GetCredentialResponse) {
-//       try {// Handle the successfully returned credential.
-//            val credential = result.credential
-//            val responseJson: String
-//
-//            when (credential) {
-//
-//                // Passkey credential
-//                is PublicKeyCredential -> {
-//                    // Share responseJson such as a GetCredentialResponse to your server to validate and
-//                    // authenticate
-//                    responseJson = credential.authenticationResponseJson
-//                }
-//
-//                // Password credential
-//                is PasswordCredential -> {
-//                    // Send ID and password to your server to validate and authenticate.
-//                    val username = credential.id
-//                    val password = credential.password
-//                }
-//
-//                // GoogleIdToken credential
-//                is CustomCredential -> {
-//                    if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-//                        try {
-//                            // Use googleIdTokenCredential and extract the ID to validate and
-//                            // authenticate on your server.
-//                            val googleIdTokenCredential = GoogleIdTokenCredential
-//                                .createFrom(credential.data)
-//                            // You can use the members of googleIdToke
-//                            // You can use the members of googleIdToke
-//                            // purposes, but don't use them to store or control access to user
-//                            // data. For that you first need to validate the token:
-//                            // pass googleIdTokenCredential.getIdToken() to the backend server.
-//                            // see [validation instructions](https://developers.google.com/identity/gsi/web/guides/verify-google-id-token)
-//                        } catch (e: GoogleIdTokenParsingException) {
-//                            Log.e(TAG, "Received an invalid google id token response", e)
-//                        }
-//                    } else {
-//                        // Catch any unrecognized custom credential type here.
-//                        Log.e(TAG, "Unexpected type of credential")
-//                    }
-//                }
-//
-//                else -> {
-//                    // Catch any unrecognized credential type here.
-//                    Log.e(TAG, "Unexpected type of credential")
-//                }
-//            }
-//        }catch (e: Exception){
-//           Log.e("",e.toString())
-//       }
-//    }
-
-//        if (usernameEditText == savedName && passwordEditText == passwordConfirm) {
-//
-//
-//            Log.d("MainActivity", "Login Successful")
-//            val intent = Intent(this, Home_pg::class.java)
-//            startActivity(intent)
-//            finish()
-//
-//        } else {
-//
-//
-//            Log.d("MainActivity", "Login Failed")
-//
-//            android.widget.Toast.makeText(this, "Incorrect Username or Password", android.widget.Toast.LENGTH_SHORT).show()
-//        }
-
-
-//        println("Test >>>>>>>>>>>>>>>>>>>>>>")
-//        Log.d("MainActivity", "onCreate() called")
-
 
 }

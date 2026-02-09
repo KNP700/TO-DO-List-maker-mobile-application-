@@ -1,108 +1,210 @@
 //package com.example.todolist
 //
+//import android.content.Context
 //import android.content.Intent
 //import android.os.Bundle
+//import android.os.Handler
+//import android.os.Looper
+//import android.util.Log
 //import android.widget.Button
 //import android.widget.EditText
-//import android.widget.ImageView
-//import android.widget.TextView
 //import android.widget.Toast
+//import androidx.activity.OnBackPressedCallback
 //import androidx.appcompat.app.AppCompatActivity
-//import androidx.core.view.ViewCompat
+//import androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener
 //import androidx.core.view.WindowInsetsCompat
+//import androidx.core.view.updatePadding
+//import androidx.credentials.CredentialManager
+//import androidx.credentials.CustomCredential
+//import androidx.credentials.GetCredentialRequest
+//import androidx.credentials.GetCredentialResponse
+//import androidx.credentials.exceptions.GetCredentialException
+//import androidx.lifecycle.lifecycleScope
+//import com.example.services.ShareprefService // Import your service
+//import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+//import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+//import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+//import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 //import com.google.firebase.Firebase
-//import com.google.firebase.auth.EmailAuthProvider
 //import com.google.firebase.auth.FirebaseAuth
+//import com.google.firebase.auth.GoogleAuthProvider
 //import com.google.firebase.auth.auth
+//import kotlinx.coroutines.coroutineScope
+//import kotlinx.coroutines.launch
 //
-//class new_password2 : AppCompatActivity() {
+//class MainActivity : AppCompatActivity() {
 //
-//    private lateinit var newpassword: EditText
-//    private lateinit var confpassword: EditText
-//    private lateinit var curpassword: EditText
-//    private lateinit var updateButton: Button
+//    private val tag = "MainActivity"
 //    private lateinit var auth: FirebaseAuth
+//    private lateinit var prefService: ShareprefService // 1. Declare Service
+//
+//    private var backPressedOnce = false
+//    private lateinit var nameEditText: EditText
+//    private lateinit var passwordEditText: EditText
 //
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_new_password2)
+//        setContentView(R.layout.activity_main)
 //
+//        // 2. Initialize Service and Firebase
+//        prefService = ShareprefService(this)
 //        auth = Firebase.auth
 //
-//        // Initializing Views
-//        newpassword = findViewById(R.id.new_password_input)
-//        confpassword = findViewById(R.id.confirm_password_input)
-//        curpassword = findViewById(R.id.old_password_input)
-//        updateButton = findViewById(R.id.update)
-//
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
+//        // Check if already logged in via Firebase or SharedPreferences
+//        val currentUser = auth.currentUser
+//        if (currentUser != null || prefService.isLoggedIn()) {
+//            navigateToHome()
 //        }
 //
-//        // Close button
-//        findViewById<ImageView>(R.id.close2).setOnClickListener {
-//            finish()
-//        }
+//        setupWindowInsets()
+//        setupBackButtonHandler()
 //
-//        // Navigation to Forgot Password
-//        findViewById<TextView>(R.id.Forgot).setOnClickListener {
+//        usernameEditText = findViewById(R.id.Username_box)
+//        passwordEditText = findViewById(R.id.password_box)
+//
+//        // Navigation Buttons
+//        findViewById<Button>(R.id.button).setOnClickListener {
 //            startActivity(Intent(this, Forgot_Pass::class.java))
-//            finish()
 //        }
 //
-//        updateButton.setOnClickListener {
-//            performPasswordUpdate()
-//        }
-//    }
-//
-//    private fun performPasswordUpdate() {
-//        val curPass = curpassword.text.toString().trim()
-//        val newPass = newpassword.text.toString().trim()
-//        val confPass = confpassword.text.toString().trim()
-//
-//        // 1. Basic Validation
-//        if (curPass.isEmpty() || newPass.isEmpty() || confPass.isEmpty()) {
-//            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-//            return
+//        findViewById<Button>(R.id.signup).setOnClickListener {
+//            startActivity(Intent(this, SignUp_pg::class.java))
 //        }
 //
-//        if (newPass != confPass) {
-//            confpassword.error = "Passwords do not match"
-//            return
-//        }
+//        // Email/Password Login Logic
+//        val loginButton = findViewById<Button>(R.id.button2)
+//        loginButton.setOnClickListener {
+//            val emailInput = usernameEditText.text.toString().trim()
+//            val passwordInput = passwordEditText.text.toString().trim()
 //
-//        if (newPass.length < 6) {
-//            newpassword.error = "Password must be at least 6 characters"
-//            return
-//        }
+//            if (emailInput.isEmpty()) {
+//                usernameEditText.error = "Please Enter Your Email"
+//                return@setOnClickListener
+//            }
+//            if (passwordInput.isEmpty()) {
+//                passwordEditText.error = "Please Enter Your Password"
+//                return@setOnClickListener
+//            }
 //
-//        val user = auth.currentUser
-//        val email = user?.email
+//            auth.signInWithEmailAndPassword(emailInput, passwordInput)
+//                .addOnCompleteListener(this) { task ->
+//                    if (task.isSuccessful) {
+//                        Log.d(tag, "signInWithEmail:success")
 //
-//        if (user != null && email != null) {
-//            // 2. Re-authenticate the user first (Required for sensitive operations like password change)
-//            val credential = EmailAuthProvider.getCredential(email, curPass)
+//                        // 3. Update preferences through service
+//                        prefService.setLoggedIn(true)
 //
-//            user.reauthenticate(credential).addOnCompleteListener { reauthTask ->
-//                if (reauthTask.isSuccessful) {
-//                    // 3. If re-auth is successful, update the password
-//                    user.updatePassword(newPass).addOnCompleteListener { updateTask ->
-//                        if (updateTask.isSuccessful) {
-//                            Toast.makeText(this, "Password updated successfully!", Toast.LENGTH_SHORT).show()
-//                            // Go back to Login or Home
-//                            startActivity(Intent(this, MainActivity::class.java))
-//                            finish()
-//                        } else {
-//                            Toast.makeText(this, "Failed to update password: ${updateTask.exception?.message}", Toast.LENGTH_LONG).show()
-//                        }
+//                        Toast.makeText(baseContext, "Login Successful!", Toast.LENGTH_SHORT).show()
+//                        navigateToHome()
+//                    } else {
+//                        Log.w(tag, "signInWithEmail:failure", task.exception)
+//                        Toast.makeText(baseContext, "Invalid Email or Password", Toast.LENGTH_SHORT).show()
 //                    }
-//                } else {
-//                    curpassword.error = "Incorrect current password"
-//                    Toast.makeText(this, "Authentication failed. Check your current password.", Toast.LENGTH_SHORT).show()
 //                }
+//        }
+//
+//        // Google Login Button
+//        findViewById<Button>(R.id.button3).setOnClickListener {
+//            lifecycleScope.launch {
+//                gLogin()
 //            }
 //        }
 //    }
+//
+//    private fun navigateToHome() {
+//        val intent = Intent(this, Home_pg::class.java)
+//        startActivity(intent)
+//        finish()
+//    }
+//
+//    private fun setupWindowInsets() {
+//        setOnApplyWindowInsetsListener(findViewById(R.id.view_loging)) { v, insets ->
+//            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+//            v.updatePadding(left = bars.left, top = bars.top, right = bars.right, bottom = bars.bottom)
+//            WindowInsetsCompat.CONSUMED
+//        }
+//    }
+//
+//    private fun setupBackButtonHandler() {
+//        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                if (backPressedOnce) {
+//                    finishAffinity()
+//                    return
+//                }
+//                backPressedOnce = true
+//                Toast.makeText(this@MainActivity, "Press back again to exit", Toast.LENGTH_SHORT).show()
+//                Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce = false }, 2000)
+//            }
+//        })
+//    }
+//
+//    // --- Google Sign In Logic ---
+//
+//    suspend fun gLogin() {
+//        try {
+//            val credentialManager = CredentialManager.create(this)
+//            val googleIdOption = GetGoogleIdOption.Builder()
+//                .setServerClientId(getString(R.string.default_web_client_id))
+//                .setFilterByAuthorizedAccounts(false)
+//                .build()
+//
+//            val request = GetCredentialRequest.Builder()
+//                .addCredentialOption(googleIdOption)
+//                .build()
+//
+//            coroutineScope {
+//                try {
+//                    val result = credentialManager.getCredential(request = request, context = this@MainActivity)
+//                    handleSignIn(result)
+//                } catch (e: GetCredentialException) {
+//                    Log.e(tag, "Credential Manager Error", e)
+//                }
+//            }
+//        } catch (e: Exception) {
+//            Log.e(tag, "Google Login Error", e)
+//        }
+//    }
+//
+//    private fun handleSignIn(result: GetCredentialResponse) {
+//        val credential = result.credential
+//        if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+//            try {
+//                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+//                firebaseAuthWithGoogle(googleIdTokenCredential.idToken)
+//            } catch (e: GoogleIdTokenParsingException) {
+//                Log.e(tag, "Invalid google id token", e)
+//            }
+//        }
+//    }
+//
+//    private fun firebaseAuthWithGoogle(idToken: String) {
+//        val credential = GoogleAuthProvider.getCredential(idToken, null)
+//        auth.signInWithCredential(credential)
+//            .addOnCompleteListener(this) { task ->
+//                if (task.isSuccessful) {
+//                    Log.d(tag, "Google signIn success")
+//
+//                    // 4. Update preferences for Google login too
+//                    prefService.setLoggedIn(true)
+//
+//                    navigateToHome()
+//                } else {
+//                    Log.w(tag, "Google signIn:fail", task.exception)
+//                    Toast.makeText(this, "Google Sign In Failed", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//    }
+//}
+
+
+
+
+//
+
+
+
+//
+//fun saveUserName(name: String) {
+//    sharedPref.edit().putString("user_name", name).apply()
 //}

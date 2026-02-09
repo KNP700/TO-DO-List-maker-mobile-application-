@@ -51,6 +51,7 @@
             android:exported="false" />
         <activity
             android:name=".Add_list"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".Menu_pg"
@@ -95,7 +96,10 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            />
+
     </application>
 
 </manifest>

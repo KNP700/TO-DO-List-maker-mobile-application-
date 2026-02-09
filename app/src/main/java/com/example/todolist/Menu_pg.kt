@@ -26,7 +26,7 @@ class Menu_pg : AppCompatActivity() {
 //        enableEdgeToEdge()
         setContentView(R.layout.activity_menu_pg)
 
-        // Initialize Firebase Auth
+
         auth = Firebase.auth
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -46,12 +46,19 @@ class Menu_pg : AppCompatActivity() {
 
             auth.signOut()
             val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+            val isLoggedIn = checkPrefs.getBoolean("isLoggedIn", false)
             val editor = checkPrefs.edit()
+
             editor.putBoolean("isLoggedIn", false)
 
             val intent = Intent(this, MainActivity::class.java)
 
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            editor.apply()
+
+
+
 
             startActivity(intent)
             finish()
