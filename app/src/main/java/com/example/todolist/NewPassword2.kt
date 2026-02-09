@@ -85,6 +85,7 @@ class NewPassword2 : AppCompatActivity() {
             curpassword.requestFocus()
             return
 
+
         }
 //            auth.signInWithEmail
 
@@ -92,17 +93,30 @@ class NewPassword2 : AppCompatActivity() {
             newPassword.error = "cannot empty this fields"
             isValid = false
             newPassword.requestFocus()
-            return
-
+        } else if (newPass.length < 8) {
+            newPassword.error = "Password must be at least 8 characters"
+            if (isValid) newPassword.requestFocus()
+            isValid = false
+        } else if (!newPass.any { it.isDigit() }) {
+            newPassword.error = "Password must contain at least 1 numeric character"
+            if (isValid) newPassword.requestFocus()
+            isValid = false
+        } else if (!newPass.any { it.isUpperCase() }) {
+            newPassword.error = "Password must contain at least Uppercase letter"
+            if (isValid) newPassword.requestFocus()
+            isValid = false
         }
+
+
 
         if (confpass.isEmpty()) {
             confPassword.error = "cannot empty this fields"
             isValid = false
             confPassword.requestFocus()
-            return
-
-
+        } else if (newPass != confpass) {
+            confPassword.error = "Password do not match"
+            if (isValid) confPassword.requestFocus()
+            isValid = false
         }
         val user = auth.currentUser
         val email = user?.email

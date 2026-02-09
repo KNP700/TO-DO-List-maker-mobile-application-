@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
+import kotlin.text.matches
 
 class Update_detail_pg : AppCompatActivity() {
 
@@ -104,24 +105,65 @@ class Update_detail_pg : AppCompatActivity() {
                 val updateFirstname = fName.text.toString()
                 val updateLastname = lName.text.toString()
                 val updatePhone = phone.text.toString()
-                val updateAddress= address.text.toString()
+                val updateAddress = address.text.toString()
 //
+                var isValid = true
+
                 if (updateFirstname.isEmpty()) {
                     fName.error = "First name cant be empty"
                     return@setOnClickListener
+                } else if (!updateFirstname.matches("^[a-zA-Z\\s]{2,50}$".toRegex())) {
+                    fName.error = "Use letters only"
+                    fName.requestFocus()
+                    isValid = false
+                } else if (updateFirstname.length > 20) {
+                    fName.error = "Type Your first name within 20 letters"
+                    fName.requestFocus()
+                    isValid = false
                 }
+
+
+
+
+
                 if (updateLastname.isEmpty()) {
                     lName.error = "Last name cant be empty"
                     return@setOnClickListener
+                } else if (!updateLastname.matches("^[a-zA-Z\\s]{2,50}$".toRegex())) {
+                    lName.error = "Use letters only"
+                    lName.requestFocus()
+                    isValid = false
+                } else if (updateLastname.length > 20) {
+                    lName.error = "Type Your first name within 20 letters"
+                    lName.requestFocus()
+                    isValid = false
                 }
 
-
-
-                lifecycleScope.launch {
-
-                    updateData(updateFirstname,updateLastname,updatePhone,updateAddress)
-
+                if (!updatePhone.matches("-?\\d+(\\.\\d+)?".toRegex())) {
+                    phone.error = "Use numbers only"
+                    phone.requestFocus()
+                    isValid = false
+                } else if (updatePhone.length > 11) {
+                    phone.error = "Enter valid number"
+                    phone.requestFocus()
+                    isValid = false
+                } else if (!updatePhone.startsWith(prefix = "07")) {
+                    phone.error = "Enter Valid number"
+                    phone.requestFocus()
+                    isValid = false
                 }
+                if (isValid) {
+                    Toast.makeText(this, "Updated Sucessfully...", Toast.LENGTH_SHORT).show()
+
+
+
+                    lifecycleScope.launch {
+
+                        updateData(updateFirstname, updateLastname, updatePhone, updateAddress)
+
+                    }
+                }
+
 
                 //finish()
             }
@@ -182,7 +224,7 @@ class Update_detail_pg : AppCompatActivity() {
     }
 
 
-    private fun updateData(firstName: String, lastName: String, phone:String, address:String) {
+    private fun updateData(firstName: String, lastName: String, phone: String, address: String) {
         try {
             val user = auth.currentUser
 
