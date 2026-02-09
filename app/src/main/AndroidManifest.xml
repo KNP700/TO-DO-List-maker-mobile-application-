@@ -29,10 +29,10 @@
             android:name=".navi"
             android:exported="false" />
         <activity
-            android:name=".NewPassword2"
+            android:name=".NewPassword"
             android:exported="false" />
         <activity
-            android:name=".changePass"
+            android:name=".ChangePassword"
             android:exported="false" />
         <activity
             android:name=".confUsername"
@@ -44,33 +44,33 @@
             android:name=".otpUserName"
             android:exported="false" />
         <activity
-            android:name=".Setting"
+            android:name=".SettingPage"
             android:exported="false" />
         <activity
-            android:name=".Demo_pg"
+            android:name=".ChangeToDoList"
             android:exported="false" />
         <activity
-            android:name=".Add_list"
+            android:name=".AddList"
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
-            android:name=".Menu_pg"
+            android:name=".MenuPage"
             android:exported="false" />
         <activity
-            android:name=".Update_detail_pg"
+            android:name=".UserDetailUpdate"
             android:exported="false" />
         <activity
-            android:name=".User_detail"
+            android:name=".UserDetail"
             android:exported="false" />
         <activity
-            android:name=".Home_pg"
+            android:name=".HomePage"
             android:configChanges="orientation|screenSize|screenLayout"
             android:exported="false" />
         <activity
-            android:name=".Otp_pg2"
+            android:name=".VertifyEmailPage"
             android:exported="false" />
         <activity
-            android:name=".SignUp_pg"
+            android:name=".SignUpPage"
             android:exported="false" />
         <activity
             android:name=".new_password"
@@ -82,10 +82,10 @@
             android:name=".otp_pg"
             android:exported="false" />
         <activity
-            android:name=".Forgot_Pass"
+            android:name=".ForgotPassword"
             android:exported="false" />
         <activity
-            android:name=".MainActivity2"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize|screenLayout"
             android:exported="true">
             <intent-filter>
@@ -95,7 +95,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".SignInPage"
             android:exported="true"
             android:windowSoftInputMode="stateVisible|adjustResize"
             />

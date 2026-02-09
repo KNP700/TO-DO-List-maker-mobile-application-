@@ -3,14 +3,8 @@ package com.example.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.widget.Toast
-import com.example.todolist.Home_pg
 import com.google.firebase.Firebase
-import com.google.firebase.app
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.Filter
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 

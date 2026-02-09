@@ -1,11 +1,8 @@
 package com.example.todolist
 
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -20,7 +17,7 @@ import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 import kotlin.text.matches
 
-class Update_detail_pg : AppCompatActivity() {
+class UserDetailUpdate : AppCompatActivity() {
 
     //    private lateinit var username: EditText
     private lateinit var auth: FirebaseAuth

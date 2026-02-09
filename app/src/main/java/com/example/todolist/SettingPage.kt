@@ -8,17 +8,16 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class Setting : AppCompatActivity() {
+class SettingPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
       //  enableEdgeToEdge()
-        setContentView(R.layout.activity_setting)
+        setContentView(R.layout.activity_setting_page)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -41,7 +40,7 @@ class Setting : AppCompatActivity() {
 
         val button4 = findViewById<TextView>(R.id.chaPass)
         button4.setOnClickListener {
-            val intent = Intent(this, changePass::class.java)
+            val intent = Intent(this, ChangePassword::class.java)
             startActivity(intent)
         }
 
@@ -64,7 +63,7 @@ class Setting : AppCompatActivity() {
         }
         val button2 = findViewById<TextView>(R.id.accDe)
         button2.setOnClickListener {
-            val intent = Intent(this, Update_detail_pg::class.java)
+            val intent = Intent(this, UserDetailUpdate::class.java)
             startActivity(intent)
         }
 

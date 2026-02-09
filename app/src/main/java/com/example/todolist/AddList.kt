@@ -1,12 +1,9 @@
 package com.example.todolist
 
-import android.content.Intent
-import android.icu.text.CaseMap
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -18,7 +15,7 @@ import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 
 
-class Add_list : AppCompatActivity() {
+class AddList : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore

@@ -2,29 +2,23 @@ package com.example.todolist
 
 import android.content.Intent
 import android.os.Bundle
-import android.transition.AutoTransition
-import android.transition.TransitionManager
-import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
-class Menu_pg : AppCompatActivity() {
+class MenuPage : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
-        setContentView(R.layout.activity_menu_pg)
+        setContentView(R.layout.activity_menu_page)
 
 
         auth = Firebase.auth
@@ -51,7 +45,7 @@ class Menu_pg : AppCompatActivity() {
 
             editor.putBoolean("isLoggedIn", false)
 
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, SignInPage::class.java)
 
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
@@ -66,7 +60,7 @@ class Menu_pg : AppCompatActivity() {
 
         val button3 = findViewById<TextView>(R.id.Settings1)
         button3.setOnClickListener {
-            val intent = Intent(this, Setting::class.java)
+            val intent = Intent(this, SettingPage::class.java)
             startActivity(intent)
         }
 

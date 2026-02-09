@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
-class User_detail : AppCompatActivity() {
+class UserDetail : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
@@ -101,7 +101,7 @@ class User_detail : AppCompatActivity() {
 //        textView5.text=saveAddress
 
         findViewById<Button>(R.id.Update).setOnClickListener {
-            val intent = Intent(this, Update_detail_pg::class.java)
+            val intent = Intent(this, UserDetailUpdate::class.java)
             startActivityForResult(intent, 101)
         }
     }
@@ -147,7 +147,7 @@ class User_detail : AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 Log.i("TAG", "onActivityResult: its a hit")
                 Toast.makeText(this, "Sucessfully saved", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, Home_pg::class.java)
+                val intent = Intent(this, HomePage::class.java)
                 startActivity(intent)
                 finish()
 

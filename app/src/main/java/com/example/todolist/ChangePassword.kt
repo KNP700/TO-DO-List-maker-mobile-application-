@@ -2,33 +2,34 @@ package com.example.todolist
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
-import androidx.activity.enableEdgeToEdge
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class Password_confirm : AppCompatActivity() {
+class ChangePassword : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
-        setContentView(R.layout.activity_password_confirm)
+        setContentView(R.layout.activity_change_password)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val button = findViewById<Button>(R.id.Confirm)
+
+
+        val button = findViewById<ImageView>(R.id.close1)
         button.setOnClickListener {
-            val intent = Intent(this, new_password::class.java)
-            startActivity(intent)
+            finish()
         }
 
-        val button2 = findViewById<ImageView>(R.id.close1)
+        val button2 = findViewById<TextView>(R.id.Confirm)
         button2.setOnClickListener {
-            finish()
-            //check this navigational part
+            val intent = Intent(this, NewPassword::class.java)
+            startActivity(intent)
+
 
         }
     }

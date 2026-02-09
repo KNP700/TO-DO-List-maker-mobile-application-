@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,13 +12,13 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
-class Otp_pg2 : AppCompatActivity() {
+class VertifyEmailPage : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
-        setContentView(R.layout.activity_otp_pg2)
+        setContentView(R.layout.activity_vertify_email_page)
 
         auth = Firebase.auth
 
@@ -43,7 +42,7 @@ class Otp_pg2 : AppCompatActivity() {
                         if(user.isEmailVerified){
                             Toast.makeText(this,"Vertified", Toast.LENGTH_SHORT).show()
 
-                            val intent = Intent(this, MainActivity::class.java )
+                            val intent = Intent(this, SignInPage::class.java )
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             finish()
@@ -57,7 +56,7 @@ class Otp_pg2 : AppCompatActivity() {
                 }
             }
 
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, SignInPage::class.java)
             startActivity(intent)
         }
 

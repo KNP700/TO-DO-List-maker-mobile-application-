@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
-class Forgot_Pass : AppCompatActivity() {
+class ForgotPassword : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var EmailEditText: EditText
@@ -25,7 +24,7 @@ class Forgot_Pass : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
-        setContentView(R.layout.activity_forgot_pass)
+        setContentView(R.layout.activity_forgot_password)
 
         auth = Firebase.auth
 //
@@ -88,7 +87,7 @@ class Forgot_Pass : AppCompatActivity() {
                     Toast.makeText(baseContext, "Check your Email", Toast.LENGTH_SHORT).show()
 
 
-                    val intent = Intent(this, Otp_pg2::class.java)
+                    val intent = Intent(this, VertifyEmailPage::class.java)
                     startActivity(intent)
                     finish()
 

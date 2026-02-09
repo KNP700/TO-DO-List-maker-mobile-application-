@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
-class Home_pg : AppCompatActivity() {
+class HomePage : AppCompatActivity() {
 
 
     private lateinit var auth: FirebaseAuth
@@ -32,7 +32,7 @@ class Home_pg : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home_pg)
+        setContentView(R.layout.activity_home_page)
 
         auth = Firebase.auth
 
@@ -51,7 +51,7 @@ class Home_pg : AppCompatActivity() {
                     return
                 }
                 backPressedOnce = true
-                Toast.makeText(this@Home_pg, "Press back again to exit", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@HomePage, "Press back again to exit", Toast.LENGTH_SHORT).show()
                 Handler(Looper.getMainLooper()).postDelayed({
                     backPressedOnce = false
                 }, 2000)
@@ -60,17 +60,17 @@ class Home_pg : AppCompatActivity() {
 
         val addListBtn = findViewById<Button>(R.id.Add_list)
         addListBtn.setOnClickListener {
-            val intent = Intent(this, Add_list::class.java)
+            val intent = Intent(this, AddList::class.java)
             startActivity(intent)
         }
         val userBtn = findViewById<ImageView>(R.id.user)
-        userBtn.setOnClickListener { startActivity(Intent(this, User_detail::class.java)) }
+        userBtn.setOnClickListener { startActivity(Intent(this, UserDetail::class.java)) }
 
         val userTxt = findViewById<TextView>(R.id.user2)
-        userTxt.setOnClickListener { startActivity(Intent(this, User_detail::class.java)) }
+        userTxt.setOnClickListener { startActivity(Intent(this, UserDetail::class.java)) }
 
         val menuBtn = findViewById<ImageView>(R.id.menu)
-        menuBtn.setOnClickListener { startActivity(Intent(this, Menu_pg::class.java)) }
+        menuBtn.setOnClickListener { startActivity(Intent(this, MenuPage::class.java)) }
     }
 
 
@@ -218,7 +218,7 @@ private fun createButton(idStr: String, title: String, container: GridLayout) {
 
         setOnClickListener {
 
-            val intent = Intent(context, Demo_pg::class.java)
+            val intent = Intent(context, ChangeToDoList::class.java)
             intent.putExtra("NOTE_ID", idStr)
             startActivity(intent)
         }

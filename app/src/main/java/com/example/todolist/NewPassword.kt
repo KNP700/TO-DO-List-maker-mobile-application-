@@ -13,14 +13,13 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.Firebase
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.auth
 //import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
 //private val new_password2.auth:
 
-class NewPassword2 : AppCompatActivity() {
+class NewPassword : AppCompatActivity() {
 
 
     private lateinit var newPassword: EditText
@@ -34,7 +33,7 @@ class NewPassword2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
-        setContentView(R.layout.activity_new_password2)
+        setContentView(R.layout.activity_new_password)
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -58,7 +57,7 @@ class NewPassword2 : AppCompatActivity() {
         }
 
         findViewById<TextView>(R.id.Forgot).setOnClickListener {
-            startActivity(Intent(this, Forgot_Pass::class.java))
+            startActivity(Intent(this, ForgotPassword::class.java))
             finish()
         }
 
@@ -135,7 +134,7 @@ class NewPassword2 : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             )
                                 .show()
-                            startActivity(Intent(this, MainActivity::class.java))
+                            startActivity(Intent(this, SignInPage::class.java))
                             finish()
                         }
 

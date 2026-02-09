@@ -2,13 +2,11 @@ package com.example.todolist
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,7 +20,7 @@ import com.google.firebase.firestore.firestore
 //import com.google.firebase.firestore.ktx.firestore
 //import com.google.firebase.ktx.Firebase
 
-class SignUp_pg : AppCompatActivity() {
+class SignUpPage : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
 
@@ -197,7 +195,7 @@ class SignUp_pg : AppCompatActivity() {
                     user?.sendEmailVerification()?.addOnSuccessListener {
 
                         Toast.makeText(
-                            this@SignUp_pg,
+                            this@SignUpPage,
                             "Check your email $email to verify",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -212,7 +210,7 @@ class SignUp_pg : AppCompatActivity() {
 
                         db.collection("users").document(userId).set(userMap)
                             .addOnSuccessListener {
-                                val intent = Intent(this@SignUp_pg, Otp_pg2::class.java)
+                                val intent = Intent(this@SignUpPage, VertifyEmailPage::class.java)
                                 intent.flags =
                                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
@@ -220,14 +218,14 @@ class SignUp_pg : AppCompatActivity() {
                             }
                             .addOnFailureListener { e ->
                                 Toast.makeText(
-                                    this@SignUp_pg,
+                                    this@SignUpPage,
                                     "Failed to save data, try again",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                     }?.addOnFailureListener {
                         Toast.makeText(
-                            this@SignUp_pg,
+                            this@SignUpPage,
                             "Failed to send verification email.",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -235,7 +233,7 @@ class SignUp_pg : AppCompatActivity() {
 
                 } else {
                     Toast.makeText(
-                        this@SignUp_pg,
+                        this@SignUpPage,
                         "Registration Failed: ${task.exception?.message}",
                         Toast.LENGTH_SHORT
                     ).show()

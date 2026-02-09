@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/download__4_"
-        tools:context=".Home_pg">
+        tools:context=".HomePage">
 
         <ImageView
             android:id="@+id/menu"

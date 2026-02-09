@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:background="@drawable/download__4_"
         android:layout_height="match_parent"
-        tools:context=".User_detail">
+        tools:context=".UserDetail">
 
 
 
