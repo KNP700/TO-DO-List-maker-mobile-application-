@@ -113,11 +113,13 @@ class SignInPage : AppCompatActivity() {
 
             if (emailInput.isEmpty()) {
                 usernameEditText.error = "Please Enter Your Email"
+                usernameEditText.requestFocus()
                 return@setOnClickListener
             }
 
             if (passwordInput.isEmpty()) {
                 passwordEditText.error = "Please Enter Your Password"
+                usernameEditText.requestFocus()
                 return@setOnClickListener
             }
             3
