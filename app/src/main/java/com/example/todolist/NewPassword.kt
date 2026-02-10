@@ -17,7 +17,6 @@ import com.google.firebase.auth.auth
 //import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
-//private val new_password2.auth:
 
 class NewPassword : AppCompatActivity() {
 
@@ -41,8 +40,6 @@ class NewPassword : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-//        val currentPassword = "";
-//        val newPassword = "";
 
         auth = Firebase.auth
 
@@ -70,7 +67,7 @@ class NewPassword : AppCompatActivity() {
 
     private fun passwordUpdate() {
 
-//        try {
+
         val newPass = newPassword.text.toString()
         val confpass = confPassword.text.toString()
         val curPass = curpassword.text.toString()
@@ -146,50 +143,5 @@ class NewPassword : AppCompatActivity() {
             curpassword.error = "Incorrect current password"
             Toast.makeText(this, "Try again", Toast.LENGTH_SHORT).show()
         }
-//
-//        startActivity(Intent(this, MainActivity::class.java))
-//        finish()
-//        } catch (e: FirebaseAuthException) {
-//            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
-//        }
     }
 }
-//
-//            }
-//
-//            if (curPass != saveDPass) {
-//                curpassword.error = "current password didnt match, Try again"
-//                isValid = false
-//                curpassword.requestFocus()
-//            }
-//
-//
-//
-//
-//
-//
-//            if (newPass != confpass) {
-//                Toast.makeText(this, "Try again", Toast.LENGTH_SHORT).show()
-//                confpassword.error = "Password didnt match. Try again"
-//                isValid = false
-//                confpassword.requestFocus()
-//
-//            }
-//            if (isValid) {
-//                Toast.makeText(this, "Success! Updated your password...", Toast.LENGTH_SHORT)
-//                    .show()
-//                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-//                val editor = sharedPreferences.edit()
-//
-//                editor.putString("password", newPass)
-//                editor.apply()
-//                editor.putString("pass", confpass)
-//
-//
-//                val intent = Intent(this, MainActivity::class.java)
-//                startActivity(intent)
-//            }
-//
-//        }
-//    }
-//}

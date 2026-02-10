@@ -5,10 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.services.FirebaseService
-import com.example.todolist.databinding.ActivityMain2Binding
+import com.example.todolist.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMain2Binding
+    private lateinit var binding: ActivityMainBinding
     val service = FirebaseService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 //        enableEdgeToEdge()
 
 
-        binding = ActivityMain2Binding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
@@ -38,17 +38,7 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-
-
-
-//            LoginJCAuthTheme{}
-//
-
-
-//        setContentView(R.layout.activity_main2)
-
-
-            binding = ActivityMain2Binding.inflate(layoutInflater)
+            binding = ActivityMainBinding.inflate(layoutInflater)
             setContentView(binding.root)
 
 

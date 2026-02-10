@@ -27,8 +27,6 @@ class ForgotPassword : AppCompatActivity() {
         setContentView(R.layout.activity_forgot_password)
 
         auth = Firebase.auth
-//
-//        }
 
         EmailEditText = findViewById(R.id.textView4)
 
@@ -44,12 +42,6 @@ class ForgotPassword : AppCompatActivity() {
 
         val button2 = findViewById<Button>(R.id.reset)
         button2.setOnClickListener {
-//            auth = Firebase.auth
-
-//            val currentUser = auth.currentUser
-//        if (currentUser != null) {
-//            db.collection("users")
-//                .whereEqualTo("user_uid",currentUser.uid)
 
             val emailInput = EmailEditText.text.toString()
 
@@ -78,16 +70,15 @@ class ForgotPassword : AppCompatActivity() {
             }
     }
 
+
     private fun sendResetEmail(email: String) {
-
-
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(baseContext, "Check your Email", Toast.LENGTH_SHORT).show()
 
 
-                    val intent = Intent(this, VertifyEmailPage::class.java)
+                    val intent = Intent(this, EmailVerificationPage::class.java)
                     startActivity(intent)
                     finish()
 
@@ -97,9 +88,6 @@ class ForgotPassword : AppCompatActivity() {
 
 
                 }
-
-
-                //add where condition to this and also private getname
             }
 
 

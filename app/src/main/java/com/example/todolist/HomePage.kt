@@ -121,20 +121,20 @@ class HomePage : AppCompatActivity() {
             db.collection("todos")
                 .whereEqualTo("user_uid", currentUser.uid)
 
-            .get()
-            .addOnSuccessListener { result ->
-                container.removeAllViews()
+                .get()
+                .addOnSuccessListener { result ->
+                    container.removeAllViews()
 
-                if (result.isEmpty) {
-                    Toast.makeText(this, "No tasks found", Toast.LENGTH_SHORT).show()
-                }
+                    if (result.isEmpty) {
+                        Toast.makeText(this, "No tasks found", Toast.LENGTH_SHORT).show()
+                    }
 
-                for (document in result) {
-                    val docId = document.id
-                    val title = document.getString("title") ?: "No Title"
-                    createButton(docId, title, container)
+                    for (document in result) {
+                        val docId = document.id
+                        val title = document.getString("title") ?: "No Title"
+                        createButton(docId, title, container)
+                    }
                 }
-            }
                 .addOnFailureListener { exception ->
                     Toast.makeText(this, "Error loading data", Toast.LENGTH_SHORT).show()
                     Log.e("Home_pg", "Error fetching data", exception)
@@ -142,136 +142,77 @@ class HomePage : AppCompatActivity() {
         }
     }
 
-//        userName = findViewById(R.id.user3)
-//        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
 
-//        val saveUserName1 = sharedPreferences.getString("user_name1", "")
-//        userName.text = saveUserName1
-//
-//
-//        val userBtn = findViewById<ImageView>(R.id.user)
-//        userBtn.setOnClickListener {
-//            startActivity(
-//                Intent(
-//                    this,
-//                    User_detail::class.java
-//                )
-//            )
-//        }
-//
-//        val userTxt = findViewById<TextView>(R.id.user2)
-//        userTxt.setOnClickListener {
-//            startActivity(
-//                Intent(
-//                    this,
-//                    User_detail::class.java
-//                )
-//            )
-//        }
-//
-//        val menuBtn = findViewById<ImageView>(R.id.menu)
-//        menuBtn.setOnClickListener { startActivity(Intent(this, Menu_pg::class.java)) }
-//
-//    }
-//        val idListString = sharedPreferences.getString("task_id_list", "")
-//
-//        if (!idListString.isNullOrEmpty()) {
-//            val idArray = idListString.split(",")
-//            for (idStr in idArray) {
-//                if (idStr.isNotEmpty()) {
-//                    createButton(idStr, container)
-//                }
-//            }
-//        }
-
-
-@SuppressLint("ResourceAsColor")
-private fun createButton(idStr: String, title: String, container: GridLayout) {
+    @SuppressLint("ResourceAsColor")
+    private fun createButton(idStr: String, title: String, container: GridLayout) {
 //        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
 
 //
 //        val topicName =
 //            sharedPreferences.getString("title_$idStr", "No Title") ?: "No Title"
 
-    val gridParams = GridLayout.LayoutParams().apply {
-        height = 200
-        width = 0
-        columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-        setMargins(40, 30, 40, 0)
+        val gridParams = GridLayout.LayoutParams().apply {
+            height = 200
+            width = 0
+            columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+            setMargins(40, 30, 40, 0)
+        }
+
+        val stack = FrameLayout(this).apply {
+            layoutParams = gridParams
+        }
+
+
+        val newBtn = Button(this).apply {
+            text = title
+            isAllCaps = false
+            textSize = 30f
+            setTextColor(getColor(R.color.black))
+            setBackgroundResource(R.drawable.todo_bg)
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+
+            setOnClickListener {
+
+                val intent = Intent(context, ChangeToDoList::class.java)
+                intent.putExtra("NOTE_ID", idStr)
+                startActivity(intent)
+            }
+        }
+
+        val deleteBtn = Button(this).apply {
+            text = "X"
+            textSize = 23f
+            setBackgroundColor(android.R.color.transparent)
+            layoutParams = FrameLayout.LayoutParams(130, 60).apply {
+                gravity = android.view.Gravity.TOP or android.view.Gravity.END
+                setMargins(0, 20, 0, 0)
+            }
+            setOnClickListener {
+                deleteTopic(idStr)
+            }
+        }
+        stack.addView(newBtn)
+        stack.addView(deleteBtn)
+        container.addView(stack)
     }
 
-    val stack = FrameLayout(this).apply {
-        layoutParams = gridParams
-    }
+    private fun deleteTopic(idToDelete: String) {
 
-
-    val newBtn = Button(this).apply {
-        text = title
-        isAllCaps = false
-        textSize = 30f
-        setTextColor(getColor(R.color.black))
-        setBackgroundResource(R.drawable.todo_bg)
-        layoutParams = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        )
-
-        setOnClickListener {
-
-            val intent = Intent(context, ChangeToDoList::class.java)
-            intent.putExtra("NOTE_ID", idStr)
-            startActivity(intent)
-        }
-    }
-
-    val deleteBtn = Button(this).apply {
-        text = "X"
-        textSize = 23f
-        setBackgroundColor(android.R.color.transparent)
-        layoutParams = FrameLayout.LayoutParams(130, 60).apply {
-            gravity = android.view.Gravity.TOP or android.view.Gravity.END
-            setMargins(0, 20, 0, 0)
-        }
-        setOnClickListener {
-            deleteTopic(idStr)
-        }
-    }
-    stack.addView(newBtn)
-    stack.addView(deleteBtn)
-    container.addView(stack)
-}
-
-private fun deleteTopic(idToDelete: String) {
-//        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-//        val idListString = sharedPreferences.getString("task_id_list", "")
-
-//        if (!idListString.isNullOrEmpty()) {
-//            val idList = idListString.split(",").toMutableList()
-//
-//            idList.remove(idToDelete)
-//            val newIdListString = idList.joinToString(",")
-//
-//            val editor = sharedPreferences.edit()
-//            editor.putString("task_id_list", newIdListString)
-
-
-//            editor.remove("title_$idToDelete")
-//            editor.remove("content_$idToDelete")
-//
-//            editor.apply()
-
-    db.collection("todos").document(idToDelete)
-        .delete()
-        .addOnSuccessListener {
-            Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
-            refreshButtons()
-        }
-        .addOnFailureListener { e ->
-            Toast.makeText(this, "Error deleting", Toast.LENGTH_SHORT).show()
-        }
+        db.collection("todos").document(idToDelete)
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
+                refreshButtons()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Error deleting", Toast.LENGTH_SHORT).show()
+            }
 
 //    Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
 //    refreshButtons()
-}
+    }
 }
 

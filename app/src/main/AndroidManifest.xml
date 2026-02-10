@@ -67,7 +67,7 @@
             android:configChanges="orientation|screenSize|screenLayout"
             android:exported="false" />
         <activity
-            android:name=".VertifyEmailPage"
+            android:name=".EmailVerificationPage"
             android:exported="false" />
         <activity
             android:name=".SignUpPage"

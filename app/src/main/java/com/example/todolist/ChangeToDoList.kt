@@ -44,12 +44,7 @@ class ChangeToDoList : AppCompatActivity() {
         if (currentNoteId != null) {
             loadNoteData(currentNoteId!!)
         }
-//            val savedTitle = sharedPreferences.getString("title_$currentNoteId", "")
-//            val savedContent = sharedPreferences.getString("content_$currentNoteId", "")
-//
-//            topicEditText.setText(savedTitle)
-//            typeEditText.setText(savedContent)
-//        }
+
 
         val buttonClose = findViewById<ImageView>(R.id.close)
         buttonClose.setOnClickListener {

@@ -20,7 +20,6 @@ class AddList : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
     val firebaseService = FirebaseService()
-//    private
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +31,6 @@ class AddList : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
 
 
         val topicInput = findViewById<EditText>(R.id.topic)
@@ -50,43 +48,17 @@ class AddList : AppCompatActivity() {
 
             if (topic.isNotEmpty()) {
                 createFirebaseList(topic, content)
-//                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-//                val editor = sharedPreferences.edit()
-//
-//
-//                val newId = sharedPreferences.getInt("next_id", 1)
-//
-//
-//                editor.putString("title_$newId", topic)
-//                editor.putString("content_$newId", content)
-//
-//
-//                val oldIdList = sharedPreferences.getString("task_id_list", "")
-//                val newIdList = if (oldIdList.isNullOrEmpty()) {
-//                    "$newId"
-//                } else {
-//                    "$oldIdList,$newId"
-//                }
-//                editor.putString("task_id_list", newIdList)
-//
-//
-//                editor.putInt("next_id", newId + 1)
-//
-//                editor.apply()
-//
-//                Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show()
-//                finish()
             } else {
                 topicInput.error = "Topic is required"
             }
         }
     }
 
-    private  fun createFirebaseList(
+    private fun createFirebaseList(
         title: String,
         description: String,
 
-    ) {
+        ) {
 
         lifecycleScope.launch {
             val res = firebaseService.addTodo(
@@ -97,11 +69,5 @@ class AddList : AppCompatActivity() {
             }
         }
 
-//        auth.createTitleWithDescription(title, Description)
-//            .addOnCompleteListener(this) { task ->
-//                if (task.isSuccessful)
-//
-//
-//            }
     }
 }

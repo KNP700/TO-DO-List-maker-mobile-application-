@@ -34,50 +34,13 @@ import kotlinx.coroutines.launch
 class SignInPage : AppCompatActivity() {
 
     private val tag = "MainActivity"
-
-    //    lateinit var mGoogleSignInClient : GoogleSignInCl
     private val firebaseAuth = FirebaseAuth.getInstance()
     private lateinit var auth: FirebaseAuth
     private lateinit var prefService: SharedprefService
-
-//    fun isLoggedIn(): Boolean {
-//        if (firebaseAuth.currentUser != null) {
-//            print(tag + "already logged In")
-//            return true
-//        }
-//        return false
-//
-//    }
-
-//    suspend fun register(
-//        username : String , password : String
-//    ): Boolean{
-//        try{
-//
-//            val result = suspendCoroutine { continuation ->
-//                firebaseAuth.createUserWithEmailAndPassword(username,password)
-//                    .addOnSuccessListener {
-//                        println(tag+"register success")
-//                    }
-//                    .addOnFailureListener {
-//                        println(tag+ "register failure")
-//                        continuation
-//                    }
-//
-//            }
-//        } catch (e:Exception){
-//            e.printStackTrace()
-//            if (e is CancellationException) throw e
-//            println(tag+"register exception ${e. message}")
-//            return false
-//        }
-//
-//    }
-
-
     private var backPressedOnce = false
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,18 +92,6 @@ class SignInPage : AppCompatActivity() {
         passwordEditText = findViewById(R.id.password_box)
 
 
-//        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-//        val savedName = sharedPreferences.getString("user_name1", "")
-//        val passwordConfirm = sharedPreferences.getString("password", "")
-//
-//
-////        println("Test >>>>>>>>>>>>>>>>>>>>>>")
-//// usernameEditText.setText(savedName)
-//        //passwordEditText.setText(passwordConfirm)
-//
-//        Log.d("MainActivity", "Username : $savedName, $passwordConfirm")
-
-
         val forgotPassButton = findViewById<Button>(R.id.button)
         forgotPassButton.setOnClickListener {
             val intent = Intent(this, ForgotPassword::class.java)
@@ -180,10 +131,7 @@ class SignInPage : AppCompatActivity() {
                         prefService.setLoggedIn(true)
 
                         val intent = Intent(this, HomePage::class.java)
-////                        val checkPrefs = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-////                        val editor = checkPrefs.edit()
-////                        editor.putBoolean("isLoggedIn", true)
-//                        editor.apply()
+
                         startActivity(intent)
                         finish()
                     } else {
@@ -196,30 +144,6 @@ class SignInPage : AppCompatActivity() {
                         ).show()
                     }
 
-//            if (username == savedName && password == passwordConfirm) {
-//                println("Test >>>>>>>>>>>>>>>>>>>>>> $passwordConfirm")
-
-//                    val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-//                    val editor = sharedPref.edit()
-//
-//                    FirebaseAuth.getInstance().signOut()
-//                    editor.putBoolean("isLoggedIn", true)
-//                    editor.apply()
-
-//
-//                editor.putBoolean("isLoggedIn", true) //check this
-//                editor.apply()
-//
-//                val intent = Intent(this, Home_pg::class.java)
-//                startActivity(intent)
-//                finish()
-//            } else {
-//                Log.d("MainActivity", "Login Failed")
-//                android.widget.Toast.makeText(
-//                    this,
-//                    "Incorrect Username or Password. Try again",
-//                    android.widget.Toast.LENGTH_SHORT
-//                ).show()
 
                 }
         }
@@ -229,23 +153,6 @@ class SignInPage : AppCompatActivity() {
             lifecycleScope.launch {
                 gLogin()
             }
-
-//            lifecycleScope.launch {
-//                try {
-//                    val result = credentialManager.getCredential(
-//                        context = this@MainActivity,
-//                        request = request
-//                    )
-//                    println(result)
-//                    handleSignIn(result) // You will create this function to handle the login success
-//                } catch (e: Exception) {
-//                    println(e)
-//                    // Handle login errors here
-//                }
-
-//                private fun handleSignIn(credential: Credential) {
-
-
         }
 
 

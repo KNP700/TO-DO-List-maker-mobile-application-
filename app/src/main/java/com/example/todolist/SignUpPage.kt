@@ -15,10 +15,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
-// Added these KTX imports so Firebase.auth and Firebase.firestore work
-//import com.google.firebase.auth.ktx.auth
-//import com.google.firebase.firestore.ktx.firestore
-//import com.google.firebase.ktx.Firebase
 
 class SignUpPage : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -78,10 +74,10 @@ class SignUpPage : AppCompatActivity() {
                 F_name.error = "Use letters only"
                 F_name.requestFocus()
                 isValid = false
-            }else if (fName.length>20){
-                F_name.error ="Type Your first name within 20 letters"
+            } else if (fName.length > 20) {
+                F_name.error = "Type Your first name within 20 letters"
                 F_name.requestFocus()
-                isValid=false
+                isValid = false
             }
 
 
@@ -92,9 +88,9 @@ class SignUpPage : AppCompatActivity() {
                 L_name.error = "Last name is required"
                 if (isValid) L_name.requestFocus()
                 isValid = false
-            }else if(!lName.matches("^[a-zA-Z\\s]{2,50}$".toRegex())){
-                L_name.error="Use letters only"
-            }else if(lName.length>25){
+            } else if (!lName.matches("^[a-zA-Z\\s]{2,50}$".toRegex())) {
+                L_name.error = "Use letters only"
+            } else if (lName.length > 25) {
                 L_name.error = "Type your last name within 25 letters"
             }
 
@@ -107,8 +103,8 @@ class SignUpPage : AppCompatActivity() {
                 usernameEditText.error = "Username is required"
                 if (isValid) usernameEditText.requestFocus()
                 isValid = false
-            }else if (username.length<10){
-                usernameEditText.error="Username should below 10 letters"
+            } else if (username.length < 10) {
+                usernameEditText.error = "Username should below 10 letters"
             }
 
 
@@ -174,7 +170,7 @@ class SignUpPage : AppCompatActivity() {
 //                confirmPasswordEditText.error = "password didint match, Try again"
 //                isValid = false
 //                confirmPasswordEditText.requestFocus()
-//    //                return@setOnClickListener
+//                return@setOnClickListener
 //            }
             }
         }
@@ -210,7 +206,8 @@ class SignUpPage : AppCompatActivity() {
 
                         db.collection("users").document(userId).set(userMap)
                             .addOnSuccessListener {
-                                val intent = Intent(this@SignUpPage, VertifyEmailPage::class.java)
+                                val intent =
+                                    Intent(this@SignUpPage, EmailVerificationPage::class.java)
                                 intent.flags =
                                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
@@ -242,45 +239,3 @@ class SignUpPage : AppCompatActivity() {
     }
 }
 
-//                startActivity(Intent(this, Otp_pg2::class.java))
-//
-//                if (userId != null) {
-//                    db.collection("users").document(userId).set(userMap)
-//                        .addOnSuccessListener {
-//
-//
-//                            finish()
-//                        }
-//                }
-//            } else {
-//            Toast.makeText(this, "Error:", Toast.LENGTH_LONG)
-//                .show()
-
-
-//            if (isValid) {
-//                Toast.makeText(this, "Success! Signing up...", Toast.LENGTH_SHORT).show()
-//                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-//                val editor = sharedPreferences.edit()
-//
-//                editor.putString("user_name1", username)
-//                editor.apply()
-//                editor.putString("password", conPassword)
-//                editor.apply()
-//                editor.putString("fname", fName)
-//                editor.apply()
-//                editor.putString("lname", lName)
-//                editor.apply()
-//                editor.putString("email",email)
-//                editor.apply()
-//                editor.putString("pass", conPassword)
-//                editor.apply()
-
-
-//                val saveUserName2 = sharedPreferences.getString("topic", "NA")
-
-
-//
-//                        Log.d("SignUp_pg", "Saved User: $username $conPassword")
-
-//
-//                val intent = Intent(

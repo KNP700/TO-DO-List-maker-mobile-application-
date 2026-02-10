@@ -23,12 +23,8 @@ class UserDetail : AppCompatActivity() {
     private lateinit var firstname: TextView
     private lateinit var lastname: TextView
     private lateinit var eMail: TextView
-    private lateinit var phone : TextView
-    private lateinit var address : TextView
-//    private lateinit var phone: TextView
-//    private lateinit var address: TextView
-////    private lateinit var username2: TextView
-////    private lateinit var eMail2: TextView
+    private lateinit var phone: TextView
+    private lateinit var address: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,65 +42,22 @@ class UserDetail : AppCompatActivity() {
         firstname = findViewById(R.id.fname)
         lastname = findViewById(R.id.lname)
         address = findViewById(R.id.address)
-//            fName = findViewById(R.id.fname)
-//            lName = findViewById(R.id.lname)
         eMail = findViewById(R.id.email)
         phone = findViewById(R.id.phone)
-//        eMail = findViewById(R.id.phone)
-//            address = findViewById(R.id.address)
-//        username2 = findViewById(R.id.userN)
-//        eMail2 = findViewById(R.id.eMail)
 
         getUsername()  //get
-
-//
-//        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-//        val saveUserName1 = sharedPreferences.getString("user_name1", "")
-//        val saveFname = sharedPreferences.getString("fname", "")
-//        val saveLname = sharedPreferences.getString("lname", "")
-//        val saveEmail = sharedPreferences.getString("email", "")
-//        val savePhone = sharedPreferences.getString("phone","")
-//        val saveAddress = sharedPreferences.getString("address","")
-//
-//        val saveUserName2 = sharedPreferences.getString("user_name1", "")
-//        val saveEmail2 = sharedPreferences.getString("email", "")
-
-
-//        Log.d("User_detail", "user_name : $saveUserName1")
 
         val button = findViewById<ImageView>(R.id.close)
         button.setOnClickListener {
             finish()
         }
-//        val textView = findViewById<TextView>(R.id.text_uname)
-//        textView.text = saveUserName1
-////        val textView4 = findViewById<TextView>(R.id.text_uname)
-////        textView4.text = saveUserName2
-//
-//
-//        val textView1 = findViewById<TextView>(R.id.fname)
-//        textView1.text = saveFname
-//
-//
-//        val textView2 = findViewById<TextView>(R.id.lname)
-//        textView2.text = saveLname
-//
-//
-//        val textView3 = findViewById<TextView>(R.id.email)
-//        textView3.text = saveEmail
-////        val textView6 =findViewById<TextView>(R.id.eMail)
-////        textView6.text = saveEmail2
-//        val textView4 = findViewById<TextView>(R.id.phone)
-//        textView4.text=savePhone
-//
-//        val textView5 = findViewById<TextView>(R.id.address)
-//        textView5.text=saveAddress
 
         findViewById<Button>(R.id.Update).setOnClickListener {
             val intent = Intent(this, UserDetailUpdate::class.java)
             startActivityForResult(intent, 101)
         }
     }
+
 
     private fun getUsername() {
         try {
@@ -127,7 +80,6 @@ class UserDetail : AppCompatActivity() {
                             address.text = namefromDb6
 
 
-
                         }
                     }
                     .addOnFailureListener {
@@ -139,7 +91,7 @@ class UserDetail : AppCompatActivity() {
         }
     }
 
-    //    @Deprecated("This method has been deprecated in favor of using the Activity Result API")
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("TAG", "onActivityResult: $requestCode")
@@ -154,7 +106,6 @@ class UserDetail : AppCompatActivity() {
 //            } else if (resultCode == RESULT_CANCELED) {
 //                Toast.makeText(this, "User cancelled", Toast.LENGTH_SHORT).show()
             }
-//
         }
     }
 }

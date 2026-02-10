@@ -30,10 +30,14 @@ class MenuPage : AppCompatActivity() {
         }
 
 
+
+
         val button = findViewById<ImageView>(R.id.close1)
         button.setOnClickListener {
             finish()
         }
+
+
 
         val button2 = findViewById<TextView>(R.id.Logout)
         button2.setOnClickListener {
@@ -51,12 +55,11 @@ class MenuPage : AppCompatActivity() {
 
             editor.apply()
 
-
-
-
             startActivity(intent)
             finish()
         }
+
+
 
         val button3 = findViewById<TextView>(R.id.Settings1)
         button3.setOnClickListener {
@@ -64,25 +67,6 @@ class MenuPage : AppCompatActivity() {
             startActivity(intent)
         }
 
-//
-//        val categoriesHeader = findViewById<TextView>(R.id.Categories)
-//        val expandableLayout = findViewById<LinearLayout>(R.id.expandableContentLayout)
-//        val cardView = findViewById<CardView>(R.id.myCaredView)
-//
-//        categoriesHeader.setOnClickListener {
-//
-//            val isVisible = expandableLayout.visibility == View.VISIBLE
-//
-//            TransitionManager.beginDelayedTransition(cardView, AutoTransition())
-//
-//
-//            if (isVisible) {
-//                expandableLayout.visibility = View.GONE
-//            } else {
-//                expandableLayout.visibility = View.VISIBLE
-//            }
-//
-//        }
 
 
     }
