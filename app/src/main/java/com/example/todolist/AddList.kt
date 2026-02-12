@@ -1,9 +1,11 @@
 package com.example.todolist
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -32,7 +34,6 @@ class AddList : AppCompatActivity() {
             insets
         }
 
-
         val topicInput = findViewById<EditText>(R.id.topic)
         val contentInput = findViewById<EditText>(R.id.todo_content)
         val saveBtn = findViewById<Button>(R.id.Save)
@@ -47,20 +48,23 @@ class AddList : AppCompatActivity() {
 //            val service = FirebaseService()
 
             if (topic.isNotEmpty()) {
-                createFirebaseList(topic, content)
+                lifecycleScope.launch { createFirebaseList(topic, content) }
             } else {
                 topicInput.error = "Topic is required"
             }
         }
     }
 
-    private fun createFirebaseList(
+    private suspend fun createFirebaseList(
         title: String,
         description: String,
 
         ) {
 
-        lifecycleScope.launch {
+        val progress = findViewById<ProgressBar>(R.id.progress)
+        progress.visibility = View.VISIBLE
+
+        val job = lifecycleScope.launch {
             val res = firebaseService.addTodo(
                 title, description
             )
@@ -69,5 +73,9 @@ class AddList : AppCompatActivity() {
             }
         }
 
+        // wait for the job to complete
+        job.join()
+
+        progress.visibility = View.GONE
     }
 }
