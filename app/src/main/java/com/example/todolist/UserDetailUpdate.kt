@@ -136,21 +136,24 @@ class UserDetailUpdate : AppCompatActivity() {
                     isValid = false
                 }
 
-                if (!updatePhone.matches("-?\\d+(\\.\\d+)?".toRegex())) {
-                    phone.error = "Use numbers only"
-                    phone.requestFocus()
-                    isValid = false
-                } else if (updatePhone.length > 11) {
-                    phone.error = "Enter valid number"
-                    phone.requestFocus()
-                    isValid = false
-                } else if (!updatePhone.startsWith(prefix = "07")) {
-                    phone.error = "Enter Valid number"
-                    phone.requestFocus()
-                    isValid = false
+                if (!updatePhone.isEmpty()) {
+                    if (!updatePhone.matches("-?\\d+(\\.\\d+)?".toRegex())) {
+                        phone.error = "Use numbers only"
+                        phone.requestFocus()
+                        isValid = false
+                    } else if (updatePhone.length > 11) {
+                        phone.error = "Enter valid number"
+                        phone.requestFocus()
+                        isValid = false
+                    } else if (!updatePhone.startsWith(prefix = "07")) {
+                        phone.error = "Enter Valid number"
+                        phone.requestFocus()
+                        isValid = false
+                    }
                 }
+
                 if (isValid) {
-                    Toast.makeText(this, "Updated Sucessfully...", Toast.LENGTH_SHORT).show()
+
 
 
 
@@ -161,9 +164,9 @@ class UserDetailUpdate : AppCompatActivity() {
                     }
                 }
 
-
-                //finish()
             }
+                //finish()
+
         } catch (e: Exception) {
             print(e.toString())
         }

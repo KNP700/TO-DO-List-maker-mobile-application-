@@ -7,18 +7,24 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import kotlinx.coroutines.Job
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class HomePage : AppCompatActivity() {
 
@@ -75,26 +81,35 @@ class HomePage : AppCompatActivity() {
 
 
     private fun getUserName() {
-        try {
-            val user = auth.currentUser
-            if (user != null) {
+        lifecycleScope.launch {
+            val homeProgress = findViewById<ProgressBar>(R.id.homeProgress)
+            try {
+                val user = auth.currentUser
+                if (user != null) {
 
-                db.collection("users").document(user.uid).get()
-                    .addOnSuccessListener { document ->
-                        if (document != null && document.exists()) {
-                            val nameFromDb = document.getString("username")
 
-                            userName.text = nameFromDb
-                        }
+
+                    homeProgress.visibility = View.VISIBLE
+
+                    val document = db.collection("users")
+                        .document(user.uid)
+                        .get()
+                        .await()
+
+
+                    if (document.exists()) {
+                        val nameFromDb = document.getString("username")
+                        userName.text = nameFromDb
                     }
-                    .addOnFailureListener {
-                        Log.d("Home_pg", "Failed to fetch user data")
-                    }
+                }
+            } catch (e: Exception) {
+
+                Log.d("Home_pg", "Failed to fetch user data: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                homeProgress.visibility = View.GONE
             }
-        } catch (e: Exception) {
-            print(e)
         }
-
     }
 
     override fun onResume() {
