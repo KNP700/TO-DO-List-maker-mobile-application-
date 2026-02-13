@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
+
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +22,8 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
+import com.example.services.AuthenticationService
+import com.example.services.FirebaseService
 import com.example.services.SharedprefService
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -28,6 +33,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -37,6 +43,7 @@ class SignInPage : AppCompatActivity() {
     private val firebaseAuth = FirebaseAuth.getInstance()
     private lateinit var auth: FirebaseAuth
     private lateinit var prefService: SharedprefService
+    private lateinit var authenticationService: AuthenticationService
     private var backPressedOnce = false
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
@@ -47,6 +54,7 @@ class SignInPage : AppCompatActivity() {
         setContentView(R.layout.activity_sign_in_page)
 //       enableEdgeToEdge()
         prefService = SharedprefService(this)
+        authenticationService = AuthenticationService()
         auth = Firebase.auth
 
 
@@ -105,49 +113,9 @@ class SignInPage : AppCompatActivity() {
         }
 
         val loginButton = findViewById<Button>(R.id.button2)
+
         loginButton.setOnClickListener {
-
-
-            val emailInput = usernameEditText.text.toString()
-            val passwordInput = passwordEditText.text.toString()
-
-            if (emailInput.isEmpty()) {
-                usernameEditText.error = "Please Enter Your Email"
-                usernameEditText.requestFocus()
-                return@setOnClickListener
-            }
-
-            if (passwordInput.isEmpty()) {
-                passwordEditText.error = "Please Enter Your Password"
-                usernameEditText.requestFocus()
-                return@setOnClickListener
-            }
-            3
-            auth.signInWithEmailAndPassword(emailInput, passwordInput)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Log.d(tag, "signInWithEmail:success")
-
-                        Toast.makeText(baseContext, "Login Successful!", Toast.LENGTH_SHORT).show()
-
-                        prefService.setLoggedIn(true)
-
-                        val intent = Intent(this, HomePage::class.java)
-
-                        startActivity(intent)
-                        finish()
-                    } else {
-
-                        Log.w(tag, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(
-                            baseContext,
-                            "Invalid Email or Password:",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-
-                }
+            lifecycleScope.launch { login() }
         }
 
         val googleLoginButton = findViewById<Button>(R.id.button3)
@@ -158,6 +126,46 @@ class SignInPage : AppCompatActivity() {
         }
 
 
+    }
+
+    suspend fun login() {
+        val emailInput = usernameEditText.text.toString()
+        val passwordInput = passwordEditText.text.toString()
+
+        if (emailInput.isEmpty()) {
+            usernameEditText.error = "Please Enter Your Email"
+            usernameEditText.requestFocus()
+            return
+        }
+
+        if (passwordInput.isEmpty()) {
+            passwordEditText.error = "Please Enter Your Password"
+            passwordEditText.requestFocus()
+            return
+        }
+        val progress = findViewById<ProgressBar>(R.id.signInProgress)
+        progress.visibility = View.VISIBLE
+
+
+        val job = lifecycleScope.launch {
+            val loginRes = authenticationService.login(emailInput, passwordInput)
+
+            test(loginRes)
+
+        }
+
+        job.join()
+        progress.visibility = View.GONE
+    }
+
+    fun test(x: Boolean) {
+        if (x) {
+            Toast.makeText(this, "Logged", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, HomePage::class.java)
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+        }
     }
 
     suspend fun gLogin() {

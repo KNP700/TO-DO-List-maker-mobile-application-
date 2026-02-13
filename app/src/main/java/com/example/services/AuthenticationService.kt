@@ -1,12 +1,20 @@
 package com.example.services
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.Toast
+import com.example.todolist.HomePage
+import com.example.todolist.R
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.tasks.await
 
 class AuthenticationService : Service() {
     var currentUser: FirebaseUser?
@@ -20,8 +28,13 @@ class AuthenticationService : Service() {
         TODO("Return the communication channel to the service.")
     }
 
-    fun login() {
-        currentUser = auth.currentUser
+    suspend fun login(email: String, password: String): Boolean {
+        return try {
+            auth.signInWithEmailAndPassword(email, password).await()
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     fun logout() {}
