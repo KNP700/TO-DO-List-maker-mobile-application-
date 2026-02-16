@@ -1,11 +1,13 @@
 package com.example.todolist
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -29,13 +31,11 @@ class UserDetailUpdate : AppCompatActivity() {
     //    private lateinit var e_mail: EditText
     private lateinit var phone: TextView
     private lateinit var address: TextView
-//    private lateinit var oPassword: EditText
-//    private lateinit var nPassword: EditText
-//    private lateinit var cPassword: EditText
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 //        enableEdgeToEdge()
         try {
             setContentView(R.layout.activity_update_detail_pg)
@@ -55,32 +55,6 @@ class UserDetailUpdate : AppCompatActivity() {
             // cPassword = findViewById(R.id.cPass)
             fName = findViewById(R.id.fName1)
             lName = findViewById(R.id.lName1)
-//            phone =findViewById(R.id.phone)
-
-
-            getUsername()
-//            updateData(fName.text.toString(), lName.text.toString())
-//            loadData()
-//        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-//        val savePhone =  sharedPreferences.getString("phone", "")
-//        val saveAddress = sharedPreferences.getString("address", "")
-//        val saveFname = sharedPreferences.getString("fname", "")
-//        val saveLname = sharedPreferences.getString("lname", "")
-
-
-//            val savePass = sharedPreferences.getString("pass", "")
-
-//        val editText1 = findViewById<EditText>(R.id.phone)
-//        editText1.setText(savePhone)
-//
-//        val editText2 = findViewById<EditText>(R.id.fName1)
-//        editText2.setText(saveFname)
-//
-//        val editText3 = findViewById<EditText>(R.id.lName1)
-//        editText3.setText(saveLname)
-//
-//        val editText4 = findViewById<EditText>(R.id.address)
-//        editText4.setText(saveAddress)
 
 
             val button3 = findViewById<ImageView>(R.id.close)
@@ -99,79 +73,87 @@ class UserDetailUpdate : AppCompatActivity() {
 
             val button = findViewById<Button>(R.id.Save)
             button.setOnClickListener {
-                val updateFirstname = fName.text.toString()
-                val updateLastname = lName.text.toString()
-                val updatePhone = phone.text.toString()
-                val updateAddress = address.text.toString()
-//
-                var isValid = true
 
-                if (updateFirstname.isEmpty()) {
-                    fName.error = "First name cant be empty"
-                    return@setOnClickListener
-                } else if (!updateFirstname.matches("^[a-zA-Z\\s]{2,50}$".toRegex())) {
-                    fName.error = "Use letters only"
-                    fName.requestFocus()
-                    isValid = false
-                } else if (updateFirstname.length > 20) {
-                    fName.error = "Type Your first name within 20 letters"
-                    fName.requestFocus()
-                    isValid = false
-                }
-
-
-
-
-
-                if (updateLastname.isEmpty()) {
-                    lName.error = "Last name cant be empty"
-                    return@setOnClickListener
-                } else if (!updateLastname.matches("^[a-zA-Z\\s]{2,50}$".toRegex())) {
-                    lName.error = "Use letters only"
-                    lName.requestFocus()
-                    isValid = false
-                } else if (updateLastname.length > 20) {
-                    lName.error = "Type Your first name within 20 letters"
-                    lName.requestFocus()
-                    isValid = false
-                }
-
-                if (!updatePhone.isEmpty()) {
-                    if (!updatePhone.matches("-?\\d+(\\.\\d+)?".toRegex())) {
-                        phone.error = "Use numbers only"
-                        phone.requestFocus()
-                        isValid = false
-                    } else if (updatePhone.length > 11) {
-                        phone.error = "Enter valid number"
-                        phone.requestFocus()
-                        isValid = false
-                    } else if (!updatePhone.startsWith(prefix = "07")) {
-                        phone.error = "Enter Valid number"
-                        phone.requestFocus()
-                        isValid = false
-                    }
-                }
-
-                if (isValid) {
-
-
-
-
-                    lifecycleScope.launch {
-
-                        updateData(updateFirstname, updateLastname, updatePhone, updateAddress)
-
-                    }
-                }
-
+                showUpdateSave()
             }
-                //finish()
-
         } catch (e: Exception) {
-            print(e.toString())
+
         }
     }
 
+    private fun showUpdateSave() {
+
+        val updateFirstname = fName.text.toString()
+        val updateLastname = lName.text.toString()
+        val updatePhone = phone.text.toString()
+        val updateAddress = address.text.toString()
+
+        var isValid = true
+
+        if (updateFirstname.isEmpty()) {
+            fName.error = "First name cant be empty"
+            return
+        } else if (!updateFirstname.matches("^[a-zA-Z\\s]{2,50}$".toRegex())) {
+            fName.error = "Use letters only"
+            fName.requestFocus()
+            isValid = false
+        } else if (updateFirstname.length > 20) {
+            fName.error = "Type Your first name within 20 letters"
+            fName.requestFocus()
+            isValid = false
+        }
+
+        if (updateLastname.isEmpty()) {
+            lName.error = "Last name cant be empty"
+            return
+        } else if (!updateLastname.matches("^[a-zA-Z\\s]{2,50}$".toRegex())) {
+            lName.error = "Use letters only"
+            lName.requestFocus()
+            isValid = false
+        } else if (updateLastname.length > 20) {
+            lName.error = "Type Your first name within 20 letters"
+            lName.requestFocus()
+            isValid = false
+        }
+
+        if (!updatePhone.isEmpty()) {
+            if (!updatePhone.matches("-?\\d+(\\.\\d+)?".toRegex())) {
+                phone.error = "Use numbers only"
+                phone.requestFocus()
+                isValid = false
+            } else if (updatePhone.length > 11) {
+                phone.error = "Enter valid number"
+                phone.requestFocus()
+                isValid = false
+            } else if (!updatePhone.startsWith(prefix = "07")) {
+                phone.error = "Enter Valid number"
+                phone.requestFocus()
+                isValid = false
+            }
+        }
+
+        if (isValid) {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Update")
+            builder.setMessage("Are you sure you want to update?")
+
+            builder.setPositiveButton("yes") setOnClickListener@{ dialog, which ->
+                lifecycleScope.launch {
+                    updateData(updateFirstname, updateLastname, updatePhone, updateAddress)
+                }
+            }
+            builder.setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+
+
+        }
+
+//finish()
+        getUsername()
+    }
 
     private fun getUsername() {
         try {
@@ -224,7 +206,12 @@ class UserDetailUpdate : AppCompatActivity() {
     }
 
 
-    private fun updateData(firstName: String, lastName: String, phone: String, address: String) {
+    private fun updateData(
+        firstName: String,
+        lastName: String,
+        phone: String,
+        address: String
+    ) {
         try {
             val user = auth.currentUser
 
@@ -257,67 +244,5 @@ class UserDetailUpdate : AppCompatActivity() {
 
     }
 }
-
-
-////            val editor = sharedPreferences.edit()
-////            val username1 = username.text.toString()
-////            val eMail1 = e_mail.text.toString()
-//            val phone = phone.text.toString()
-//            val address = address.text.toString()
-////            val oPass1 = oPassword.text.toString()
-////            val nPass1 = nPassword.text.toString()
-////            val cPass1 = cPassword.text.toString()
-//            val fName = fName.text.toString()
-//            val lName = lName.text.toString()
-//
-//            updateUserData(
-//                editor,
-//                phone,
-//                address,
-//                fName,
-//                lName
-//            )
-
-//
-//fun updateUserData(
-//    editor: SharedPreferences.Editor,
-////        userName: String,
-////        eMail: String,
-//    phone: String,
-//    address: String,
-
-////        oPass: String,
-////        nPass: String,
-////        cPass: String,
-//    fName: String,
-//    lName: String
-//) {
-////        editor.putString("user_name1", userName)
-////        editor.apply()
-////        editor.putString("email", eMail)
-////        editor.apply()
-//    editor.putString("phone", phone)
-//    editor.apply()
-//    editor.putString("address", address)
-//    editor.apply()
-////        editor.putString("oPass", oPass)
-////        editor.apply()
-////        editor.putString("nPass", nPass)
-////        editor.apply()
-////        editor.putString("cPass", cPass)
-////        editor.apply()
-//    editor.putString("fname", fName)
-//    editor.apply()
-//    editor.putString("lname", lName)
-//    editor.apply()
-////
-//
-////        val intent = Intent(this, Home_pg::class.java)
-////        startActivity(intent)
-//    setResult(RESULT_OK)
-//    finish()
-//
-//}
-
 
 
